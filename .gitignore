@@ -42,3 +42,4 @@ prisma/*.db
 # Misc
 .DS_Store
 *.pem
+.claude/
