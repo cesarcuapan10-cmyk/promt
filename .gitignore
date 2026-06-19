@@ -1,0 +1,44 @@
+# Dependencias
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# Testing
+/coverage
+
+# Next.js
+/.next/
+/out/
+
+# Producción
+/build
+
+# Variables de entorno (NUNCA subir)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+# Solo se sube .env.example (sin valores reales)
+
+# Debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel
+.vercel
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# Base de datos local (no subir)
+*.db
+*.db-journal
+prisma/*.db
+
+# Misc
+.DS_Store
+*.pem

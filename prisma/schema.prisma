@@ -1,0 +1,317 @@
+// Esquema Prisma para CRM cesar cuapan
+// DESARROLLO LOCAL: usar SQLite (DATABASE_URL="file:./dev.db")
+// PRODUCCIÓN: cambiar provider a "postgresql" y poner URL de Neon (gratis sin tarjeta)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id                    String    @id @default(cuid())
+  nombre                String
+  correo                String    @unique
+  contraseñaHash        String
+  rol                   String    @default("VENDEDOR")
+  avatar                String?
+  activo                Boolean   @default(true)
+  onboardingCompletado  Boolean   @default(false)
+  tema                  String    @default("AUTOMATICO")
+  densidad              String    @default("COMODA")
+  metaMensual           Float?
+  comision              Float?
+  ligaAgenda            String?   @unique
+  creadoEn              DateTime  @default(now())
+  actualizadoEn         DateTime  @updatedAt
+
+  clientes        Cliente[]          @relation("VendedorClientes")
+  citas           Cita[]
+  pagos           Pago[]
+  notas           Nota[]
+  recordatorios   Recordatorio[]
+  archivos        Archivo[]
+  plantillas      Plantilla[]
+  auditoria       RegistroAuditoria[]
+  favoritos       FavoritoCliente[]
+  intentosLogin   IntentoLogin[]
+
+  @@index([correo])
+  @@index([rol])
+  @@index([activo])
+}
+
+model Cliente {
+  id                 String    @id @default(cuid())
+  nombre             String
+  telefono           String?
+  whatsapp           String?
+  correo             String?
+  origen             String?
+  etapa              String    @default("NUEVO")
+  estadoCartera      String    @default("ACTIVO")
+  temperatura        String    @default("TIBIO")
+  objecionPrincipal  String?
+  notas              String?
+  proximaAccion      String?
+  fechaProximaAccion DateTime?
+  ultimoContacto     DateTime?
+  valorEstimado      Float?
+  retoPrincipal      String?
+  numVendedores      Int?
+
+  empresaNombre      String?
+  empresaGiro        String?
+  empresaPuesto      String?
+  empresaRfc         String?
+  empresaSitio       String?
+  empresaDireccion   String?
+  empresaTamano      String?
+  empresaNotas       String?
+
+  utmSource          String?
+  utmMedium          String?
+  utmCampaign        String?
+
+  motivoPerdida      String?
+  estadoAnterior     String?
+  etapaAnterior      String?
+
+  vendedorId         String
+  creadoEn           DateTime  @default(now())
+  actualizadoEn      DateTime  @updatedAt
+  eliminadoEn        DateTime?
+
+  vendedor           Usuario   @relation("VendedorClientes", fields: [vendedorId], references: [id])
+  citas              Cita[]
+  pagos              Pago[]
+  notasHistorial     Nota[]
+  recordatorios      Recordatorio[]
+  archivosSubidos    Archivo[]
+  etiquetas          EtiquetaCliente[]
+  favoritos          FavoritoCliente[]
+
+  @@index([nombre])
+  @@index([telefono])
+  @@index([whatsapp])
+  @@index([correo])
+  @@index([empresaNombre])
+  @@index([etapa])
+  @@index([estadoCartera])
+  @@index([vendedorId])
+  @@index([eliminadoEn])
+  @@index([creadoEn])
+  @@index([temperatura])
+  @@index([utmSource])
+}
+
+model Cita {
+  id            String    @id @default(cuid())
+  clienteId     String
+  vendedorId    String
+  titulo        String
+  fechaInicio   DateTime
+  fechaFin      DateTime
+  googleEventId String?
+  googleMeetUrl String?
+  notas         String?
+  confirmada    Boolean   @default(false)
+  creadoEn      DateTime  @default(now())
+  eliminadoEn   DateTime?
+
+  cliente       Cliente   @relation(fields: [clienteId], references: [id])
+  vendedor      Usuario   @relation(fields: [vendedorId], references: [id])
+
+  @@index([clienteId])
+  @@index([vendedorId])
+  @@index([fechaInicio])
+  @@index([eliminadoEn])
+}
+
+model Pago {
+  id               String    @id @default(cuid())
+  clienteId        String
+  vendedorId       String
+  monto            Float
+  metodo           String
+  estatus          String    @default("PENDIENTE")
+  fechaPago        DateTime?
+  fechaVencimiento DateTime?
+  concepto         String?
+  folio            Int       @default(autoincrement())
+  notas            String?
+  creadoEn         DateTime  @default(now())
+  eliminadoEn      DateTime?
+
+  cliente          Cliente   @relation(fields: [clienteId], references: [id])
+  vendedor         Usuario   @relation(fields: [vendedorId], references: [id])
+
+  @@index([clienteId])
+  @@index([vendedorId])
+  @@index([estatus])
+  @@index([eliminadoEn])
+  @@index([creadoEn])
+}
+
+model Nota {
+  id          String    @id @default(cuid())
+  clienteId   String
+  usuarioId   String
+  contenido   String
+  tipo        String    @default("NOTA")
+  fecha       DateTime  @default(now())
+  editable    Boolean   @default(true)
+  creadoEn    DateTime  @default(now())
+  eliminadoEn DateTime?
+
+  cliente     Cliente   @relation(fields: [clienteId], references: [id])
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+
+  @@index([clienteId])
+  @@index([usuarioId])
+  @@index([tipo])
+  @@index([eliminadoEn])
+}
+
+model Recordatorio {
+  id          String    @id @default(cuid())
+  usuarioId   String
+  clienteId   String?
+  titulo      String
+  fecha       DateTime
+  hora        String?
+  completado  Boolean   @default(false)
+  pospuesto   Boolean   @default(false)
+  creadoEn    DateTime  @default(now())
+
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+  cliente     Cliente?  @relation(fields: [clienteId], references: [id])
+
+  @@index([usuarioId])
+  @@index([fecha])
+}
+
+model Archivo {
+  id          String    @id @default(cuid())
+  clienteId   String
+  usuarioId   String
+  nombre      String
+  etiqueta    String    @default("OTRO")
+  tipo        String
+  tamano      Int
+  datos       Bytes?
+  url         String?
+  fechaSubida DateTime  @default(now())
+  creadoEn    DateTime  @default(now())
+
+  cliente     Cliente   @relation(fields: [clienteId], references: [id])
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+
+  @@index([clienteId])
+  @@index([usuarioId])
+}
+
+model Etiqueta {
+  id        String    @id @default(cuid())
+  nombre    String    @unique
+  color     String    @default("#e8b763")
+  creadoEn  DateTime  @default(now())
+
+  clientes  EtiquetaCliente[]
+}
+
+model EtiquetaCliente {
+  id          String   @id @default(cuid())
+  clienteId   String
+  etiquetaId  String
+  creadoEn    DateTime @default(now())
+
+  cliente     Cliente  @relation(fields: [clienteId], references: [id])
+  etiqueta    Etiqueta @relation(fields: [etiquetaId], references: [id])
+
+  @@unique([clienteId, etiquetaId])
+}
+
+model Plantilla {
+  id            String    @id @default(cuid())
+  usuarioId     String?
+  titulo        String
+  contenido     String
+  tipo          String    @default("WHATSAPP")
+  etapa         String?
+  objecion      String?
+  favorita      Boolean   @default(false)
+  creadoEn      DateTime  @default(now())
+  actualizadoEn DateTime  @updatedAt
+
+  usuario       Usuario?  @relation(fields: [usuarioId], references: [id])
+
+  @@index([usuarioId])
+  @@index([tipo])
+}
+
+model RegistroAuditoria {
+  id          String    @id @default(cuid())
+  usuarioId   String?
+  accion      String
+  entidad     String
+  entidadId   String?
+  descripcion String
+  ip          String?
+  creadoEn    DateTime  @default(now())
+
+  usuario     Usuario?  @relation(fields: [usuarioId], references: [id])
+
+  @@index([usuarioId])
+  @@index([creadoEn])
+  @@index([entidad])
+}
+
+model MetaNegocio {
+  id                  String    @id @default("singleton")
+  nombre              String    @default("cesar cuapan")
+  logo                String?
+  colorMarca          String    @default("#e8b763")
+  moneda              String    @default("MXN")
+  husoHorario         String    @default("America/Mexico_City")
+  horarioInicio       String    @default("09:00")
+  horarioFin          String    @default("18:00")
+  duracionCita        Int       @default(45)
+  mensajeWhatsapp     String    @default("Hola {nombre}, soy César de Entidad Vendedora.\n\nPara no hacerte perder tiempo, cuéntame en una línea: ¿cuál es tu mayor freno hoy en ventas?\n\nCon eso te puedo armar un mini-diagnóstico rápido de tu situación.")
+  metaMensual         Float     @default(30)
+  umbralEstancamiento Int       @default(7)
+  comisionGlobal      Float?
+  motivosPerdida      String    @default("[\"Está caro\",\"Lo voy a pensar\",\"Tengo que consultarlo\",\"Se fue con la competencia\",\"No contestó\",\"No era buen momento\",\"No calificaba\"]")
+  metodoPago          String    @default("[\"Transferencia\",\"Tarjeta\",\"Liga de pago\"]")
+  creadoEn            DateTime  @default(now())
+  actualizadoEn       DateTime  @updatedAt
+}
+
+model FavoritoCliente {
+  id          String   @id @default(cuid())
+  usuarioId   String
+  clienteId   String
+  creadoEn    DateTime @default(now())
+
+  usuario     Usuario  @relation(fields: [usuarioId], references: [id])
+  cliente     Cliente  @relation(fields: [clienteId], references: [id])
+
+  @@unique([usuarioId, clienteId])
+}
+
+model IntentoLogin {
+  id          String    @id @default(cuid())
+  correo      String
+  ip          String?
+  exitoso     Boolean
+  usuarioId   String?
+  creadoEn    DateTime  @default(now())
+
+  usuario     Usuario?  @relation(fields: [usuarioId], references: [id])
+
+  @@index([correo])
+  @@index([creadoEn])
+}
