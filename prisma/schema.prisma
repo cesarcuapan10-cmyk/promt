@@ -8,7 +8,6 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
 }
 
 model Usuario {
@@ -141,7 +140,7 @@ model Pago {
   fechaPago        DateTime?
   fechaVencimiento DateTime?
   concepto         String?
-  folio            Int       @default(autoincrement())
+  folio            Int?
   notas            String?
   creadoEn         DateTime  @default(now())
   eliminadoEn      DateTime?
