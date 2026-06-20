@@ -40,14 +40,15 @@ export async function listarRecordatorios(filtro?: "PENDIENTES" | "COMPLETADOS" 
   const enSieteDias = new Date(hoy)
   enSieteDias.setDate(enSieteDias.getDate() + 7)
 
+  type Rec = (typeof recordatorios)[number]
   const vencidos = recordatorios.filter(
-    (r) => !r.completado && new Date(r.fecha) < hoy
+    (r: Rec) => !r.completado && new Date(r.fecha) < hoy
   )
-  const hoyLista = recordatorios.filter((r) => {
+  const hoyLista = recordatorios.filter((r: Rec) => {
     const f = new Date(r.fecha)
     return !r.completado && f >= hoy && f < manana
   })
-  const proximos = recordatorios.filter((r) => {
+  const proximos = recordatorios.filter((r: Rec) => {
     const f = new Date(r.fecha)
     return !r.completado && f >= manana && f <= enSieteDias
   })

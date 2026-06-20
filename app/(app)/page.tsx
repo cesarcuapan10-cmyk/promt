@@ -11,6 +11,9 @@ import Link from "next/link"
 
 export const metadata = { title: "Tablero" }
 
+type HistorialItem = { mes: string; ingreso: number }
+type EtapaItem = { etapa: string; _count: number; _sum: { valorEstimado: number | null } }
+
 async function getStats(vendedorId: string, esAdmin: boolean) {
   const where = { eliminadoEn: null, ...(esAdmin ? {} : { vendedorId }) }
 
@@ -90,7 +93,7 @@ async function getStats(vendedorId: string, esAdmin: boolean) {
           },
           _sum: { monto: true },
         })
-        .then((r) => ({
+        .then((r: { _sum: { monto: number | null } }): HistorialItem => ({
           mes: d.toLocaleDateString("es-MX", { month: "short" }),
           ingreso: r._sum.monto ?? 0,
         }))
@@ -104,8 +107,8 @@ async function getStats(vendedorId: string, esAdmin: boolean) {
     pagosVencidos,
     sinProximaAccion,
     leadsNuevos,
-    etapas,
-    historial,
+    historial: historial as HistorialItem[],
+    etapas: etapas as EtapaItem[],
   }
 }
 

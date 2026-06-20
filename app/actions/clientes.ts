@@ -299,6 +299,288 @@ export async function cambiarEtapa(id: string, etapa: string) {
   return { ok: true }
 }
 
+// ─── Expediente completo ────────────────────────────────────────────────────
+
+export async function obtenerExpediente(id: string) {
+  const session = await getSession()
+  const userId = session.user.id
+  const userRol = session.user.rol ?? "VENDEDOR"
+
+  const cliente = await db.cliente.findFirst({
+    where: {
+      id,
+      eliminadoEn: null,
+      ...(userRol !== "ADMIN" ? { vendedorId: userId } : {}),
+    },
+    include: {
+      vendedor: { select: { id: true, nombre: true, correo: true } },
+      etiquetas: { include: { etiqueta: true } },
+      notasHistorial: {
+        where: { eliminadoEn: null },
+        orderBy: { fecha: "desc" },
+        include: { usuario: { select: { nombre: true } } },
+      },
+      pagos: {
+        where: { eliminadoEn: null },
+        orderBy: { creadoEn: "desc" },
+      },
+      archivosSubidos: {
+        orderBy: { fechaSubida: "desc" },
+        include: { usuario: { select: { nombre: true } } },
+      },
+    },
+  })
+
+  if (!cliente) throw new Error("Cliente no encontrado")
+  return cliente
+}
+
+export type ActualizarClienteData = {
+  nombre?: string
+  telefono?: string
+  whatsapp?: string
+  correo?: string
+  origen?: string
+  temperatura?: string
+  valorEstimado?: number | null
+  objecionPrincipal?: string | null
+  retoPrincipal?: string | null
+  numVendedores?: number | null
+  notas?: string | null
+  proximaAccion?: string | null
+  fechaProximaAccion?: Date | null
+  ultimoContacto?: Date | null
+  empresaNombre?: string | null
+  empresaGiro?: string | null
+  empresaPuesto?: string | null
+  empresaRfc?: string | null
+  empresaSitio?: string | null
+  empresaDireccion?: string | null
+  empresaTamano?: string | null
+  empresaNotas?: string | null
+}
+
+export async function actualizarExpediente(id: string, data: ActualizarClienteData) {
+  const session = await getSession()
+  const userId = session.user.id
+  const userRol = session.user.rol ?? "VENDEDOR"
+
+  const cliente = await db.cliente.findFirst({
+    where: { id, eliminadoEn: null, ...(userRol !== "ADMIN" ? { vendedorId: userId } : {}) },
+  })
+  if (!cliente) throw new Error("Cliente no encontrado")
+
+  const actualizado = await db.cliente.update({
+    where: { id },
+    data: {
+      ...(data.nombre !== undefined && { nombre: data.nombre }),
+      ...(data.telefono !== undefined && { telefono: data.telefono }),
+      ...(data.whatsapp !== undefined && { whatsapp: data.whatsapp }),
+      ...(data.correo !== undefined && { correo: data.correo }),
+      ...(data.origen !== undefined && { origen: data.origen }),
+      ...(data.temperatura !== undefined && { temperatura: data.temperatura }),
+      ...(data.valorEstimado !== undefined && { valorEstimado: data.valorEstimado }),
+      ...(data.objecionPrincipal !== undefined && { objecionPrincipal: data.objecionPrincipal }),
+      ...(data.retoPrincipal !== undefined && { retoPrincipal: data.retoPrincipal }),
+      ...(data.numVendedores !== undefined && { numVendedores: data.numVendedores }),
+      ...(data.notas !== undefined && { notas: data.notas }),
+      ...(data.proximaAccion !== undefined && { proximaAccion: data.proximaAccion }),
+      ...(data.fechaProximaAccion !== undefined && { fechaProximaAccion: data.fechaProximaAccion }),
+      ...(data.ultimoContacto !== undefined && { ultimoContacto: data.ultimoContacto }),
+      ...(data.empresaNombre !== undefined && { empresaNombre: data.empresaNombre }),
+      ...(data.empresaGiro !== undefined && { empresaGiro: data.empresaGiro }),
+      ...(data.empresaPuesto !== undefined && { empresaPuesto: data.empresaPuesto }),
+      ...(data.empresaRfc !== undefined && { empresaRfc: data.empresaRfc }),
+      ...(data.empresaSitio !== undefined && { empresaSitio: data.empresaSitio }),
+      ...(data.empresaDireccion !== undefined && { empresaDireccion: data.empresaDireccion }),
+      ...(data.empresaTamano !== undefined && { empresaTamano: data.empresaTamano }),
+      ...(data.empresaNotas !== undefined && { empresaNotas: data.empresaNotas }),
+    },
+  })
+
+  await registrarAuditoria(userId, "ACTUALIZAR", "Cliente", id, `Expediente actualizado: ${actualizado.nombre}`)
+  revalidatePath(`/clientes/${id}`)
+  return { ok: true, cliente: actualizado }
+}
+
+export async function agregarNota(
+  clienteId: string,
+  contenido: string,
+  tipo: string = "NOTA",
+  fecha?: Date
+) {
+  const session = await getSession()
+  const userId = session.user.id
+
+  const nota = await db.nota.create({
+    data: {
+      clienteId,
+      usuarioId: userId,
+      contenido,
+      tipo,
+      fecha: fecha ?? new Date(),
+    },
+    include: { usuario: { select: { nombre: true } } },
+  })
+
+  await registrarAuditoria(userId, "AGREGAR_NOTA", "Cliente", clienteId, `Nota agregada: ${tipo}`)
+  revalidatePath(`/clientes/${clienteId}`)
+  return { ok: true, nota }
+}
+
+export async function agregarPago(
+  clienteId: string,
+  data: {
+    monto: number
+    metodo: string
+    estatus: string
+    fechaPago?: Date | null
+    concepto?: string | null
+  }
+) {
+  const session = await getSession()
+  const userId = session.user.id
+
+  const pago = await db.pago.create({
+    data: {
+      clienteId,
+      vendedorId: userId,
+      monto: data.monto,
+      metodo: data.metodo,
+      estatus: data.estatus,
+      fechaPago: data.fechaPago ?? null,
+      concepto: data.concepto ?? null,
+    },
+  })
+
+  await registrarAuditoria(userId, "AGREGAR_PAGO", "Cliente", clienteId, `Pago agregado: $${data.monto}`)
+  revalidatePath(`/clientes/${clienteId}`)
+  return { ok: true, pago }
+}
+
+export async function subirArchivo(
+  clienteId: string,
+  data: {
+    nombre: string
+    etiqueta: string
+    tipo: string
+    tamano: number
+    datos: Buffer
+  }
+) {
+  const session = await getSession()
+  const userId = session.user.id
+
+  const archivo = await db.archivo.create({
+    data: {
+      clienteId,
+      usuarioId: userId,
+      nombre: data.nombre,
+      etiqueta: data.etiqueta,
+      tipo: data.tipo,
+      tamano: data.tamano,
+      datos: data.datos,
+    },
+  })
+
+  await registrarAuditoria(userId, "SUBIR_ARCHIVO", "Cliente", clienteId, `Archivo subido: ${data.nombre}`)
+  revalidatePath(`/clientes/${clienteId}`)
+  return { ok: true, archivo }
+}
+
+export async function eliminarArchivo(archivoId: string) {
+  const session = await getSession()
+  const userId = session.user.id
+
+  const archivo = await db.archivo.findFirst({ where: { id: archivoId } })
+  if (!archivo) throw new Error("Archivo no encontrado")
+
+  await db.archivo.delete({ where: { id: archivoId } })
+
+  await registrarAuditoria(userId, "ELIMINAR_ARCHIVO", "Cliente", archivo.clienteId, `Archivo eliminado: ${archivo.nombre}`)
+  revalidatePath(`/clientes/${archivo.clienteId}`)
+  return { ok: true }
+}
+
+export async function marcarGanadoCliente(clienteId: string) {
+  const session = await getSession()
+  const userId = session.user.id
+  const userRol = session.user.rol ?? "VENDEDOR"
+
+  const cliente = await db.cliente.findFirst({
+    where: { id: clienteId, eliminadoEn: null, ...(userRol !== "ADMIN" ? { vendedorId: userId } : {}) },
+  })
+  if (!cliente) throw new Error("Cliente no encontrado")
+
+  await db.cliente.update({
+    where: { id: clienteId },
+    data: { estadoCartera: "GANADO", etapa: "GANADO", estadoAnterior: cliente.estadoCartera },
+  })
+
+  await db.nota.create({
+    data: { clienteId, usuarioId: userId, contenido: "Cliente marcado como GANADO 🎉", tipo: "CAMBIO_ETAPA" },
+  })
+
+  await registrarAuditoria(userId, "MARCAR_GANADO", "Cliente", clienteId, `${cliente.nombre} marcado como GANADO`)
+  revalidatePath(`/clientes/${clienteId}`)
+  revalidatePath("/embudo")
+  return { ok: true }
+}
+
+export async function marcarPerdidoCliente(clienteId: string, motivo: string) {
+  const session = await getSession()
+  const userId = session.user.id
+  const userRol = session.user.rol ?? "VENDEDOR"
+
+  const cliente = await db.cliente.findFirst({
+    where: { id: clienteId, eliminadoEn: null, ...(userRol !== "ADMIN" ? { vendedorId: userId } : {}) },
+  })
+  if (!cliente) throw new Error("Cliente no encontrado")
+
+  await db.cliente.update({
+    where: { id: clienteId },
+    data: {
+      estadoCartera: "PERDIDO",
+      etapa: "PERDIDO",
+      estadoAnterior: cliente.estadoCartera,
+      motivoPerdida: motivo,
+    },
+  })
+
+  await db.nota.create({
+    data: { clienteId, usuarioId: userId, contenido: `Marcado como PERDIDO. Motivo: ${motivo}`, tipo: "CAMBIO_ETAPA" },
+  })
+
+  await registrarAuditoria(userId, "MARCAR_PERDIDO", "Cliente", clienteId, `${cliente.nombre} marcado como PERDIDO`)
+  revalidatePath(`/clientes/${clienteId}`)
+  revalidatePath("/embudo")
+  return { ok: true }
+}
+
+export async function archivarCliente(clienteId: string) {
+  const session = await getSession()
+  const userId = session.user.id
+  const userRol = session.user.rol ?? "VENDEDOR"
+
+  const cliente = await db.cliente.findFirst({
+    where: { id: clienteId, eliminadoEn: null, ...(userRol !== "ADMIN" ? { vendedorId: userId } : {}) },
+  })
+  if (!cliente) throw new Error("Cliente no encontrado")
+
+  await db.cliente.update({
+    where: { id: clienteId },
+    data: { estadoCartera: "ARCHIVADO", estadoAnterior: cliente.estadoCartera },
+  })
+
+  await db.nota.create({
+    data: { clienteId, usuarioId: userId, contenido: "Cliente archivado", tipo: "CAMBIO_ETAPA" },
+  })
+
+  await registrarAuditoria(userId, "ARCHIVAR", "Cliente", clienteId, `${cliente.nombre} archivado`)
+  revalidatePath(`/clientes/${clienteId}`)
+  return { ok: true }
+}
+
 export async function toggleFavorito(clienteId: string) {
   const session = await getSession()
   const userId = session.user.id

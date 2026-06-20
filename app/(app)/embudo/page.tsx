@@ -1,11 +1,14 @@
 import { KanbanSquare } from "lucide-react"
-import { obtenerClientesPorEtapa } from "@/app/actions/embudo"
+import { obtenerClientesPorEtapa, contarEstados } from "@/app/actions/embudo"
 import { EmbudoKanban } from "./EmbudoKanban"
 
 export const metadata = { title: "Embudo de Ventas" }
 
 export default async function EmbudoPage() {
-  const porEtapa = await obtenerClientesPorEtapa()
+  const [porEtapa, conteos] = await Promise.all([
+    obtenerClientesPorEtapa(),
+    contarEstados(),
+  ])
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-full mx-auto">
@@ -21,7 +24,7 @@ export default async function EmbudoPage() {
           <p className="text-sm text-gray-500">Vista kanban de tus clientes por etapa</p>
         </div>
       </div>
-      <EmbudoKanban porEtapa={porEtapa} />
+      <EmbudoKanban porEtapa={porEtapa} conteos={conteos} />
     </div>
   )
 }
