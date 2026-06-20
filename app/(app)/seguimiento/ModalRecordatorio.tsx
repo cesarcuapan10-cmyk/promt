@@ -39,11 +39,14 @@ export function ModalRecordatorio({ abierto, onCerrar, clientes }: Props) {
     setError("")
     startTransition(async () => {
       try {
+        const dt = new Date(form.fechaHora)
+        const fecha = dt.toISOString().split("T")[0]
+        const hora = dt.toTimeString().slice(0, 5)
         await crearRecordatorio({
           titulo: form.titulo,
-          tipo: form.tipo,
-          fechaHora: new Date(form.fechaHora),
-          clienteId: form.clienteId || undefined,
+          fecha,
+          hora,
+          clienteId: form.clienteId || null,
         })
         setForm({ titulo: "", tipo: "LLAMADA", fechaHora: "", clienteId: "" })
         onCerrar()
