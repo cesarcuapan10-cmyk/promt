@@ -1,13 +1,31 @@
 import { ListChecks } from "lucide-react"
-import { Card } from "@/app/components/ui/Card"
+import { listarRecordatorios } from "@/app/actions/seguimiento"
+import { db } from "@/app/lib/db"
+import { auth } from "@/app/lib/auth"
+import { SeguimientoCliente } from "./SeguimientoCliente"
 
 export const metadata = { title: "Seguimiento" }
 
-export default function SeguimientoPage() {
+export default async function SeguimientoPage() {
+  const session = await auth()
+  const [recordatorios, clientes] = await Promise.all([
+    listarRecordatorios(),
+    session?.user?.id
+      ? db.cliente.findMany({
+          where: { vendedorId: session.user.id, eliminadoEn: null, estadoCartera: "ACTIVO" },
+          select: { id: true, nombre: true },
+          orderBy: { nombre: "asc" },
+        })
+      : [],
+  ])
+
   return (
-    <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
+    <div className="p-4 md:p-6 space-y-6 max-w-4xl mx-auto">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#f59e0b20" }}>
+        <div
+          className="w-10 h-10 rounded-xl flex items-center justify-center"
+          style={{ backgroundColor: "#f59e0b20" }}
+        >
           <ListChecks className="w-5 h-5" style={{ color: "#f59e0b" }} />
         </div>
         <div>
@@ -15,11 +33,7 @@ export default function SeguimientoPage() {
           <p className="text-sm text-gray-500">A quién toca contactar hoy</p>
         </div>
       </div>
-      <Card className="text-center py-16">
-        <ListChecks className="w-16 h-16 mx-auto mb-4 opacity-20" />
-        <p className="text-lg font-medium text-gray-500 mb-2">Módulo en construcción</p>
-        <p className="text-sm text-gray-400">Este módulo estará completo muy pronto.</p>
-      </Card>
+      <SeguimientoCliente recordatorios={recordatorios} clientes={clientes} />
     </div>
   )
 }
