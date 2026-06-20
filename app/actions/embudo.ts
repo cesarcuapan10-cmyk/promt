@@ -1,71 +1,67 @@
 "use server"
-
-import { db } from "@/app/lib/db"
 import { auth } from "@/app/lib/auth"
+import { db } from "@/app/lib/db"
 import { revalidatePath } from "next/cache"
 
-export type ClienteEtapa = {
-  id: string
-  nombre: string
-  empresaNombre: string | null
-  temperatura: string
-  valorEstimado: number | null
-  actualizadoEn: Date
-  etapa: string
-}
+const ETAPAS = ["NUEVO", "CONTACTADO", "PROPUESTA", "NEGOCIACION", "GANADO"] as const
 
-export type EtapaKey = "NUEVO" | "CONTACTADO" | "CITA_AGENDADA" | "PROPUESTA_ENVIADA" | "GANADO"
+export async function obtenerClientesPorEtapa() {
+  const sesion = await auth()
+  if (!sesion?.user?.id) throw new Error("No autorizado")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const usuario = sesion.user as any
 
-export type ClientesPorEtapa = Record<EtapaKey, ClienteEtapa[]>
-
-export async function obtenerClientesPorEtapa(): Promise<ClientesPorEtapa> {
-  const session = await auth()
-  if (!session?.user?.id) throw new Error("No autenticado")
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const where: any = {
+    eliminadoEn: null,
+    estadoCartera: "ACTIVO",
+    ...(usuario.rol !== "ADMIN" && { vendedorId: sesion.user.id }),
+  }
 
   const clientes = await db.cliente.findMany({
-    where: {
-      vendedorId: session.user.id,
-      estadoCartera: "ACTIVO",
-      eliminadoEn: null,
-    },
-    select: {
-      id: true,
-      nombre: true,
-      empresaNombre: true,
-      temperatura: true,
-      valorEstimado: true,
-      actualizadoEn: true,
-      etapa: true,
-    },
+    where,
     orderBy: { actualizadoEn: "desc" },
+    include: {
+      etiquetas: { include: { etiqueta: true } },
+      vendedor: { select: { nombre: true } },
+    },
   })
 
-  const resultado: ClientesPorEtapa = {
-    NUEVO: [],
-    CONTACTADO: [],
-    CITA_AGENDADA: [],
-    PROPUESTA_ENVIADA: [],
-    GANADO: [],
+  const porEtapa: Record<string, typeof clientes> = {}
+  for (const etapa of ETAPAS) porEtapa[etapa] = []
+  for (const c of clientes) {
+    const key = ETAPAS.includes(c.etapa as typeof ETAPAS[number]) ? c.etapa : "NUEVO"
+    if (!porEtapa[key]) porEtapa[key] = []
+    porEtapa[key].push(c)
   }
 
-  for (const cliente of clientes) {
-    const etapa = cliente.etapa as EtapaKey
-    if (etapa in resultado) {
-      resultado[etapa].push(cliente)
-    }
-  }
-
-  return resultado
+  return porEtapa
 }
 
 export async function moverClienteEtapa(clienteId: string, nuevaEtapa: string) {
-  const session = await auth()
-  if (!session?.user?.id) throw new Error("No autenticado")
+  const sesion = await auth()
+  if (!sesion?.user?.id) throw new Error("No autorizado")
+
+  const cliente = await db.cliente.findFirst({ where: { id: clienteId, eliminadoEn: null } })
+  if (!cliente) return { ok: false, error: "Cliente no encontrado" }
+  if ((sesion.user as { rol?: string }).rol !== "ADMIN" && cliente.vendedorId !== sesion.user.id)
+    return { ok: false, error: "Sin permiso" }
 
   await db.cliente.update({
-    where: { id: clienteId, vendedorId: session.user.id },
-    data: { etapa: nuevaEtapa },
+    where: { id: clienteId },
+    data: { etapa: nuevaEtapa, etapaAnterior: cliente.etapa },
+  })
+
+  await db.registroAuditoria.create({
+    data: {
+      accion: "CAMBIAR_ETAPA",
+      usuarioId: sesion.user.id,
+      entidad: "Cliente",
+      entidadId: clienteId,
+      descripcion: `Movió ${cliente.nombre} de ${cliente.etapa} a ${nuevaEtapa}`,
+    },
   })
 
   revalidatePath("/embudo")
+  return { ok: true }
 }
