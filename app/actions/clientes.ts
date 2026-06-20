@@ -337,10 +337,10 @@ export async function obtenerExpediente(id: string) {
 
 export type ActualizarClienteData = {
   nombre?: string
-  telefono?: string
-  whatsapp?: string
-  correo?: string
-  origen?: string
+  telefono?: string | null
+  whatsapp?: string | null
+  correo?: string | null
+  origen?: string | null
   temperatura?: string
   valorEstimado?: number | null
   objecionPrincipal?: string | null
@@ -465,7 +465,7 @@ export async function subirArchivo(
     etiqueta: string
     tipo: string
     tamano: number
-    datos: Buffer
+    datos: Uint8Array<ArrayBufferLike>
   }
 ) {
   const session = await getSession()
@@ -479,7 +479,7 @@ export async function subirArchivo(
       etiqueta: data.etiqueta,
       tipo: data.tipo,
       tamano: data.tamano,
-      datos: data.datos,
+      datos: data.datos ? Buffer.from(data.datos) : null,
     },
   })
 
@@ -600,4 +600,210 @@ export async function toggleFavorito(clienteId: string) {
     })
     return { ok: true, favorito: true }
   }
+}
+
+// ─── Completados / Perdidos / Archivados ───────────────────────────────────
+
+export async function listarCompletados({
+  pagina = 1,
+  porPagina = 20,
+  buscar,
+}: { pagina?: number; porPagina?: number; buscar?: string }) {
+  const session = await getSession()
+  const userId = session.user.id
+  const userRol = session.user.rol ?? "VENDEDOR"
+
+  const where: Record<string, unknown> = {
+    eliminadoEn: null,
+    estadoCartera: "GANADO",
+    ...(userRol !== "ADMIN" && { vendedorId: userId }),
+    ...(buscar && {
+      OR: [
+        { nombre: { contains: buscar } },
+        { correo: { contains: buscar } },
+      ],
+    }),
+  }
+
+  const [clientes, total] = await Promise.all([
+    db.cliente.findMany({
+      where,
+      skip: (pagina - 1) * porPagina,
+      take: porPagina,
+      orderBy: { actualizadoEn: "desc" },
+      include: {
+        pagos: {
+          where: { eliminadoEn: null, estatus: "PAGADO" },
+          select: { monto: true },
+        },
+      },
+    }),
+    db.cliente.count({ where }),
+  ])
+
+  return {
+    clientes: clientes.map((c) => ({
+      ...c,
+      totalCobrado: c.pagos.reduce((sum, p) => sum + p.monto, 0),
+    })),
+    total,
+    paginas: Math.ceil(total / porPagina),
+  }
+}
+
+export async function listarPerdidos({
+  pagina = 1,
+  porPagina = 20,
+  buscar,
+}: { pagina?: number; porPagina?: number; buscar?: string }) {
+  const session = await getSession()
+  const userId = session.user.id
+  const userRol = session.user.rol ?? "VENDEDOR"
+
+  const where: Record<string, unknown> = {
+    eliminadoEn: null,
+    estadoCartera: "PERDIDO",
+    ...(userRol !== "ADMIN" && { vendedorId: userId }),
+    ...(buscar && {
+      OR: [
+        { nombre: { contains: buscar } },
+        { correo: { contains: buscar } },
+      ],
+    }),
+  }
+
+  const [clientes, total] = await Promise.all([
+    db.cliente.findMany({
+      where,
+      skip: (pagina - 1) * porPagina,
+      take: porPagina,
+      orderBy: { actualizadoEn: "desc" },
+      select: {
+        id: true,
+        nombre: true,
+        correo: true,
+        telefono: true,
+        motivoPerdida: true,
+        estadoAnterior: true,
+        actualizadoEn: true,
+        temperatura: true,
+      },
+    }),
+    db.cliente.count({ where }),
+  ])
+
+  return { clientes, total, paginas: Math.ceil(total / porPagina) }
+}
+
+export async function listarArchivados({
+  pagina = 1,
+  porPagina = 20,
+  buscar,
+}: { pagina?: number; porPagina?: number; buscar?: string }) {
+  const session = await getSession()
+  const userId = session.user.id
+  const userRol = session.user.rol ?? "VENDEDOR"
+
+  const where: Record<string, unknown> = {
+    eliminadoEn: null,
+    estadoCartera: "ARCHIVADO",
+    ...(userRol !== "ADMIN" && { vendedorId: userId }),
+    ...(buscar && {
+      OR: [
+        { nombre: { contains: buscar } },
+        { correo: { contains: buscar } },
+      ],
+    }),
+  }
+
+  const [clientes, total] = await Promise.all([
+    db.cliente.findMany({
+      where,
+      skip: (pagina - 1) * porPagina,
+      take: porPagina,
+      orderBy: { actualizadoEn: "desc" },
+      select: {
+        id: true,
+        nombre: true,
+        correo: true,
+        telefono: true,
+        estadoAnterior: true,
+        actualizadoEn: true,
+      },
+    }),
+    db.cliente.count({ where }),
+  ])
+
+  return { clientes, total, paginas: Math.ceil(total / porPagina) }
+}
+
+export async function reactivarCliente(id: string) {
+  const session = await getSession()
+  const userId = session.user.id
+
+  const cliente = await db.cliente.findFirst({ where: { id, eliminadoEn: null } })
+  if (!cliente) throw new Error("Cliente no encontrado")
+
+  const manana = new Date()
+  manana.setDate(manana.getDate() + 1)
+
+  await db.cliente.update({
+    where: { id },
+    data: {
+      estadoCartera: "ACTIVO",
+      etapa: "NUEVO",
+      proximaAccion: "Reenganche - primer contacto",
+      fechaProximaAccion: manana,
+    },
+  })
+
+  await db.nota.create({
+    data: {
+      clienteId: id,
+      usuarioId: userId,
+      contenido: "Cliente reactivado — se inicia reenganche",
+      tipo: "CAMBIO_ETAPA",
+    },
+  })
+
+  await registrarAuditoria(userId, "REACTIVAR", "Cliente", id, `${cliente.nombre} reactivado`)
+  revalidatePath(`/clientes/${id}`)
+  revalidatePath("/completados")
+  revalidatePath("/perdidos")
+  return { ok: true }
+}
+
+export async function restaurarCliente(id: string) {
+  const session = await getSession()
+  const userId = session.user.id
+
+  const cliente = await db.cliente.findFirst({ where: { id, eliminadoEn: null } })
+  if (!cliente) throw new Error("Cliente no encontrado")
+
+  const manana = new Date()
+  manana.setDate(manana.getDate() + 1)
+
+  await db.cliente.update({
+    where: { id },
+    data: {
+      estadoCartera: "ACTIVO",
+      etapa: "NUEVO",
+      proximaAccion: "Reenganche - primer contacto",
+      fechaProximaAccion: manana,
+    },
+  })
+
+  await db.nota.create({
+    data: {
+      clienteId: id,
+      usuarioId: userId,
+      contenido: "Cliente restaurado desde archivados",
+      tipo: "CAMBIO_ETAPA",
+    },
+  })
+
+  await registrarAuditoria(userId, "RESTAURAR", "Cliente", id, `${cliente.nombre} restaurado desde archivados`)
+  revalidatePath(`/clientes/${id}`)
+  revalidatePath("/archivados")
+  return { ok: true }
 }

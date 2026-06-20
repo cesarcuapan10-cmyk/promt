@@ -205,5 +205,7 @@ export async function contarEstados() {
   }
 }
 
-// Keep backward compat alias
-export { moverEtapa as moverClienteEtapa }
+// Backward compat alias
+export async function moverClienteEtapa(clienteId: string, nuevaEtapa: string) {
+  return moverEtapa(clienteId, nuevaEtapa)
+}

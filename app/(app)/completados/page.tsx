@@ -1,25 +1,17 @@
-import { Trophy } from "lucide-react"
-import { Card } from "@/app/components/ui/Card"
+import { listarCompletados } from "@/app/actions/clientes"
+import { CompletadosCliente } from "./CompletadosCliente"
 
 export const metadata = { title: "Completados" }
 
-export default function CompletadosPage() {
+export default async function CompletadosPage() {
+  const { clientes, total, paginas } = await listarCompletados({ pagina: 1, porPagina: 20 })
+
   return (
-    <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#16a34a20" }}>
-          <Trophy className="w-5 h-5" style={{ color: "#16a34a" }} />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Completados</h1>
-          <p className="text-sm text-gray-500">Tu muro de victorias</p>
-        </div>
-      </div>
-      <Card className="text-center py-16">
-        <Trophy className="w-16 h-16 mx-auto mb-4 opacity-20" />
-        <p className="text-lg font-medium text-gray-500 mb-2">Módulo en construcción</p>
-        <p className="text-sm text-gray-400">Este módulo estará completo muy pronto.</p>
-      </Card>
-    </div>
+    <CompletadosCliente
+      clientes={clientes}
+      total={total}
+      paginas={paginas}
+      paginaInicial={1}
+    />
   )
 }

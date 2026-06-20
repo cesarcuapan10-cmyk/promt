@@ -601,7 +601,7 @@ export function EmbudoKanban({ porEtapa, conteos }: Props) {
               key={etapa.id}
               layout={!shouldReduceMotion}
               className={`transition-all duration-150 ${overEtapa === etapa.id ? "ring-2 ring-offset-1 rounded-2xl" : ""}`}
-              style={overEtapa === etapa.id ? { ringColor: etapa.color } : {}}
+              style={overEtapa === etapa.id ? { outline: `2px solid ${etapa.color}`, outlineOffset: "2px" } : {}}
             >
               <ColumnaKanban
                 etapa={etapa}

@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation"
 import {
   LayoutDashboard, Users, KanbanSquare, CalendarDays, Wallet,
   ListChecks, Trophy, XCircle, Archive, Share2, UserCog,
-  ShieldCheck, ChevronLeft, ChevronRight, Sparkles,
+  ShieldCheck, ChevronLeft, ChevronRight, Sparkles, MessageSquare,
 } from "lucide-react"
 import { cn } from "@/app/lib/utils"
 import { useState } from "react"
@@ -16,6 +16,7 @@ const NAV = [
   { href: "/agenda", label: "Agenda", Icon: CalendarDays, color: "#22c55e" },
   { href: "/pagos", label: "Pagos", Icon: Wallet, color: "#10b981" },
   { href: "/seguimiento", label: "Seguimiento", Icon: ListChecks, color: "#f59e0b" },
+  { href: "/plantillas", label: "Plantillas", Icon: MessageSquare, color: "#e8b763" },
   { href: "/completados", label: "Completados", Icon: Trophy, color: "#16a34a" },
   { href: "/perdidos", label: "Perdidos", Icon: XCircle, color: "#6b7280" },
   { href: "/archivados", label: "Archivados", Icon: Archive, color: "#9ca3af" },

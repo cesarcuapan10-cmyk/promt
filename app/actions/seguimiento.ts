@@ -98,3 +98,94 @@ export async function eliminarRecordatorio(id: string) {
   revalidatePath("/seguimiento")
   return { ok: true }
 }
+
+export async function clientesParaContactarHoy() {
+  const sesion = await auth()
+  if (!sesion?.user?.id) throw new Error("No autorizado")
+
+  const esAdmin = ((sesion.user as { rol?: string }).rol) === "ADMIN"
+  const hoy = new Date()
+  hoy.setHours(23, 59, 59, 999)
+  const hace24h = new Date(Date.now() - 24 * 60 * 60 * 1000)
+
+  const clientes = await db.cliente.findMany({
+    where: {
+      eliminadoEn: null,
+      estadoCartera: "ACTIVO",
+      ...(!esAdmin && { vendedorId: sesion.user.id }),
+      OR: [
+        { fechaProximaAccion: { lte: hoy } },
+        { etapa: "NUEVO", ultimoContacto: { lte: hace24h } },
+        { etapa: "NUEVO", ultimoContacto: null },
+      ],
+    },
+    orderBy: [{ valorEstimado: "desc" }],
+    select: {
+      id: true,
+      nombre: true,
+      telefono: true,
+      whatsapp: true,
+      temperatura: true,
+      proximaAccion: true,
+      fechaProximaAccion: true,
+      ultimoContacto: true,
+      etapa: true,
+    },
+  })
+
+  const orden: Record<string, number> = { CALIENTE: 0, TIBIO: 1, FRIO: 2 }
+  return clientes.sort((a, b) => (orden[a.temperatura ?? "FRIO"] ?? 2) - (orden[b.temperatura ?? "FRIO"] ?? 2))
+}
+
+export async function clientesSinProximaAccion() {
+  const sesion = await auth()
+  if (!sesion?.user?.id) throw new Error("No autorizado")
+
+  const esAdmin = ((sesion.user as { rol?: string }).rol) === "ADMIN"
+
+  return db.cliente.findMany({
+    where: {
+      eliminadoEn: null,
+      estadoCartera: "ACTIVO",
+      fechaProximaAccion: null,
+      ...(!esAdmin && { vendedorId: sesion.user.id }),
+    },
+    select: {
+      id: true,
+      nombre: true,
+      telefono: true,
+      whatsapp: true,
+      temperatura: true,
+      etapa: true,
+      ultimoContacto: true,
+    },
+    orderBy: { creadoEn: "desc" },
+  })
+}
+
+export async function clientesEstancados(umbral = 7) {
+  const sesion = await auth()
+  if (!sesion?.user?.id) throw new Error("No autorizado")
+
+  const esAdmin = ((sesion.user as { rol?: string }).rol) === "ADMIN"
+  const limite = new Date(Date.now() - umbral * 24 * 60 * 60 * 1000)
+
+  return db.cliente.findMany({
+    where: {
+      eliminadoEn: null,
+      estadoCartera: "ACTIVO",
+      actualizadoEn: { lte: limite },
+      ...(!esAdmin && { vendedorId: sesion.user.id }),
+    },
+    select: {
+      id: true,
+      nombre: true,
+      telefono: true,
+      temperatura: true,
+      etapa: true,
+      actualizadoEn: true,
+      ultimoContacto: true,
+    },
+    orderBy: { actualizadoEn: "asc" },
+  })
+}
