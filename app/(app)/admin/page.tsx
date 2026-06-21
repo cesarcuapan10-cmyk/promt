@@ -1,25 +1,38 @@
+import { auth } from "@/app/lib/auth"
+import { redirect } from "next/navigation"
 import { ShieldCheck } from "lucide-react"
-import { Card } from "@/app/components/ui/Card"
+import AdminCliente from "./AdminCliente"
+import { listarUsuarios, obtenerAuditoria, obtenerMetaNegocio } from "@/app/actions/admin"
 
-export const metadata = { title: "Panel admin" }
+export const metadata = { title: "Panel admin · Tu equipo y negocio" }
 
-export default function PaneladminPage() {
+export default async function AdminPage() {
+  const session = await auth()
+  const user = session?.user as { id: string; rol?: string } | undefined
+  if (user?.rol !== "ADMIN") redirect("/")
+
+  const [usuarios, { registros: auditoria }, metaNegocio] = await Promise.all([
+    listarUsuarios(),
+    obtenerAuditoria({ pagina: 1 }),
+    obtenerMetaNegocio(),
+  ])
+
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#e8b76320" }}>
-          <ShieldCheck className="w-5 h-5" style={{ color: "#e8b763" }} />
+        <div className="w-10 h-10 rounded-xl bg-brand/10 flex items-center justify-center">
+          <ShieldCheck className="w-5 h-5 text-brand" />
         </div>
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Panel admin</h1>
           <p className="text-sm text-gray-500">Tu equipo, tus datos, tu negocio</p>
         </div>
       </div>
-      <Card className="text-center py-16">
-        <ShieldCheck className="w-16 h-16 mx-auto mb-4 opacity-20" />
-        <p className="text-lg font-medium text-gray-500 mb-2">Módulo en construcción</p>
-        <p className="text-sm text-gray-400">Este módulo estará completo muy pronto.</p>
-      </Card>
+      <AdminCliente
+        usuariosIniciales={usuarios}
+        auditoriaInicial={auditoria as Parameters<typeof AdminCliente>[0]["auditoriaInicial"]}
+        metaNegocioInicial={metaNegocio}
+      />
     </div>
   )
 }
