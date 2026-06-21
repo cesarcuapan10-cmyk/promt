@@ -52,8 +52,8 @@ export default function CompartirCliente({ vendedores }: { vendedores: Vendedor[
   const [copiado, setCopiado] = useState<string | null>(null)
 
   const base = getBaseUrl()
-  const landingBase = base + "/"
-  const landingConUtm = `${base}/?utm_source=${canal}&utm_medium=social&utm_campaign=crm`
+  const landingBase = base + "/inicio"
+  const landingConUtm = `${base}/inicio?utm_source=${canal}&utm_medium=social&utm_campaign=crm`
 
   function copiarConFeedback(texto: string, key: string) {
     copiar(texto)
@@ -73,7 +73,7 @@ export default function CompartirCliente({ vendedores }: { vendedores: Vendedor[
 
         <div className="flex gap-2 flex-wrap">
           <div className="flex-1 min-w-0 bg-gray-50 dark:bg-gray-800 rounded-xl px-3 py-2.5 text-sm text-gray-600 dark:text-gray-300 truncate font-mono">
-            {base}/
+            {base}/inicio
           </div>
           <Button tamaño="sm" icono={copiado === "landing" ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             onClick={() => copiarConFeedback(landingBase, "landing")}>

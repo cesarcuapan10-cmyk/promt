@@ -20,6 +20,11 @@ import {
   Check,
   Pencil,
   X,
+  Sparkles,
+  Thermometer,
+  CalendarCheck,
+  BookOpen,
+  ShieldCheck,
 } from "lucide-react"
 import { Badge } from "@/app/components/ui/Badge"
 import { Button } from "@/app/components/ui/Button"
@@ -32,6 +37,13 @@ import {
   toggleFavorito,
   agregarNota,
 } from "@/app/actions/clientes"
+import {
+  redactarMensajeIA,
+  clasificarTemperaturaIA,
+  sugerirProximaAccionIA,
+  resumirExpedienteIA,
+  manejarObjecionIA,
+} from "@/app/actions/ia"
 import {
   formatMoney,
   formatFecha,
@@ -248,6 +260,10 @@ export function ExpedienteCliente({ cliente: clienteInicial }: { cliente: Client
   const [notaContenido, setNotaContenido] = useState("")
   const [notaTipo, setNotaTipo] = useState("NOTA")
   const [guardandoNota, startNota] = useTransition()
+  const [iaTexto, setIaTexto] = useState<string | null>(null)
+  const [iaEtiqueta, setIaEtiqueta] = useState("")
+  const [iaFuente, setIaFuente] = useState(false)
+  const [cargandoIA, startIA] = useTransition()
 
   const tel = cliente.whatsapp ?? cliente.telefono ?? ""
   const diasSinContacto = getDiasDesde(cliente.ultimoContacto)
@@ -302,6 +318,16 @@ export function ExpedienteCliente({ cliente: clienteInicial }: { cliente: Client
         }))
         setNotaContenido("")
       }
+    })
+  }
+
+  function usarIA(fn: () => Promise<{ ok: boolean; mensaje?: string; temperatura?: string; razon?: string; accion?: string; resumen?: string; respuesta?: string; fuenteIA: boolean }>, etiqueta: string) {
+    startIA(async () => {
+      const r = await fn()
+      const texto = r.mensaje ?? r.resumen ?? r.respuesta ?? (r.temperatura ? `${r.temperatura} — ${r.razon}` : null) ?? (r.accion ? `📅 ${r.accion}` : null)
+      setIaTexto(texto ?? "Sin respuesta")
+      setIaEtiqueta(etiqueta)
+      setIaFuente(r.fuenteIA)
     })
   }
 
@@ -564,6 +590,59 @@ export function ExpedienteCliente({ cliente: clienteInicial }: { cliente: Client
           </Card>
         </div>
       )}
+
+      {/* Asistente IA — siempre visible */}
+      <Card padding="md" className="border border-brand/20 bg-brand/5">
+        <div className="flex items-center gap-2 mb-3">
+          <Sparkles className="w-4 h-4 text-brand" />
+          <h3 className="font-semibold text-gray-900 dark:text-white text-sm">Asistente IA</h3>
+          {!process.env.NEXT_PUBLIC_AI_ENABLED && (
+            <span className="text-xs text-gray-400">(sin API key — modo plantilla)</span>
+          )}
+        </div>
+        <div className="flex flex-wrap gap-2 mb-3">
+          <Button variante="fantasma" tamaño="sm" icono={<MessageCircle className="w-3.5 h-3.5" />} cargando={cargandoIA}
+            onClick={() => usarIA(() => redactarMensajeIA(cliente.id, "whatsapp"), "Mensaje WhatsApp")}>
+            Redactar WA
+          </Button>
+          <Button variante="fantasma" tamaño="sm" icono={<Thermometer className="w-3.5 h-3.5" />} cargando={cargandoIA}
+            onClick={() => usarIA(() => clasificarTemperaturaIA(cliente.id), "Temperatura")}>
+            Temperatura
+          </Button>
+          <Button variante="fantasma" tamaño="sm" icono={<CalendarCheck className="w-3.5 h-3.5" />} cargando={cargandoIA}
+            onClick={() => usarIA(() => sugerirProximaAccionIA(cliente.id), "Próxima acción")}>
+            Próxima acción
+          </Button>
+          <Button variante="fantasma" tamaño="sm" icono={<BookOpen className="w-3.5 h-3.5" />} cargando={cargandoIA}
+            onClick={() => usarIA(() => resumirExpedienteIA(cliente.id), "Resumen")}>
+            Resumen
+          </Button>
+          <Button variante="fantasma" tamaño="sm" icono={<ShieldCheck className="w-3.5 h-3.5" />} cargando={cargandoIA}
+            onClick={() => usarIA(() => manejarObjecionIA(cliente.id), "Manejo de objeción")}>
+            Manejar objeción
+          </Button>
+        </div>
+        {iaTexto && (
+          <div className="bg-white dark:bg-gray-900 rounded-xl p-3 space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-brand">{iaEtiqueta}</span>
+              <div className="flex items-center gap-2">
+                {iaFuente ? (
+                  <span className="text-xs text-green-600">✨ IA</span>
+                ) : (
+                  <span className="text-xs text-gray-400">📋 Plantilla</span>
+                )}
+                <button onClick={() => { navigator.clipboard.writeText(iaTexto) }} className="text-xs text-gray-400 hover:text-brand">Copiar</button>
+                <button onClick={() => setIaTexto(null)} className="text-gray-400 hover:text-gray-600"><X className="w-3.5 h-3.5" /></button>
+              </div>
+            </div>
+            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{iaTexto}</p>
+            <Button tamaño="sm" variante="fantasma" onClick={() => { setNotaContenido(iaTexto); setTab("historial") }}>
+              Usar como nota
+            </Button>
+          </div>
+        )}
+      </Card>
 
       {/* Tab: Historial */}
       {tab === "historial" && (
