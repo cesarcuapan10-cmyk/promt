@@ -60,3 +60,59 @@ export function slugify(texto: string): string {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "")
 }
+
+export function formatFechaCorta(fecha: Date | string | null | undefined): string {
+  if (!fecha) return "—"
+  const d = typeof fecha === "string" ? new Date(fecha) : fecha
+  return d.toLocaleDateString("es-MX", { day: "2-digit", month: "short", year: "numeric" })
+}
+
+export function formatTelefono(tel: string | null | undefined): string {
+  if (!tel) return ""
+  const limpio = tel.replace(/\D/g, "")
+  if (limpio.length === 10) {
+    return `+52 ${limpio.slice(0, 2)} ${limpio.slice(2, 6)} ${limpio.slice(6)}`
+  }
+  if (limpio.startsWith("52") && limpio.length === 12) {
+    return `+${limpio.slice(0, 2)} ${limpio.slice(2, 4)} ${limpio.slice(4, 8)} ${limpio.slice(8)}`
+  }
+  return tel
+}
+
+export function formatWhatsapp(tel: string | null | undefined): string {
+  if (!tel) return ""
+  const limpio = tel.replace(/\D/g, "")
+  if (limpio.startsWith("52")) return limpio
+  return `52${limpio}`
+}
+
+export function getTemperaturaEmoji(temp: string): string {
+  if (temp === "CALIENTE") return "🔥"
+  if (temp === "FRIO") return "🔵"
+  return "🟡"
+}
+
+export function getTemperaturaLabel(temp: string): string {
+  if (temp === "CALIENTE") return "Caliente"
+  if (temp === "FRIO") return "Frío"
+  return "Tibio"
+}
+
+export function getDiasDesde(fecha: Date | string | null | undefined): number {
+  if (!fecha) return 999
+  return Math.floor((Date.now() - new Date(fecha).getTime()) / 86400000)
+}
+
+export function etapaLabel(etapa: string): string {
+  const map: Record<string, string> = {
+    NUEVO: "Nuevo",
+    CONTACTADO: "Contactado",
+    CITA_AGENDADA: "Cita agendada",
+    PROPUESTA_ENVIADA: "Propuesta enviada",
+    NEGOCIACION: "Negociación",
+    GANADO: "Ganado ✅",
+    PERDIDO: "Perdido",
+    ARCHIVADO: "Archivado",
+  }
+  return map[etapa] ?? etapa
+}

@@ -1,25 +1,13 @@
-import { CalendarDays } from "lucide-react"
-import { Card } from "@/app/components/ui/Card"
+import { auth } from "@/app/lib/auth"
+import { listarCitas } from "@/app/actions/citas"
+import { AgendaCliente } from "./AgendaCliente"
 
-export const metadata = { title: "Agenda" }
+export const metadata = { title: "Agenda – PROMPT MAESTRO" }
 
-export default function AgendaPage() {
-  return (
-    <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: "#22c55e20" }}>
-          <CalendarDays className="w-5 h-5" style={{ color: "#22c55e" }} />
-        </div>
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Agenda</h1>
-          <p className="text-sm text-gray-500">Tus citas, organizadas solas</p>
-        </div>
-      </div>
-      <Card className="text-center py-16">
-        <CalendarDays className="w-16 h-16 mx-auto mb-4 opacity-20" />
-        <p className="text-lg font-medium text-gray-500 mb-2">Módulo en construcción</p>
-        <p className="text-sm text-gray-400">Este módulo estará completo muy pronto.</p>
-      </Card>
-    </div>
-  )
+export default async function AgendaPage() {
+  const session = await auth()
+  const ahora = new Date()
+  const mes = `${ahora.getFullYear()}-${String(ahora.getMonth() + 1).padStart(2, "0")}`
+  const citas = await listarCitas({ mes })
+  return <AgendaCliente citasIniciales={citas} userId={(session?.user as { id: string })?.id} />
 }

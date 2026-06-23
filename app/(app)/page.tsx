@@ -90,7 +90,7 @@ async function getStats(vendedorId: string, esAdmin: boolean) {
           },
           _sum: { monto: true },
         })
-        .then((r) => ({
+        .then((r: { _sum: { monto: number | null } }) => ({
           mes: d.toLocaleDateString("es-MX", { month: "short" }),
           ingreso: r._sum.monto ?? 0,
         }))
@@ -105,7 +105,7 @@ async function getStats(vendedorId: string, esAdmin: boolean) {
     sinProximaAccion,
     leadsNuevos,
     etapas,
-    historial,
+    historial: historial as { mes: string; ingreso: number }[],
   }
 }
 
@@ -266,7 +266,7 @@ export default async function DashboardPage() {
               <Link href="/clientes/nuevo" className="text-brand hover:underline">Agregar uno →</Link>
             </p>
           ) : (
-            stats.etapas.map((e) => (
+            stats.etapas.map((e: { etapa: string; _count: number; _sum: { valorEstimado: number | null } }) => (
               <div key={e.etapa} className="flex items-center justify-between py-2 border-b border-gray-50 dark:border-gray-800 last:border-0">
                 <span className="text-sm text-gray-700 dark:text-gray-300">{e.etapa.replace("_", " ")}</span>
                 <div className="flex items-center gap-3">
