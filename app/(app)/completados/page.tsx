@@ -23,7 +23,7 @@ export default async function CompletadosPage() {
     },
   })
 
-  const totalGanado = clientes.reduce((sum, c) => sum + c.pagos.reduce((s, p) => s + p.monto, 0), 0)
+  const totalGanado = clientes.reduce((sum: number, c) => sum + c.pagos.reduce((s: number, p) => s + p.monto, 0), 0)
 
   return (
     <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
