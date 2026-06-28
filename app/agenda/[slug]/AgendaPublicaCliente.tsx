@@ -7,7 +7,7 @@ type Vendedor = { id: string; nombre: string; correo: string }
 const HORAS = ["09:00", "09:45", "10:30", "11:15", "12:00", "12:45", "14:00", "14:45", "15:30", "16:15", "17:00", "17:45"]
 
 function getProximosDias(n: number) {
-  const dias = []
+  const dias: Date[] = []
   const hoy = new Date()
   for (let i = 1; i <= n + 7; i++) {
     const d = new Date(hoy)
