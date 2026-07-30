@@ -1,8 +1,8 @@
 import type { Metadata } from "next"
 
 const EVENTO = {
-  fecha: "Jueves __ de _____",
-  hora: "8:00 PM (hora CDMX)",
+  fecha: "Jueves 13 de agosto",
+  hora: "7:00 PM (hora CDMX)",
   // Cambia este link por tu grupo/canal real de WhatsApp:
   whatsappGrupo: "#",
 }

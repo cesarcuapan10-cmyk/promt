@@ -8,8 +8,8 @@ const EVENTO = {
   titulo: "VENDE SIN TI",
   subtitulo:
     "Cómo hacer que tu negocio cierre ventas caras aunque tú no estés —sin bajar el precio ni rogar.",
-  fecha: "Jueves __ de _____",
-  hora: "8:00 PM (hora CDMX)",
+  fecha: "Jueves 13 de agosto",
+  hora: "7:00 PM (hora CDMX)",
   duracion: "90 minutos en vivo",
   presentador: "César Cuapan",
 }
