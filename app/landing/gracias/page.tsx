@@ -3,8 +3,8 @@ import type { Metadata } from "next"
 const EVENTO = {
   fecha: "Jueves 13 de agosto",
   hora: "7:00 PM (hora CDMX)",
-  // Cambia este link por tu grupo/canal real de WhatsApp:
-  whatsappGrupo: "#",
+  // Tu WhatsApp (ya configurado para recibir mensajes y agendar cita):
+  whatsapp: "https://contacto.cesarcuapan.com",
 }
 
 export const metadata: Metadata = {
@@ -39,18 +39,18 @@ export default function GraciasPage() {
             <strong>Paso 1.</strong> Agrega el evento a tu calendario para no perderlo.
           </p>
           <p className="text-sm text-gray-700">
-            <strong>Paso 2.</strong> Únete al grupo de WhatsApp: ahí enviamos el acceso y los recordatorios.
+            <strong>Paso 2.</strong> Escríbeme por WhatsApp la palabra <strong>“VOY”</strong>: ahí te confirmo tu acceso y te mando los recordatorios.
           </p>
           <p className="text-sm text-gray-700">
-            <strong>Paso 3.</strong> Responde por WhatsApp cuál es tu mayor reto vendiendo hoy. Con eso preparo tu mini-diagnóstico.
+            <strong>Paso 3.</strong> En ese mismo chat cuéntame tu mayor reto vendiendo hoy y te preparo un mini-diagnóstico.
           </p>
         </div>
 
         <a
-          href={EVENTO.whatsappGrupo}
+          href={EVENTO.whatsapp}
           className="mt-7 inline-block w-full bg-brand hover:bg-brand-700 text-white font-bold py-4 rounded-xl transition-colors uppercase tracking-wide"
         >
-          Unirme al grupo de WhatsApp
+          Confirmar por WhatsApp
         </a>
 
         <p className="mt-4 text-xs text-gray-500">
