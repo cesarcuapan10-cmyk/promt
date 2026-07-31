@@ -20,9 +20,10 @@ export const metadata: Metadata = {
 }
 
 const BENEFICIOS = [
-  "Cómo cobrar lo que vales sin que te digan “está caro”.",
-  "La estructura que convierte el “lo voy a pensar” en un sí el mismo día.",
-  "Cómo hacer que tu proceso o tu equipo venda por ti (aunque hoy vendas solo tú).",
+  "El error que te hace sonar “caro” en los primeros 30 segundos —y la frase exacta que lo apaga.",
+  "La estructura de cierre que convierte un “lo voy a pensar” en un SÍ antes de colgar la llamada.",
+  "Cómo hacer que tu negocio cierre ventas aunque tú estés dormido, de viaje o desconectado.",
+  "Por qué bajar el precio está espantando a tus MEJORES clientes (y qué hacer en su lugar).",
 ]
 
 const PILARES = [
@@ -110,12 +111,19 @@ export default async function LandingPage({
       {/* BENEFICIOS */}
       <section className="px-4 py-14">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold">Lo que te vas a llevar</h2>
-          <div className="mt-8 grid sm:grid-cols-3 gap-6 text-left">
+          <h2 className="text-2xl sm:text-3xl font-bold">
+            Lo que vas a descubrir EN VIVO <span className="text-brand-600">(y no está en Google)</span>
+          </h2>
+          <p className="mt-3 text-gray-600">
+            Se transmite una sola vez, en directo. Si no te conectas, pierdes el contenido —y el bono del final.
+          </p>
+          <div className="mt-8 grid sm:grid-cols-2 gap-6 text-left">
             {BENEFICIOS.map((b, i) => (
-              <div key={i} className="bg-brand-50 rounded-2xl p-6 border border-amber-100">
-                <div className="text-brand-700 text-2xl font-extrabold mb-2">✓</div>
-                <p className="text-gray-800">{b}</p>
+              <div key={i} className="bg-brand-50 rounded-2xl p-6 border border-amber-100 flex gap-4">
+                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand text-white font-extrabold flex items-center justify-center">
+                  {i + 1}
+                </div>
+                <p className="text-gray-800 font-medium">{b}</p>
               </div>
             ))}
           </div>
