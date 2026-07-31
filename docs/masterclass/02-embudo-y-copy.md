@@ -86,4 +86,4 @@ Todo lead debe caer en tu CRM en la etapa correcta para que tú y María le den 
 3. **Objeción directa:** "'Lo voy a pensar' no es un no… es una venta mal cerrada. Te enseño la estructura que lo convierte en sí. Regístrate gratis."
 
 **UTM sugeridos para medir en tu CRM:**
-`utm_source=facebook|instagram|whatsapp` · `utm_medium=ads|organico` · `utm_campaign=masterclass_vende_sin_ti`
+`utm_source=facebook|instagram|whatsapp` · `utm_medium=ads|organico` · `utm_campaign=masterclass_cobra_lo_que_vales`

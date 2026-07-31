@@ -78,7 +78,7 @@ export async function registrarLead(data: LeadData) {
           fechaProximaAccion: en24h,
           utmSource: d.utmSource || null,
           utmMedium: d.utmMedium || null,
-          utmCampaign: d.utmCampaign || "masterclass_vende_sin_ti",
+          utmCampaign: d.utmCampaign || "masterclass_cobra_lo_que_vales",
           vendedorId: responsable.id,
         },
       })
@@ -91,8 +91,8 @@ export async function registrarLead(data: LeadData) {
         clienteId,
         usuarioId: responsable.id,
         contenido: d.reto
-          ? `Se registró a la Masterclass "Vende Sin Ti". Reto declarado: ${d.reto}`
-          : `Se registró a la Masterclass "Vende Sin Ti".`,
+          ? `Se registró a la Masterclass "Cobra Lo Que Vales". Reto declarado: ${d.reto}`
+          : `Se registró a la Masterclass "Cobra Lo Que Vales".`,
         tipo: "NOTA",
       },
     })

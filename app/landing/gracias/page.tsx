@@ -8,7 +8,7 @@ const EVENTO = {
 }
 
 export const metadata: Metadata = {
-  title: "¡Registro confirmado! — Masterclass Vende Sin Ti",
+  title: "¡Registro confirmado! — Masterclass Cobra Lo Que Vales",
   robots: { index: false },
 }
 

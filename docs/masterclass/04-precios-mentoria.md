@@ -16,7 +16,7 @@
 | **2. Mentoría 1:1 (CORE)** ⭐ | Acompañamiento personal 3 meses + material + WhatsApp directo | **$30,000 – $45,000** | Dueño/consultor que quiere resultados rápido |
 | **3. Premium / Implementación** | 1:1 + montamos su sistema/embudo + entrenamos a su equipo | **$60,000 – $90,000+** | Negocio con equipo que quiere dejar de depender del dueño |
 
-**Tu oferta principal en la masterclass = Nivel 2 (1:1).** Es el que mejor encaja con tu promesa "vende sin ti".
+**Tu oferta principal en la masterclass = Nivel 2 (1:1).** Es el que mejor encaja con tu promesa "cobra lo que vales sin depender de ti".
 
 ### Por qué esta estructura vende más
 - **Efecto ancla:** al mostrar el Nivel 3 primero, el Nivel 2 se percibe accesible.

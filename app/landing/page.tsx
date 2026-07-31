@@ -5,9 +5,9 @@ import { LandingForm } from "./LandingForm"
 // ⚙️  CONFIGURA TU EVENTO AQUÍ (cambia estos valores antes de publicar)
 // ─────────────────────────────────────────────────────────────────────────────
 const EVENTO = {
-  titulo: "VENDE SIN TI",
+  titulo: "COBRA LO QUE VALES",
   subtitulo:
-    "Cómo hacer que tu negocio cierre ventas caras aunque tú no estés —sin bajar el precio ni rogar.",
+    "El método para vender caro y cerrar sin depender de ti —sin descuentos ni ruegos.",
   fecha: "Jueves 13 de agosto",
   hora: "7:00 PM (hora CDMX)",
   duracion: "90 minutos en vivo",
@@ -27,19 +27,24 @@ const BENEFICIOS = [
 
 const PILARES = [
   {
-    n: "01",
-    titulo: "Cobrar sin miedo",
-    texto: "Pon tu precio con seguridad y defiéndelo. Adiós a la mentalidad de escasez y a descontar por miedo a perder al cliente.",
+    n: "V",
+    titulo: "Valor",
+    texto: "Rediseña tu oferta y tu precio para que el valor aplaste al “está caro”. De justificar y descontar → a defender tu precio sin titubear.",
   },
   {
-    n: "02",
-    titulo: "Cerrar sin rogar",
-    texto: "La conversación de ventas que desactiva objeciones y lleva a la decisión hoy, no “la próxima semana”.",
+    n: "A",
+    titulo: "Autoridad",
+    texto: "Posicionamiento y marca personal que te hace deseable. De perseguir clientes fríos → a atraer al cliente correcto que ya quiere comprarte.",
   },
   {
-    n: "03",
-    titulo: "Un sistema que vende por ti",
-    texto: "Pasa de “yo soy el único que vende” a un proceso y un equipo que cierran con o sin ti.",
+    n: "L",
+    titulo: "Libreto",
+    texto: "El guion de cierre que convierte objeciones en decisión. De “lo voy a pensar” → a un sí el mismo día, sin rogar.",
+  },
+  {
+    n: "E",
+    titulo: "Estructura",
+    texto: "El proceso (y el equipo) que vende por ti. De “yo soy el único que vende” → a un sistema que cierra con o sin ti.",
   },
 ]
 
@@ -121,12 +126,12 @@ export default async function LandingPage({
       <section className="px-4 py-14 bg-brand-50">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-bold text-center">
-            El sistema, en 3 piezas
+            El Método V.A.L.E.™, paso a paso
           </h2>
           <p className="text-center text-gray-600 mt-2">
-            Lo que veremos en vivo, paso a paso.
+            Las 4 piezas para cobrar lo que vales y vender sin depender de ti.
           </p>
-          <div className="mt-10 grid md:grid-cols-3 gap-6">
+          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {PILARES.map((p) => (
               <div key={p.n} className="bg-white rounded-2xl p-6 shadow-sm border border-amber-100">
                 <div className="text-4xl font-extrabold text-brand-300">{p.n}</div>

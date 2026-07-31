@@ -1,6 +1,6 @@
 # Plantillas listas para editar — WhatsApp + Email
 
-> Evento: **Masterclass "Vende Sin Ti"** · Jueves 13 de agosto · 7:00 PM (CDMX)
+> Evento: **Masterclass "Cobra Lo Que Vales"** · Jueves 13 de agosto · 7:00 PM (CDMX)
 > Tu WhatsApp: **https://contacto.cesarcuapan.com**
 > Reemplaza `{nombre}` con el nombre real (o usa el campo automático de tu herramienta de envío).
 > Todo el que confirma "VOY" en tu WhatsApp entra a tu **lista de difusión** para recibir estos mensajes.
@@ -12,7 +12,7 @@
 ### W1 · Confirmación (al momento de registrarse)
 ```
 ¡Hola {nombre}! Soy César 👋
-Confirmé tu lugar en la Masterclass GRATIS "Vende Sin Ti".
+Confirmé tu lugar en la Masterclass GRATIS "Cobra Lo Que Vales".
 
 📅 Jueves 13 de agosto · 7:00 PM (CDMX)
 
@@ -32,7 +32,7 @@ Ahí nos vemos. 🙌
 
 ### W3 · Día -1 (recordatorio)
 ```
-{nombre}, MAÑANA es la masterclass "Vende Sin Ti" 🚀
+{nombre}, MAÑANA es la masterclass "Cobra Lo Que Vales" 🚀
 🗓️ Jueves 13 de agosto · 7:00 PM (CDMX)
 
 Prepara papel y pluma: te llevas las 3 piezas del sistema para dejar de ser el único que vende.
@@ -92,11 +92,11 @@ Cuando la veas, escríbeme por aquí y te digo cuál es tu siguiente paso.
 ## C) Email — Antes del evento
 
 ### E1 · Confirmación
-**Asunto:** ✅ Tu lugar está confirmado — Vende Sin Ti (jue 13 ago, 7 PM)
+**Asunto:** ✅ Tu lugar está confirmado — Cobra Lo Que Vales (jue 13 ago, 7 PM)
 ```
 Hola {nombre},
 
-Quedó apartado tu lugar en la Masterclass gratuita "Vende Sin Ti".
+Quedó apartado tu lugar en la Masterclass gratuita "Cobra Lo Que Vales".
 
 📅 Jueves 13 de agosto
 🕗 7:00 PM (hora CDMX)
@@ -132,7 +132,7 @@ César
 ```
 Hola {nombre},
 
-Mañana jueves a las 7:00 PM (CDMX) es la masterclass "Vende Sin Ti".
+Mañana jueves a las 7:00 PM (CDMX) es la masterclass "Cobra Lo Que Vales".
 
 Te recomiendo conectarte puntual: al final hay un recurso solo para quienes se queden en vivo.
 
@@ -175,7 +175,7 @@ César
 ```
 Hola {nombre},
 
-Ayer di la masterclass "Vende Sin Ti" y quiero que la veas.
+Ayer di la masterclass "Cobra Lo Que Vales" y quiero que la veas.
 Te dejo la repetición disponible por 48 horas 👉 [LINK DEL REPLAY]
 
 Cuando la termines, escríbeme por WhatsApp y te digo tu siguiente paso.

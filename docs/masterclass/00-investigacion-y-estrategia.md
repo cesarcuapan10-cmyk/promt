@@ -66,6 +66,20 @@ Este ángulo gana porque:
 **Enemigo común a nombrar en el evento:** *"vender apretando el precio y a base de tu esfuerzo personal"*.
 **Tierra prometida:** *"un negocio que cierra ventas caras con o sin ti, sin rogar ni descontar"*.
 
+**Nombre de la masterclass:** **"COBRA LO QUE VALES"** — *el método para vender caro y cerrar sin depender de ti.*
+
+### Metodología propietaria: Método V.A.L.E.™
+El cambio prometido se entrega en 4 pilares (cada uno con su transformación de → a):
+
+| Paso | Instala | Cambio prometido |
+|---|---|---|
+| **V — Valor** | Oferta y precio donde el valor aplasta al precio | De justificar/descontar → a defender tu precio sin titubear |
+| **A — Autoridad** | Posicionamiento y marca personal magnética | De perseguir clientes fríos → a atraer al cliente correcto |
+| **L — Libreto** | Guion de cierre que desactiva objeciones | De "lo voy a pensar" → a un sí el mismo día |
+| **E — Estructura** | Proceso y equipo que vende por ti | De "yo soy el único que vende" → a un sistema que cierra sin ti |
+
+> **V + A** curan el *miedo a cobrar caro*; **L + E** curan la *dependencia del dueño*. Juntos = el cambio grande. Y es memorable: V.A.L.E. = "cobra lo que **VALES**".
+
 ---
 
 ## 5. Posicionamiento de tu marca personal para el evento
