@@ -7,6 +7,8 @@ const schema = z.object({
   whatsapp: z.string().min(8).max(20),
   correo: z.string().email().optional().or(z.literal("")),
   utm_source: z.string().optional(),
+  objecion_principal: z.string().optional().nullable(),
+  reto_principal: z.string().optional().nullable(),
 })
 
 export async function POST(req: NextRequest) {
@@ -14,7 +16,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const parsed = schema.parse(body)
 
-    // Anti-spam por IP: máx 5 leads/hora
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0] || "unknown"
     const unaHoraAtras = new Date(Date.now() - 3600000)
     const recientes = await db.registroAuditoria.count({
@@ -24,11 +25,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Demasiadas solicitudes. Intenta más tarde." }, { status: 429 })
     }
 
-    // Buscar el primer admin para asignar el lead
     const admin = await db.usuario.findFirst({ where: { rol: "ADMIN", activo: true } })
     if (!admin) return NextResponse.json({ error: "No hay vendedor disponible." }, { status: 500 })
 
-    // Verificar duplicado por WhatsApp
     const limpio = parsed.whatsapp.replace(/\D/g, "")
     const duplicado = await db.cliente.findFirst({
       where: { whatsapp: { contains: limpio.slice(-8) }, eliminadoEn: null },
@@ -37,8 +36,14 @@ export async function POST(req: NextRequest) {
     let clienteId: string
 
     if (duplicado) {
-      // Actualizar lead existente sin crear duplicado
       clienteId = duplicado.id
+      await db.cliente.update({
+        where: { id: clienteId },
+        data: {
+          ...(parsed.objecion_principal ? { objecionPrincipal: parsed.objecion_principal } : {}),
+          ...(parsed.reto_principal ? { retoPrincipal: parsed.reto_principal } : {}),
+        },
+      })
     } else {
       const origen = parsed.utm_source || "Landing"
       const cliente = await db.cliente.create({
@@ -53,6 +58,8 @@ export async function POST(req: NextRequest) {
           temperatura: "TIBIO",
           proximaAccion: "Contactar en menos de 24 horas",
           fechaProximaAccion: new Date(Date.now() + 86400000),
+          objecionPrincipal: parsed.objecion_principal || null,
+          retoPrincipal: parsed.reto_principal || null,
           vendedorId: admin.id,
         },
       })
@@ -85,5 +92,3 @@ export async function POST(req: NextRequest) {
     }
     console.error("Error landing:", err)
     return NextResponse.json({ error: "Error al procesar tu solicitud." }, { status: 500 })
-  }
-}
