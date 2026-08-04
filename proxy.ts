@@ -5,7 +5,7 @@ export default auth((req) => {
   const esLogueado = !!req.auth
   const { pathname } = req.nextUrl
 
-  const rutasPublicas = ["/login", "/landing", "/agenda/", "/api/public/"]
+  const rutasPublicas = ["/login", "/landing", "/agenda/", "/api/public/", "/api/landing"]
   const esPublica =
     rutasPublicas.some((p) => pathname.startsWith(p)) ||
     pathname.startsWith("/_next") ||
