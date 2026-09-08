@@ -2,7 +2,7 @@ import { auth } from "@/app/lib/auth"
 import { db } from "@/app/lib/db"
 import {
   LayoutDashboard, TrendingUp, Users, Trophy, AlertCircle,
-  Clock, Target, Wallet,
+  Clock, Target, Wallet, CalendarPlus,
 } from "lucide-react"
 import { Card } from "@/app/components/ui/Card"
 import { Badge } from "@/app/components/ui/Badge"
@@ -133,6 +133,33 @@ export default async function DashboardPage() {
             </h1>
             <p className="text-sm text-gray-500">¿Vas a cerrar el mes?</p>
           </div>
+        </div>
+      </div>
+
+      {/* Agendar cita — acceso directo */}
+      <div className="rounded-2xl border border-brand/30 bg-brand/5 p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+        <div className="flex items-center gap-3 min-w-0 flex-1">
+          <div className="w-11 h-11 rounded-xl bg-brand/20 flex items-center justify-center shrink-0">
+            <CalendarPlus className="w-5 h-5 text-brand" />
+          </div>
+          <div className="min-w-0">
+            <p className="font-semibold text-gray-900 dark:text-white">Agenda una cita</p>
+            <p className="text-sm text-gray-500">Día, hora, persona y servicio — cae en tu calendario</p>
+          </div>
+        </div>
+        <div className="flex gap-2 shrink-0">
+          <Link
+            href="/agendar/reservar"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-brand px-4 py-2.5 text-sm font-semibold text-white shadow-sm active:scale-[0.98]"
+          >
+            <CalendarPlus className="w-4 h-4" /> Agendar cita
+          </Link>
+          <Link
+            href="/agenda"
+            className="inline-flex items-center justify-center rounded-xl border border-brand px-4 py-2.5 text-sm font-semibold text-brand-700 dark:text-brand"
+          >
+            Mi agenda
+          </Link>
         </div>
       </div>
 

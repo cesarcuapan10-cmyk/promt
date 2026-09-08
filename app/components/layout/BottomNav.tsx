@@ -1,12 +1,13 @@
 "use client"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { LayoutDashboard, Users, KanbanSquare, ListChecks, Plus } from "lucide-react"
+import { LayoutDashboard, Users, KanbanSquare, ListChecks, CalendarDays, Plus } from "lucide-react"
 import { cn } from "@/app/lib/utils"
 
 const NAV = [
   { href: "/", label: "Tablero", Icon: LayoutDashboard, exacto: true },
   { href: "/clientes", label: "Clientes", Icon: Users },
+  { href: "/agenda", label: "Agenda", Icon: CalendarDays },
   { href: "/embudo", label: "Embudo", Icon: KanbanSquare },
   { href: "/seguimiento", label: "Seguimiento", Icon: ListChecks },
 ]
