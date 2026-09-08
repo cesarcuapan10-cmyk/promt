@@ -111,22 +111,50 @@ model Cita {
   id            String    @id @default(cuid())
   clienteId     String
   vendedorId    String
+  servicioId    String?
   titulo        String
   fechaInicio   DateTime
   fechaFin      DateTime
   googleEventId String?
   googleMeetUrl String?
   notas         String?
+  estado        String    @default("AGENDADA")
+  origen        String    @default("INTERNA")
   confirmada    Boolean   @default(false)
   creadoEn      DateTime  @default(now())
   eliminadoEn   DateTime?
 
   cliente       Cliente   @relation(fields: [clienteId], references: [id])
   vendedor      Usuario   @relation(fields: [vendedorId], references: [id])
+  servicio      Servicio? @relation(fields: [servicioId], references: [id])
 
   @@index([clienteId])
   @@index([vendedorId])
+  @@index([servicioId])
   @@index([fechaInicio])
+  @@index([estado])
+  @@index([eliminadoEn])
+}
+
+// Servicios que el negocio ofrece (editables por el dueño).
+// El cliente elige uno de estos al agendar (ej. "Corte $220", "Barba $150").
+model Servicio {
+  id           String    @id @default(cuid())
+  nombre       String
+  descripcion  String?
+  precio       Float     @default(0)
+  duracionMin  Int       @default(45)
+  color        String    @default("#e8b763")
+  activo       Boolean   @default(true)
+  orden        Int       @default(0)
+  creadoEn     DateTime  @default(now())
+  actualizadoEn DateTime @updatedAt
+  eliminadoEn  DateTime?
+
+  citas        Cita[]
+
+  @@index([activo])
+  @@index([orden])
   @@index([eliminadoEn])
 }
 
@@ -279,6 +307,9 @@ model MetaNegocio {
   horarioInicio       String    @default("09:00")
   horarioFin          String    @default("18:00")
   duracionCita        Int       @default(45)
+  diasAtencion        String    @default("[1,2,3,4,5,6]")
+  anticipacionMinDias Int       @default(1)
+  mensajeConfirmacion String    @default("¡Ya queda agendada tu cita! Te esperamos.")
   mensajeWhatsapp     String    @default("Hola {nombre}, soy César de Entidad Vendedora.\n\nPara no hacerte perder tiempo, cuéntame en una línea: ¿cuál es tu mayor freno hoy en ventas?\n\nCon eso te puedo armar un mini-diagnóstico rápido de tu situación.")
   metaMensual         Float     @default(30)
   umbralEstancamiento Int       @default(7)
