@@ -46,6 +46,15 @@ async function main() {
     },
   })
 
+  // Servicios que el cliente puede elegir al agendar (editables por el dueño)
+  await prisma.servicio.createMany({
+    data: [
+      { nombre: "Sesión de diagnóstico", descripcion: "Videollamada 1 a 1 para detectar tu freno en ventas", precio: 0, duracionMin: 30, orden: 0, color: "#3b82f6" },
+      { nombre: "Mentoría individual", descripcion: "Sesión de mentoría de ventas y mentalidad", precio: 3999, duracionMin: 60, orden: 1, color: "#e8b763" },
+      { nombre: "Sesión de cierre / estrategia", descripcion: "Trabajo profundo sobre tu proceso de cierre", precio: 8000, duracionMin: 90, orden: 2, color: "#8b5cf6" },
+    ],
+  })
+
   const etVip = await prisma.etiqueta.create({ data: { nombre: "VIP", color: "#e8b763" } })
   const etRef = await prisma.etiqueta.create({ data: { nombre: "Referido", color: "#8b5cf6" } })
   const etAnticipo = await prisma.etiqueta.create({ data: { nombre: "Pagó anticipo", color: "#22c55e" } })
