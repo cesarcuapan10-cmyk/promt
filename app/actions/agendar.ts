@@ -1,6 +1,7 @@
 "use server"
 import { auth } from "@/app/lib/auth"
 import { db } from "@/app/lib/db"
+import { asegurarEsquemaAgenda } from "@/app/lib/agenda-schema"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 
@@ -70,6 +71,7 @@ export type ConfigAgenda = {
 }
 
 export async function obtenerConfigAgenda(): Promise<ConfigAgenda> {
+  await asegurarEsquemaAgenda()
   const [meta, personas, servicios] = await Promise.all([
     db.metaNegocio.upsert({ where: { id: "singleton" }, create: {}, update: {} }),
     db.usuario.findMany({
@@ -118,6 +120,7 @@ export async function obtenerDisponibilidad(
   duracionMin?: number,
 ): Promise<{ ok: boolean; slots: Slot[]; error?: string }> {
   if (!fechaRegex.test(fecha)) return { ok: false, slots: [], error: "Fecha inválida" }
+  await asegurarEsquemaAgenda()
 
   const meta = await db.metaNegocio.upsert({ where: { id: "singleton" }, create: {}, update: {} })
   const paso = Math.max(15, duracionMin || meta.duracionCita)
@@ -191,6 +194,7 @@ export async function crearReservaPublica(input: unknown): Promise<ResultadoRese
   if (!parsed.success) {
     return { ok: false, error: parsed.error.issues[0]?.message ?? "Datos inválidos" }
   }
+  await asegurarEsquemaAgenda()
   const { fecha, hora, personaId, servicioId, nombre, whatsapp } = parsed.data
 
   const meta = await db.metaNegocio.upsert({ where: { id: "singleton" }, create: {}, update: {} })
@@ -302,6 +306,7 @@ export async function crearReservaPublica(input: unknown): Promise<ResultadoRese
 async function requerirSesion() {
   const sesion = await auth()
   if (!sesion?.user?.id) throw new Error("No autorizado")
+  await asegurarEsquemaAgenda()
   return sesion
 }
 
