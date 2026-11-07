@@ -746,7 +746,7 @@ wallX(3, 7, 2.42, tE, 0, H_PB, M.plaster, pb, [[3.08, 3.98, 0, 2.15, 'd', { swin
 // muro posterior (y = 13.42): ventanas de cocina, puerta a servicio, ventana de regadera
 wallX(3, 10, 13.42, tE, 0, H_PB, M.plaster, pb, [[3.1, 4.15, 1.05, 2.2, 'w'], [4.6, 6.1, 1.05, 2.2, 'w'], [6.15, 6.97, 0, 2.15, 'd', { swing: 1, hinge: 'b' }], [7.15, 8.05, 1.6, 2.2, 'w']], { side: -1 });
 // muro al patio (x = 10)
-wallY(10, 0, LOT_D, tE, 0, H_PB, M.plaster, pb, [[3.46, 4.4, 1.6, 2.2, 'w'], [7.06, 8.04, .9, 2.2, 'w'], [9.69, 10.7, .9, 2.2, 'w'], [14.4, 15.3, 0, 2.15, 'd', { swing: 1, hinge: 'b' }]], { side: -1 });
+wallY(10, 0, LOT_D, tE, 0, H_PB, M.plaster, pb, [[3.46, 4.4, 1.5, 2.0, 'w'], [7.06, 8.04, .9, 2.2, 'w'], [9.69, 10.7, .9, 2.2, 'w'], [14.4, 15.3, 0, 2.15, 'd', { swing: 1, hinge: 'b' }]], { side: -1 });
 // eje C' (x = 7): consultorio (2 puertas + ventana), acceso a escalera, dormitorio
 wallY(7, 0, 2.42, tI, 0, H_PB, M.plaster, pb, [[.15, .98, 0, 2.15, 'd', { swing: 1, hinge: 'a' }], [1.13, 2.2, .9, 2.2, 'w']], { side: 1 });
 wallY(7, 2.42, 13.42, tI, 0, H_PB, M.paint, pb, [[2.46, 3.33, 0, 2.15, 'd', { swing: 1, hinge: 'b' }], [4.45, 6.31, 0, 2.6, 'o'], [6.48, 7.3, 0, 2.15, 'd', { swing: 1, hinge: 'a' }]]);
@@ -999,6 +999,7 @@ wallY(3, 2.42, 8.9, tE, z0, z1, M.plaster, pa, [[2.49, 3.46, z0 + .9, z0 + 2.2, 
 wallX(3, 7, 2.42, tE, z0, z1, M.plaster, pa, [[3.4, 6.6, z0 + .45, z0 + 2.4, 'w']], { side: 1 });
 wallY(7, 2.42, 3.32, tE, z0, z1, M.plaster, pa, [], { side: 1 });
 wallX(7, 10, 3.32, tE, z0, z1, M.plaster, pa, [[7.5, 9.6, z0 + .9, z0 + 2.4, 'w']], { side: 1 });
+wallY(10, 3.38, 6.36, tE, H_PB - .01, z0 + .01, M.plaster, pb, [], { side: -1 });   // cierra la franja entre niveles en el cubo de escalera
 wallY(10, 3.32, 14.25, tE, z0, z1, M.plaster, pa, [[3.5, 4.4, z0 + 1.2, z0 + 2.2, 'w'], [7.4, 9.4, z0 + 1, z0 + 2.2, 'w']], { side: -1 });
 // celosías horizontales al frente (como en la fachada)
 for (let z = z0 + .5; z < z0 + 2.38; z += .12) { B(3.4, 6.6, 2.21, 2.27, z, z + .05, M.black, pa, { noHit: true }); if (z > z0 + .9) B(7.5, 9.6, 3.11, 3.17, z, z + .05, M.black, pa, { noHit: true }); }
