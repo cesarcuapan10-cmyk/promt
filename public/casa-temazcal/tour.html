@@ -560,7 +560,7 @@ function vanity(x0, x1, y0, y1, face, layer, o = {}) {
   bowl.translate(0, .87, .02); P(f, bowl, M.ceramic, layer);
   cyl(f, .012, .014, .32, 0, .87, -d / 2 + .06, M.black, layer, 10); box(f, .02, .02, .16, 0, 1.17, -d / 2 + .14, M.black, layer);
   { const mr = Math.min(.4, w * .45); const g = new THREE.CylinderGeometry(mr, mr, .02, 48); g.rotateX(Math.PI / 2); g.translate(0, 1.55, -d / 2 - .006); P(f, g, M.mirror, layer); const t = new THREE.TorusGeometry(mr + .006, .008, 6, 48); t.translate(0, 1.55, -d / 2 - .014); P(f, t, M.ledStrip, layer); }
-  if (w > .55) { rbox(f, .26, .07, .2, w / 2 - .19, .87, .06, M.towel, layer, .03); rbox(f, .26, .05, .2, w / 2 - .19, .94, .06, M.towel, layer, .025); }
+  { const tx = w / 2 - Math.min(.2, w * .3); box(f, .34, .016, .016, tx, .77, d / 2 + .045, M.steel, layer); for (const sx of [-.16, .16]) box(f, .016, .016, .04, tx + sx, .77, d / 2 + .02, M.steel, layer); rbox(f, .28, .34, .03, tx, .45, d / 2 + .06, M.towel, layer, .012); rbox(f, .28, .1, .05, tx, .72, d / 2 + .045, M.towel, layer, .02); }
   aabb(x0, x1, y0, y1, (o.z || 0) + .45, (o.z || 0) + .9, 'solid', layer);
 }
 function shower(x0, x1, y0, y1, open, layer, o = {}) { // open: lado con mampara de vidrio
@@ -882,7 +882,7 @@ B(10, salX0, 0, 4.66, 0, .03, M.grassFloor, pt, { kind: 'floor' }); B(10, 20, 4.
 B(salX0, 20, 0, 4.66, 0, FL0, M.encaustic, pt, { kind: 'floor' });
 function temazcal(cx, cy, r, baseH, hDome, toward, dw, dh) {
   const ang = Math.atan2(toward[1] - cy, toward[0] - cx);                 // ángulo de la puerta en planta
-  const th = 2 * Math.asin((dw / 2 + .12) / r), wallT = .3;
+  const th = 2 * Math.asin((dw / 2 + .12) / r), wallT = .3, pw0 = dw + .42;
   // muro de piedra circular con hueco de puerta (thetaStart en mundo: x=sin, z=cos)
   // CylinderGeometry: vértice (sin θ, ·, cos θ). Dirección de la puerta en mundo: (cos ang, -sin ang) → θ = atan2(cos ang, -sin ang)
   const tD = Math.atan2(Math.cos(ang), -Math.sin(ang));
@@ -900,8 +900,10 @@ function temazcal(cx, cy, r, baseH, hDome, toward, dw, dh) {
   { const f = F(cx, cy, baseH + hDome - .04, 'S'); cyl(f, .15, .2, .2, 0, 0, 0, M.stone, pt, 18); }
   // piso interior, banca perimetral, ombligo con piedras volcánicas
   const fl = new THREE.CircleGeometry(r - wallT, 48); fl.rotateX(-Math.PI / 2); fl.translate(W(cx), .04, Zc(cy)); put(fl, M.earth, pt, 'floor');
-  const bTop = new THREE.RingGeometry(r - wallT - .42, r - wallT, 48); bTop.rotateX(-Math.PI / 2); bTop.translate(W(cx), .36, Zc(cy)); put(bTop, M.petate, pt);
-  const bFront = new THREE.CylinderGeometry(r - wallT - .42, r - wallT - .42, .32, 48, 1, true, tD + th / 2, Math.PI * 2 - th); bFront.translate(W(cx), .2, Zc(cy)); put(bFront, M.domeIn, pt);
+  const thB = 2 * Math.asin(Math.min(.99, (pw0 / 2 + .06) / (r - wallT - .42)));
+  const bTop = new THREE.RingGeometry(r - wallT - .42, r - wallT, 48, 1, ang + thB / 2, Math.PI * 2 - thB); bTop.rotateX(-Math.PI / 2); bTop.translate(W(cx), .36, Zc(cy)); put(bTop, M.petate, pt);
+  const bFront = new THREE.CylinderGeometry(r - wallT - .42, r - wallT - .42, .32, 48, 1, true, tD + thB / 2, Math.PI * 2 - thB);
+  for (const sg of [1, -1]) { const a2 = ang + sg * thB / 2, g = new THREE.BoxGeometry(.42, .32, .03); g.rotateY(a2); const rm = r - wallT - .21; g.translate(W(cx + Math.cos(a2) * rm), .2, Zc(cy + Math.sin(a2) * rm)); put(g, M.domeIn, pt); } bFront.translate(W(cx), .2, Zc(cy)); put(bFront, M.domeIn, pt);
   const pitR = Math.max(.35, r * .16);
   for (let i = 0; i < 14; i++) { const a = i / 14 * 6.283; const g = new THREE.DodecahedronGeometry(.09 + rnd() * .04, 0); g.translate(W(cx) + Math.cos(a) * pitR, .1, Zc(cy) + Math.sin(a) * pitR); put(g, M.basalt, pt); }
   for (let i = 0; i < 16; i++) { const a = rnd() * 6.283, d = rnd() * pitR * .75; const g = new THREE.DodecahedronGeometry(.08 + rnd() * .05, 0); g.translate(W(cx) + Math.cos(a) * d, .1 + rnd() * .08, Zc(cy) + Math.sin(a) * d); put(g, M.ember, pt); }
@@ -943,7 +945,7 @@ for (const [a, b] of [[15.4, 16.6], [18.35, 19.55]]) B(a, b, .075, .087, 2.4, 3.
 B(19.913, 19.925, 0, 4.66, 0, 3.2, M.paint, pt, { noHit: true });
 B(salX0 - .5, salX0 - .075, 1.3, 3.4, 0, .1, M.stone, pt, { kind: 'floor' });   // escalón hacia el jardín
 wallY(18.3, 2.9, 4.66, tI, 0, 3.2, M.paint, pt); wallX(18.3, 20, 2.9, tI, 0, 3.2, M.paint, pt, [[18.5, 19.25, 0, 2.15, 'd', { swing: 1, hinge: 'a' }]]);
-wc(19.66, 3.55, 'W', pt, { z: FL0 }); vanity(18.37, 18.87, 3.25, 4.05, 'E', pt, { z: FL0 });
+wc(19.66, 3.55, 'W', pt, { z: FL0 }); vanity(18.37, 18.87, 3.78, 4.55, 'E', pt, { z: FL0 });
 table(salX0 + 1.5, salX0 + 3.9, 1.45, 2.55, pt, {});
 B(salX0 + 1.6, salX0 + 3.8, 1.82, 2.18, .76, .765, M.sand, pt, { noHit: true }); for (const dx of [2.1, 2.7, 3.3]) vase(salX0 + dx, 2.0, .765, .2, pt, M.ceramicMatte, 12);
 for (const dx of [2.05, 3.35]) for (const [ox, oy, dr] of [[0, 0, 1.05], [.16, .1, 1.2], [-.14, .08, 1.3]]) pendant(salX0 + dx + ox, 2.0 + oy, 3.2, dr, 'salonRoof', 'globe', .8);
