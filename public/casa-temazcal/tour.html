@@ -982,7 +982,7 @@ B(0, 10, 14.25, 15.25, Z_PA - .15, Z_PA, M.concrete, sl);
 // La sala y el comedor son de doble altura: arriba solo hay pasillo con barandal de cristal hacia ellos.
 const pa = 'pa', z0 = Z_PA, z1 = Z_PA + H_PA;
 B(5.58, 7, 3.32, 8.9, z0, FL1, M.oak, pa, { kind: 'floor' }); B(3, 7, 8.9, 10.45, z0, FL1, M.oak, pa, { kind: 'floor' }); B(2.02, 3, 8.9, 10.45, z0, FL1, M.oak, pa, { kind: 'floor' });
-B(0, 4, 10.45, 14.25, z0, FL1, M.oak, pa, { kind: 'floor' }); B(6, 10, 10.45, 14.25, z0, FL1, M.oak, pa, { kind: 'floor' }); B(4, 6, 10.45, 14.25, z0, FL1, M.marbleFloor, pa, { kind: 'floor' });
+B(0, 4, 10.45, 15.25, z0, FL1, M.oak, pa, { kind: 'floor' }); B(6, 10, 10.45, 15.25, z0, FL1, M.oak, pa, { kind: 'floor' }); B(4, 6, 10.45, 15.25, z0, FL1, M.marbleFloor, pa, { kind: 'floor' });
 B(7, 8.03, 3.32, 4.45, z0, FL1, M.oak, pa, { kind: 'floor' }); B(7, 10, 6.31, 10.45, z0, FL1, M.oak, pa, { kind: 'floor' });
 B(7, 10, 0, 3.32, Z_PA, Z_PA + .04, M.roofTop, pa, { noHit: true });                 // azotea del consultorio
 // cantos de losa vistos desde la doble altura (aplanado blanco) y relleno de muros entre niveles
@@ -990,8 +990,8 @@ B(5.56, 5.58, 3.32, 8.9, H_PB - .02, Z_PA + .03, M.paint, pa, { noHit: true }); 
 B(2.925, 3.075, 2.42, 8.9, H_PB, Z_PA, M.plaster, pa); B(3.075, 3.087, 2.42, 8.9, H_PB, Z_PA, M.paint, pa, { noHit: true });
 B(3, 7, 2.345, 2.495, H_PB, Z_PA, M.plaster, pa); B(3.08, 7, 2.495, 2.507, H_PB, Z_PA, M.paint, pa, { noHit: true });
 // muros exteriores
-wallX(0, 10, 14.25, tE, z0, z1, M.plaster, pa, [[.15, 1.15, z0 + 1, z0 + 2.2, 'w'], [2.95, 3.93, z0 + 1, z0 + 2.2, 'w'], [4.15, 5.9, z0 + 1.5, z0 + 2.2, 'w'], [6.2, 7.3, z0 + 1, z0 + 2.2, 'w'], [9.1, 9.85, z0 + 1, z0 + 2.2, 'w']], { side: -1 });
-wallY(0, 10.45, 14.25, tE, z0, z1, M.plaster, pa, [], { side: 1 });
+wallX(0, 10, 15.25, tE, z0, z1, M.plaster, pa, [[.15, 1.15, z0 + 1, z0 + 2.2, 'w'], [2.95, 3.93, z0 + 1, z0 + 2.2, 'w'], [4.15, 5.9, z0 + 1.5, z0 + 2.2, 'w'], [6.2, 7.3, z0 + 1, z0 + 2.2, 'w'], [9.1, 9.85, z0 + 1, z0 + 2.2, 'w']], { side: -1 });
+wallY(0, 10.45, 15.25, tE, z0, z1, M.plaster, pa, [], { side: 1 });
 wallX(0, 2.02, 10.45, tE, z0, z1, M.plaster, pa, [], { side: 1 });
 wallY(2.02, 8.9, 10.45, tE, z0, z1, M.plaster, pa, [[9.0, 10.3, z0 + .9, z0 + 2.2, 'w']], { side: 1 });
 wallX(2.02, 3, 8.9, tE, z0, z1, M.plaster, pa, [], { side: 1 });
@@ -1000,14 +1000,14 @@ wallX(3, 7, 2.42, tE, z0, z1, M.plaster, pa, [[3.4, 6.6, z0 + .45, z0 + 2.4, 'w'
 wallY(7, 2.42, 3.32, tE, z0, z1, M.plaster, pa, [], { side: 1 });
 wallX(7, 10, 3.32, tE, z0, z1, M.plaster, pa, [[7.5, 9.6, z0 + .9, z0 + 2.4, 'w']], { side: 1 });
 wallY(10, 3.38, 6.36, tE, H_PB - .01, z0 + .01, M.plaster, pb, [], { side: -1 });   // cierra la franja entre niveles en el cubo de escalera
-wallY(10, 3.32, 14.25, tE, z0, z1, M.plaster, pa, [[3.5, 4.4, z0 + 1.2, z0 + 2.2, 'w'], [7.4, 9.4, z0 + 1, z0 + 2.2, 'w']], { side: -1 });
+wallY(10, 3.32, 15.25, tE, z0, z1, M.plaster, pa, [[3.5, 4.4, z0 + 1.2, z0 + 2.2, 'w'], [7.4, 9.4, z0 + 1, z0 + 2.2, 'w']], { side: -1 });
 // celosías horizontales al frente (como en la fachada)
 for (let z = z0 + .5; z < z0 + 2.38; z += .12) { B(3.4, 6.6, 2.21, 2.27, z, z + .05, M.black, pa, { noHit: true }); if (z > z0 + .9) B(7.5, 9.6, 3.11, 3.17, z, z + .05, M.black, pa, { noHit: true }); }
 B(2.85, 7.15, 2.13, 2.35, z1 - .1, z1 + .45, M.plaster, pa, { noHit: true }); B(2.85, 3.0, 2.13, 2.35, z0, z1, M.plaster, pa, { noHit: true }); B(7.0, 7.15, 2.13, 2.35, z0, z1, M.plaster, pa, { noHit: true });
 // divisiones: recámaras, baño compartido, vestíbulo, recámara 3
 wallX(2.02, 4, 10.45, tI, z0, z1, M.paint, pa, [[3.1, 3.93, z0, z0 + 2.15, 'd', { swing: 1, hinge: 'b' }]]);
 wallX(6, 10, 10.45, tI, z0, z1, M.paint, pa, [[6.15, 6.97, z0, z0 + 2.15, 'd', { swing: 1, hinge: 'a' }]]);
-wallY(4, 10.45, 14.25, tI, z0, z1, M.paint, pa); wallY(6, 10.45, 14.25, tI, z0, z1, M.paint, pa);
+wallY(4, 10.45, 15.25, tI, z0, z1, M.paint, pa); wallY(6, 10.45, 15.25, tI, z0, z1, M.paint, pa);
 wallX(4, 6, 11.38, tI, z0, z1, M.paint, pa, [[5.12, 5.95, z0, z0 + 2.15, 'd', { swing: 1, hinge: 'a' }]]);
 wallY(7, 6.31, 10.45, tI, z0, z1, M.paint, pa, [[9.5, 10.36, z0, z0 + 2.15, 'd', { swing: 1, hinge: 'b' }]]);
 wallX(7, 10, 6.31, tI, z0, z1, M.paint, pa);
@@ -1015,28 +1015,28 @@ wallX(7, 10, 6.31, tI, z0, z1, M.paint, pa);
 B(7.0, 8.03, 4.45, 4.49, FL1, FL1 + 1.0, M.glass, pa); B(7.0, 8.03, 4.44, 4.5, FL1 + .98, FL1 + 1.02, M.steel, pa, { noHit: true });
 B(6.98, 7.02, 4.45, 6.31, FL1, FL1 + 1.0, M.glass, pa); B(6.97, 7.03, 4.45, 6.31, FL1 + .98, FL1 + 1.02, M.steel, pa, { noHit: true });
 // mobiliario planta alta
-bed(1.2, 2.9, 12.17, 14.15, 'S', pa, { z: FL1, accent: M.pillowT });
-rug(.9, 3.2, 11.6, 13.6, FL1, pa, M.rug); tableLamp(.7, 13.85, FL1 + .52, pa); tableLamp(3.2, 13.85, FL1 + .52, pa); art(true, 14.183, 1.5, 2.6, FL1 + 1.3, FL1 + 2.0, -1, 1, pa);
-curtain(true, 14.25, .05, 1.25, FL1, FL1 + 2.55, -1, pa); curtain(true, 14.25, 2.85, 4.0, FL1, FL1 + 2.55, -1, pa); nightstand(.7, 13.85, 'S', pa, { z: FL1 }); nightstand(3.2, 13.85, 'S', pa, { z: FL1 });
-cabinet(3.36, 3.93, 12.13, 13.5, 'W', .85, pa, { z: FL1, rows: 3, panel: .7 });
+bed(1.2, 2.9, 13.17, 15.15, 'S', pa, { z: FL1, accent: M.pillowT });
+rug(.9, 3.2, 12.6, 14.6, FL1, pa, M.rug); tableLamp(.7, 14.85, FL1 + .52, pa); tableLamp(3.2, 14.85, FL1 + .52, pa); art(true, 15.183, 1.5, 2.6, FL1 + 1.3, FL1 + 2.0, -1, 1, pa);
+curtain(true, 15.25, .05, 1.25, FL1, FL1 + 2.55, -1, pa); curtain(true, 15.25, 2.85, 4.0, FL1, FL1 + 2.55, -1, pa); nightstand(.7, 14.85, 'S', pa, { z: FL1 }); nightstand(3.2, 14.85, 'S', pa, { z: FL1 });
+cabinet(3.36, 3.93, 13.13, 14.5, 'W', .85, pa, { z: FL1, rows: 3, panel: .7 });
 cabinet(.11, .78, 11.1, 11.95, 'E', 2.3, pa, { z: FL1 }); cabinet(.11, 2.95, 10.52, 11.1, 'N', 2.3, pa, { z: FL1 });
-bed(7.18, 8.88, 12.17, 14.15, 'S', pa, { z: FL1, throw: M.throwS, accent: M.pillowO });
-rug(6.9, 9.2, 11.6, 13.6, FL1, pa, M.rug); tableLamp(6.7, 13.85, FL1 + .52, pa); tableLamp(9.35, 13.85, FL1 + .52, pa); art(true, 14.183, 7.5, 8.55, FL1 + 1.3, FL1 + 2.0, -1, 3, pa);
-curtain(true, 14.25, 6.1, 7.4, FL1, FL1 + 2.55, -1, pa); curtain(true, 14.25, 9.0, 9.95, FL1, FL1 + 2.55, -1, pa); nightstand(6.7, 13.85, 'S', pa, { z: FL1 }); nightstand(9.35, 13.85, 'S', pa, { z: FL1 });
-cabinet(6.08, 6.65, 11.7, 13.0, 'E', .85, pa, { z: FL1, rows: 3, panel: .7 });
+bed(7.18, 8.88, 13.17, 15.15, 'S', pa, { z: FL1, throw: M.throwS, accent: M.pillowO });
+rug(6.9, 9.2, 12.6, 14.6, FL1, pa, M.rug); tableLamp(6.7, 14.85, FL1 + .52, pa); tableLamp(9.35, 14.85, FL1 + .52, pa); art(true, 15.183, 7.5, 8.55, FL1 + 1.3, FL1 + 2.0, -1, 3, pa);
+curtain(true, 15.25, 6.1, 7.4, FL1, FL1 + 2.55, -1, pa); curtain(true, 15.25, 9.0, 9.95, FL1, FL1 + 2.55, -1, pa); nightstand(6.7, 14.85, 'S', pa, { z: FL1 }); nightstand(9.35, 14.85, 'S', pa, { z: FL1 });
+cabinet(6.08, 6.65, 12.7, 14.0, 'E', .85, pa, { z: FL1, rows: 3, panel: .7 });
 cabinet(9.3, 9.92, 11.1, 11.95, 'W', 2.3, pa, { z: FL1 }); cabinet(7.18, 9.92, 10.52, 11.1, 'N', 2.3, pa, { z: FL1 });
 bed(8.0, 9.7, 6.46, 8.5, 'N', pa, { z: FL1, accent: M.pillowT });
 rug(7.8, 9.9, 7.2, 9.4, FL1, pa, M.rug); art(true, 6.35, 8.35, 9.35, FL1 + 1.25, FL1 + 1.95, 1, 0, pa); curtain(false, 10, 7.3, 9.5, FL1, FL1 + 2.55, -1, pa);
 cabinet(7.08, 7.72, 6.46, 9.21, 'E', 2.3, pa, { z: FL1 });
 cabinet(8.17, 9.66, 9.73, 10.38, 'S', .8, pa, { z: FL1, rows: 2, panel: .5 });
-shower(4.08, 5.92, 13.13, 14.17, 's', pa, { z: FL1 }); wc(4.32, 12.6, 'E', pa, { z: FL1 }); vanity(4.08, 4.6, 11.45, 12.15, 'E', pa, { z: FL1 });
+shower(4.08, 5.92, 14.13, 15.17, 's', pa, { z: FL1 }); wc(4.32, 13.3, 'E', pa, { z: FL1 }); vanity(4.08, 4.6, 11.45, 12.15, 'E', pa, { z: FL1 });
 cabinet(4.08, 5.0, 10.6, 11.3, 'N', 2.1, pa, { z: FL1 });
 cabinet(2.15, 3.0, 9.79, 10.3, 'S', .5, pa, { z: FL1, panel: .85 }); art(true, 10.41, 2.2, 2.95, FL1 + 1.0, FL1 + 1.75, -1, 2, pa); vase(2.8, 10.05, FL1 + .5, .24, pa, M.ceramicDark, 0);
 art(false, 6.96, 7.0, 8.9, FL1 + .95, FL1 + 2.05, -1, 1, pa); plant(2.6, 9.25, FL1, pa, { h: 1.25, n: 60 });
 // barandal de cristal hacia la doble altura (sala, chimenea y comedor)
 function glassRail(x0, x1, y0, y1, z) { B(x0, x1, y0, y1, z, z + 1.0, M.glass, pa); const ex = x1 - x0 > y1 - y0; B(ex ? x0 : x0 - .012, ex ? x1 : x1 + .012, ex ? y0 - .012 : y0, ex ? y1 + .012 : y1, z + .98, z + 1.03, M.steel, pa, { noHit: true }); B(ex ? x0 : x0 - .01, ex ? x1 : x1 + .01, ex ? y0 - .01 : y0, ex ? y1 + .01 : y1, z, z + .06, M.steel, pa, { noHit: true }); }
 glassRail(5.6, 5.64, 3.32, 8.9, FL1); glassRail(5.6, 7.0, 3.34, 3.38, FL1); glassRail(3.08, 5.6, 8.92, 8.96, FL1);
-for (const [x, y] of [[6.3, 4.3], [6.3, 7.6], [4.5, 9.7], [2.0, 12.3], [5.0, 12.4], [8.0, 12.3], [8.6, 8.2], [8.5, 3.9]]) downlight(x, y, z1, 'roof', 3.2);
+for (const [x, y] of [[6.3, 4.3], [6.3, 7.6], [4.5, 9.7], [2.0, 12.8], [5.0, 12.9], [8.0, 12.8], [8.6, 8.2], [8.5, 3.9]]) downlight(x, y, z1, 'roof', 3.2);
 for (const [x, y] of [[4.3, 3.4], [4.3, 6.2]]) downlight(x, y, z1, 'roof', 7, { dist: 10 });   // sala a doble altura
 // volado de las recámaras: techo y sombra para el área de lavado
 B(0, 10, 15.17, 15.25, Z_PA - .32, Z_PA + .05, M.plaster, 'slab', { noHit: true }); B(0, 10, 14.25, 15.17, Z_PA - .17, Z_PA - .15, M.paint, 'slab', { noHit: true });
@@ -1044,8 +1044,8 @@ downlight(8.5, 14.7, Z_PA - .17, 'slab', 1.6, { dist: 5 });
 
 /* ---------- AZOTEAS ---------- */
 const rf = 'roof';
-for (const [x0, x1, y0, y1] of [[3, 7, 2.42, 10.45], [2.02, 3, 8.9, 10.45], [0, 10, 10.45, 14.25], [7, 10, 3.32, 10.45]]) { B(x0, x1, y0, y1, z1, z1 + .2, M.roofTop, rf); B(x0 + .01, x1 - .01, y0 + .01, y1 - .01, z1 - .012, z1, M.paint, rf, { noHit: true }); }
-for (const [a, b, c, ax] of [[0, 10, 14.25, 1], [2.02, 3, 8.9, 1], [0, 2.02, 10.45, 1], [7, 10, 3.32, 1], [10.45, 14.25, 0, 0], [8.9, 10.45, 2.02, 0], [2.42, 8.9, 3, 0], [3.32, 14.25, 10, 0], [2.42, 3.32, 7, 0]]) { if (ax) wallX(a, b, c, tE, z1 + .2, z1 + .55, M.plaster, rf); else wallY(c, a, b, tE, z1 + .2, z1 + .55, M.plaster, rf); }
+for (const [x0, x1, y0, y1] of [[3, 7, 2.42, 10.45], [2.02, 3, 8.9, 10.45], [0, 10, 10.45, 15.25], [7, 10, 3.32, 10.45]]) { B(x0, x1, y0, y1, z1, z1 + .2, M.roofTop, rf); B(x0 + .01, x1 - .01, y0 + .01, y1 - .01, z1 - .012, z1, M.paint, rf, { noHit: true }); }
+for (const [a, b, c, ax] of [[0, 10, 15.25, 1], [2.02, 3, 8.9, 1], [0, 2.02, 10.45, 1], [7, 10, 3.32, 1], [10.45, 15.25, 0, 0], [8.9, 10.45, 2.02, 0], [2.42, 8.9, 3, 0], [3.32, 15.25, 10, 0], [2.42, 3.32, 7, 0]]) { if (ax) wallX(a, b, c, tE, z1 + .2, z1 + .55, M.plaster, rf); else wallY(c, a, b, tE, z1 + .2, z1 + .55, M.plaster, rf); }
 wallX(7, 10, 0, tE, H_FACH, H_FACH, M.plaster, rf);
 
 /* ---------- letreros ---------- */
@@ -1099,10 +1099,11 @@ const grass = (() => {
   im.count = k; LAYERS.patio.add(im); return im;
 })();
 
-/* ---------- humo de la chimenea del temazcal ---------- */
+/* ---------- humo de las chimeneas (temazcal y sala) ---------- */
 const smoke = [];
 { const sm = new THREE.SpriteMaterial({ map: T.smoke, transparent: true, depthWrite: false, opacity: .5 });
-  for (let i = 0; i < 18; i++) { const s = new THREE.Sprite(sm.clone()); s.userData.ph = i / 18; LAYERS.fx.add(s); smoke.push(s); } }
+  for (let i = 0; i < 18; i++) { const s = new THREE.Sprite(sm.clone()); Object.assign(s.userData, { ph: i / 18, c: [18.95, 7.45, 2.85], r: 4.2, sc: 2.4, op: .32, sp: .12 }); LAYERS.fx.add(s); smoke.push(s); }
+  for (let i = 0; i < 16; i++) { const s = new THREE.Sprite(sm.clone()); Object.assign(s.userData, { ph: i / 16, c: [3.37, 4.585, Z_PA + H_PA + 1.13], r: 3.6, sc: 2.2, op: .42, sp: .1 }); LAYERS.fx.add(s); smoke.push(s); } }   // + chimenea de la sala
 
 /* ---------- trazo de luz del intro ---------- */
 const glowMat = new THREE.MeshBasicMaterial({ color: new THREE.Color(4.2, 2.7, 1.2), transparent: true, toneMapped: false, depthWrite: false });
@@ -1249,8 +1250,8 @@ const ROOMS = [ // [nombre, nivel, x0, x1, y0, y1, área]
   ['Cochera', 0, 0, 3, 0, LOT_D, 'cochera'], ['Entrada principal', 0, 3, 7, 0, 2.42, 'acceso'], ['Sala', 0, 3, 7, 2.42, 6.9, 'sala'], ['Comedor', 0, 3, 7, 6.9, 10.0, 'comedor'], ['Cocina', 0, 3, 7, 10.0, 13.42, 'cocina'],
   ['Consultorio', 0, 7, 10, 0, 3.38, 'consultorio'], ['Medio baño', 0, 7, 10, 3.38, 4.42, 'escalera'], ['Escalera', 0, 7, 10, 4.42, 6.36, 'escalera'], ['Dormitorio', 0, 7, 10, 6.36, 11.43, 'dormitorio'], ['Baño', 0, 7, 10, 11.43, 13.42, 'bano'],
   ['Patio de servicio', 0, 3, 10, 13.42, LOT_D, 'cochera'], ['Salón de eventos', 0, salX0, 20, 0, 4.66, 'salon'], ['Patio con pasto', 0, 10, 20, 0, LOT_D, 'patio'],
-  ['Pasillo · vista a doble altura', 1, 5.58, 7, 3.32, 8.9, 'doble-altura'], ['Vestíbulo', 1, 2.02, 7, 8.9, 10.45, 'doble-altura'], ['Recámara 1', 1, 0, 4, 10.45, 14.25, 'recamara-1'], ['Baño compartido', 1, 4, 6, 10.45, 14.25, 'bano-pa'],
-  ['Recámara 2', 1, 6, 10, 10.45, 14.25, 'recamara-2'], ['Recámara 3', 1, 7, 10, 6.31, 10.45, 'recamara-3'], ['Escalera', 1, 7, 10, 3.32, 6.31, 'escalera'],
+  ['Pasillo · vista a doble altura', 1, 5.58, 7, 3.32, 8.9, 'doble-altura'], ['Vestíbulo', 1, 2.02, 7, 8.9, 10.45, 'doble-altura'], ['Recámara 1', 1, 0, 4, 10.45, 15.25, 'recamara-1'], ['Baño compartido', 1, 4, 6, 10.45, 15.25, 'bano-pa'],
+  ['Recámara 2', 1, 6, 10, 10.45, 15.25, 'recamara-2'], ['Recámara 3', 1, 7, 10, 6.31, 10.45, 'recamara-3'], ['Escalera', 1, 7, 10, 3.32, 6.31, 'escalera'],
 ];
 const CIRC = [['Temazcal 1', 17.25, 12.25, 2.5, 'temazcal-1'], ['Temazcal 2', 12.9, 13.5, 1.5, 'temazcal-2'], ['Chimenea del temazcal', 18.9, 7.45, 1.2, 'hornilla']];
 function roomAt(x, y, lvl) {
@@ -1280,7 +1281,7 @@ hs('horn', 16.1, 7.2); hs('sal1', 14.95, 2.35); hs('sal2', 17.0, .62); hs('sal3'
 hs('pa_arr', 7.55, 3.92, 1, { action: { label: 'Bajar a planta baja', to: 'esc0' } });
 hs('pas1', 6.3, 3.95, 1); hs('pas2', 6.3, 6.6, 1); hs('pas3', 6.3, 8.4, 1);
 hs('hall1', 3.5, 9.65, 1); hs('hall2', 6.45, 9.8, 1); hs('r1a', 3.45, 11.55, 1); hs('r1b', 2.0, 11.6, 1);
-hs('bpa', 5.5, 11.9, 1); hs('r2a', 6.6, 11.4, 1); hs('r2b', 8.1, 11.6, 1); hs('r3a', 7.45, 9.9, 1); hs('r3b', 8.5, 9.1, 1); hs('land', 8.5, 3.88, 1);
+hs('bpa', 5.5, 11.9, 1); hs('r2a', 6.6, 11.4, 1); hs('r2b', 8.1, 11.6, 1); hs('r3a', 7.45, 9.9, 1); hs('r3b', 8.5, 9.1, 1);
 Object.assign(HS.t1door, { area: 'temazcal-1', areaName: 'Temazcal 1 · acceso', meta: 'Ø 5.00 m' }); Object.assign(HS.t1in, { area: 'temazcal-1', areaName: 'Temazcal 1 · interior', meta: 'Ø 5.00 m' });
 Object.assign(HS.t2door, { area: 'temazcal-2', areaName: 'Temazcal 2 · acceso', meta: 'Ø 3.00 m' }); Object.assign(HS.t2in, { area: 'temazcal-2', areaName: 'Temazcal 2 · interior', meta: 'Ø 3.00 m' });
 for (const id of ['pas1', 'pas2', 'pas3']) Object.assign(HS[id], { area: 'doble-altura', areaName: 'Pasillo · vista a doble altura', meta: 'altura libre 5.80 m' });
@@ -1300,7 +1301,7 @@ AREAS.find(a => a.id === 'temazcal-2').yaw = 90 - Math.atan2(13.5 - T2.door[1], 
 HS.t1in.yaw = 90 - Math.atan2(12.25 - T1.inside[1], 17.25 - T1.inside[0]) / DEG;
 HS.t2in.yaw = 90 - Math.atan2(13.5 - T2.inside[1], 12.9 - T2.inside[0]) / DEG;
 const AREA = Object.fromEntries(AREAS.map(a => [a.id, a]));
-const AREA_M2 = { sala: 4 * 4.48, comedor: 4 * 3.1, cocina: 4 * 3.42, consultorio: 3 * 3.38, dormitorio: 3 * 5.07, bano: 3 * 1.99, escalera: 3 * 1.94, estancia: 4 * 6.51, 'recamara-1': 4 * 3.8, 'bano-pa': 2 * 3.8, 'recamara-2': 4 * 3.8, 'recamara-3': 3 * 4.14, cochera: 3 * 15.35, salon: 5.7 * 4.66, patio: 10 * 15.35, acceso: 4 * 2.42 };
+const AREA_M2 = { sala: 4 * 4.48, comedor: 4 * 3.1, cocina: 4 * 3.42, consultorio: 3 * 3.38, dormitorio: 3 * 5.07, bano: 3 * 1.99, escalera: 3 * 1.94, estancia: 4 * 6.51, 'recamara-1': 4 * 4.8, 'bano-pa': 2 * 4.8, 'recamara-2': 4 * 4.8, 'recamara-3': 3 * 4.14, cochera: 3 * 15.35, salon: 5.7 * 4.66, patio: 10 * 15.35, acceso: 4 * 2.42 };
 
 /* ---------- colisiones: rayo vs cajas ---------- */
 function rayBox(o, d, b, tmax) {
@@ -1679,7 +1680,7 @@ function frame(now) {
   const focus = mode === 'walk' || animating ? camera.position : controls.target;
   if (lightsDirty || focus.distanceToSquared(lastFocus) > 4) assignLights(focus);
   updateLights(t);
-  smokeT += dt; smoke.forEach(s => { const k = (smokeT * .12 + s.userData.ph) % 1; s.position.set(W(18.95) + Math.sin(k * 7 + s.userData.ph * 9) * .25 * k, 2.85 + k * 4.2, Zc(7.45) + Math.cos(k * 5) * .2 * k); s.scale.setScalar(.45 + k * 2.4); s.material.opacity = .32 * Math.sin(Math.PI * k) * (todName === 'noche' ? .35 : 1); });
+  smokeT += dt; smoke.forEach(s => { const u = s.userData, k = (smokeT * u.sp + u.ph) % 1; s.position.set(W(u.c[0]) + Math.sin(k * 7 + u.ph * 9) * .25 * k + k * .6, u.c[2] + k * u.r, Zc(u.c[1]) + Math.cos(k * 5) * .2 * k); s.scale.setScalar(.4 + k * u.sc); s.material.opacity = u.op * Math.sin(Math.PI * k) * (todName === 'noche' ? .35 : 1); });
   if (mode === 'doll' || mode === 'plan') placePins();
   if (mode === 'walk' && !animating) { const r = rings; for (const v of visibleRings) { const d = v.g.position.distanceTo(camera.position); v.g.scale.setScalar(1 + Math.sin(t * 2.4 + d) * .04); } }
   if (thumbQueue.length && !animating && frames % 2 === 0) renderThumb();
