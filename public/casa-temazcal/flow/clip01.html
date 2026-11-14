@@ -1,0 +1,63 @@
+<title>Flow · Clip 1</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Hoja de trabajo: dos fotogramas grandes y el prompt listo para copiar */
+:root{--bg:#f3f1ee;--fg:#1d1b19;--muted:#6b645c;--line:#d9d3cb;--card:#fff;--accent:#8a5a2b;--f:"Inter",system-ui,sans-serif;--fd:"Space Grotesk",var(--f);--fm:ui-monospace,Menlo,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#161412;--fg:#ede8e2;--muted:#a59c92;--line:#36312c;--card:#211e1b;--accent:#d49a5f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#161412;--fg:#ede8e2;--muted:#a59c92;--line:#36312c;--card:#211e1b;--accent:#d49a5f;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f);line-height:1.5}
+.w{max-width:980px;margin:0 auto;padding-block:28px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
+h1{font-family:var(--fd);font-size:clamp(26px,5vw,38px);margin:0;text-wrap:balance}
+.eb{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+p{margin:0;color:var(--muted);max-width:65ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+figure{margin:0;display:grid;gap:8px}
+figure img{width:100%;border-radius:8px;border:1px solid var(--line);display:block}
+figcaption{font-size:14px} figcaption b{font-family:var(--fm);font-size:13px}
+ol{margin:0;padding-left:20px;display:grid;gap:6px;max-width:70ch}
+.pr{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+button{font:600 14px var(--f);background:var(--accent);color:var(--bg);border:0;border-radius:6px;padding:9px 16px;cursor:pointer}
+button:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+textarea{width:100%;box-sizing:border-box;min-height:340px;border:0;padding:14px;font:12.5px/1.55 var(--fm);background:transparent;color:var(--fg);resize:vertical}
+</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600&display=swap">
+<div class="w">
+  <div><div class="eb">Casa Temazcal · Video en Google Flow</div><h1>Clip 1 · Del plano a la casa terminada</h1></div>
+  <ol>
+    <li>Guarda las dos imágenes: <b>clic derecho</b> (o mantén presionado en el celular) sobre cada una → <b>Guardar imagen como…</b></li>
+    <li>En Flow: <b>Fotogramas a video</b>, Veo 3.1 Quality, 16:9, 4 variantes.</li>
+    <li>Primer fotograma = imagen 1. Último fotograma = imagen 2.</li>
+    <li>Toca <b>Copiar prompt</b> y pégalo completo en Flow. Genera.</li>
+  </ol>
+  <div class="grid">
+    <figure><img src="clip01_inicio.jpg" alt="Plano de planta baja sobre el terreno, vista aérea"><figcaption>1 · Primer fotograma — <b>clip01_inicio.jpg</b></figcaption></figure>
+    <figure><img src="clip01_final.jpg" alt="Casa terminada, misma vista aérea"><figcaption>2 · Último fotograma — <b>clip01_final.jpg</b></figcaption></figure>
+  </div>
+  <div class="pr"><div class="bar"><span>Prompt del clip 1 (en inglés, sin editar)</span><button id="cp" type="button">Copiar prompt</button></div>
+  <textarea id="tx" readonly>STRICT ARCHITECTURAL VISUALIZATION. This is a real, already-designed project. Reproduce ONLY what is in the first frame and the last frame. Do not invent, add, remove, move, resize or restyle anything. The last frame is the exact final result and must be matched pixel-for-pixel in composition, geometry, materials and colors.
+
+SHOT: Single continuous 8-second shot. Locked-off high aerial camera, three-quarter view from the front-left corner of the lot, looking down at about 35 degrees. The camera does NOT move, zoom, pan, tilt or shake. Same lens, same framing, same horizon from the first frame to the last frame. 16:9, cinematic, ultra photorealistic, golden-hour late-afternoon sunlight coming from the left, long soft shadows, warm natural color grade, high dynamic range, crisp detail, real-world materials. No motion blur on the building.
+
+SETTING (keep exactly as in the frames): a flat rectangular lot 20 m wide by 15.35 m deep, surrounded by open green grassland with a few scattered isolated trees in the distance. The front of the lot faces a straight unpaved dirt road that runs diagonally across the lower-right part of the frame. Nothing else exists: no neighbors, no other buildings, no fences beyond the lot, no power poles, no vehicles on the road, no people.
+
+ACTION, in this exact order:
+0.0 to 1.5 s: The architect&#x27;s 2D floor plan lies flat on the ground filling the whole lot, exactly as in the first frame: white paper-like plan with black linework, blue tiled garage area on the left, orange furniture symbols, two circles at the back right for the temazcales, thin glowing warm-white grid lines extending beyond the lot edges. It holds still for a moment while the glowing grid lines pulse softly.
+1.5 to 3.0 s: The plan lines turn into real construction directly on top of the drawing, following the drawn walls exactly: a smooth concrete foundation slab appears, then light-gray concrete block walls rise straight up from every drawn wall line at the same time, in a fast, clean, elegant time-lapse growth. The glowing grid lines fade out.
+3.0 to 5.0 s: Walls reach the ground-floor height (2.8 m), the ground-floor roof slab forms, then the second-floor walls rise only over the left half of the lot (the 10 m wide house), the perimeter wall rises along the front and sides of the lot, and the single-story event hall rises at the front-right corner. The two beehive-shaped stone domes (temazcales) grow from the two circles at the back right, and the small stone oven chimney grows beside them.
+5.0 to 7.0 s: Finishes appear smoothly in waves, exactly as in the last frame: smooth ivory-white stucco on all walls; warm beige-tan stacked natural ledgestone cladding on the front pilasters, the garage surround, the front perimeter-wall segment and the event-hall facade; black-framed windows and glass doors; horizontal black aluminum louvers over the large upper-floor front window and the smaller window beside it; charcoal-black garage door with warm wood panel inserts at the far front-left; wooden front entrance door with two black iron carriage lanterns and two stone planters with green shrubs; light-gray flat roofs with low parapets; stone chimney on the house roof; gray stone paver sidewalk along the whole front; green lawn and stepping stones in the walled garden; two dark parked cars appear in the open carport strip along the left side of the house.
+7.0 to 8.0 s: Construction is complete and everything settles into exactly the last frame. Thin wisps of pale smoke rise gently from the house roof chimney and from the temazcal oven chimney. Grass and trees sway very slightly in a light breeze. Hold.
+
+STYLE: minimalist contemporary Mexican residential architecture, high-end real-estate film, Architectural Digest quality, clean lines, no clutter.
+
+AUDIO: soft cinematic ambient wind and a subtle construction &quot;whoosh&quot; texture during the growth. No music, no voices, no narration, no dialogue.
+
+DO NOT: add cranes, scaffolding, workers, construction equipment, trucks, people, animals, extra floors, extra buildings, balconies, pools, solar panels, antennas, water tanks, pergolas, extra trees inside the lot, fences, gates or walls that are not in the last frame. Do not change the camera angle. Do not change the colors or materials. Do not add any text, titles, watermarks, logos or signage beyond what is already in the last frame. Do not make it look like a cartoon, a toy, a miniature or a video game.</textarea></div>
+  <p>Cuando tengas las 4 variantes, regresa al chat con Maximo Aurelio y dime cuál elegiste o qué falló. El clip 2 empieza donde termina este.</p>
+</div>
+<script>
+const b=document.getElementById('cp'),t=document.getElementById('tx');
+b.addEventListener('click',()=>{const done=()=>{b.textContent='Copiado';setTimeout(()=>b.textContent='Copiar prompt',1800)};
+ const sel=()=>{t.focus();t.select();try{document.execCommand('copy');done()}catch(e){b.textContent='Selecciona y copia'}};
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t.value).then(done,sel)}else sel()});
+</script>
