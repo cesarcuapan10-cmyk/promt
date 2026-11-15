@@ -11,7 +11,7 @@ import {
   obtenerCitasRango, cambiarEstadoCita, listarServicios, guardarServicio,
   eliminarServicio, guardarConfigAgenda, type ConfigAgenda, type CitaCalendario,
 } from "@/app/actions/agendar"
-import { formatMoney } from "@/app/lib/utils"
+import { formatMoney, encodeWhatsApp } from "@/app/lib/utils"
 
 const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
 const DIAS = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
@@ -31,6 +31,13 @@ function horaLocal(iso: string): string {
 }
 function diaDe(iso: string): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Mexico_City" }).format(new Date(iso))
+}
+function fechaCitaLarga(iso: string): string {
+  return new Date(iso).toLocaleDateString("es-MX", { weekday: "long", day: "numeric", month: "long", timeZone: "America/Mexico_City" })
+}
+function mensajeRecordatorio(cita: CitaCalendario, negocio: string): string {
+  const servicio = cita.servicioNombre ? ` para ${cita.servicioNombre}` : ""
+  return `Hola ${cita.clienteNombre} 👋 Te recordamos tu cita en ${negocio} el ${fechaCitaLarga(cita.fechaInicio)} a las ${horaLocal(cita.fechaInicio)}${servicio}. ¿Nos confirmas tu asistencia? 💜`
 }
 
 export function AgendaCliente({ config }: { config: ConfigAgenda }) {
@@ -182,7 +189,7 @@ export function AgendaCliente({ config }: { config: ConfigAgenda }) {
             <p className="py-6 text-center text-sm text-gray-400">Sin citas este día.</p>
           ) : (
             <ul className="space-y-2.5">
-              {citasDelDia.map((c) => <FilaCita key={c.id} cita={c} onCambio={recargar} />)}
+              {citasDelDia.map((c) => <FilaCita key={c.id} cita={c} negocio={config.negocio.nombre} onCambio={recargar} />)}
             </ul>
           )}
         </Card>
@@ -195,7 +202,7 @@ export function AgendaCliente({ config }: { config: ConfigAgenda }) {
 }
 
 // ── Fila de cita con acciones ──
-function FilaCita({ cita, onCambio }: { cita: CitaCalendario; onCambio: () => void }) {
+function FilaCita({ cita, negocio, onCambio }: { cita: CitaCalendario; negocio: string; onCambio: () => void }) {
   const [pend, start] = useTransition()
   const estado = ESTADOS[cita.estado] ?? ESTADOS.AGENDADA
 
@@ -223,7 +230,7 @@ function FilaCita({ cita, onCambio }: { cita: CitaCalendario; onCambio: () => vo
           </p>
         </div>
         {cita.clienteWhatsapp && (
-          <a href={`https://wa.me/${cita.clienteWhatsapp.startsWith("52") ? cita.clienteWhatsapp : "52" + cita.clienteWhatsapp}`} target="_blank" className="shrink-0 rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-green-600 hover:bg-green-50 dark:border-gray-700">WhatsApp</a>
+          <a href={encodeWhatsApp(cita.clienteWhatsapp, mensajeRecordatorio(cita, negocio))} target="_blank" rel="noopener noreferrer" title="Abre WhatsApp con el recordatorio ya escrito" className="shrink-0 rounded-lg border border-gray-200 px-2.5 py-1 text-xs font-medium text-green-600 hover:bg-green-50 dark:border-gray-700">WhatsApp</a>
         )}
       </div>
       {cita.estado !== "CANCELADA" && cita.estado !== "ATENDIDA" && (
