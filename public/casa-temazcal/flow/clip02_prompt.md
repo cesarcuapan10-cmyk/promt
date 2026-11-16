@@ -1,31 +1,113 @@
-# Clip 02 · El destello a lo real y la llegada a la entrada (8 s)
+# Clip 02 · Revelado y recorrido de planta baja
 
-**Cómo:** en Flow, sobre la variante 2 del clip 1, usa **Ampliar / Extend**, que continúa desde su último cuadro, con **1 sola salida**.
-Si Omni 1 no tiene Ampliar: descarga el último cuadro del clip 1 y úsalo como **primer fotograma** en Fotogramas a video, sin último fotograma.
+## Paso 1 · Fotos reales (1 imagen por foto)
+Usa este prompt con cada foto de la carpeta `fotogramas/`.
 
 ```
-CONTINUATION SHOT. Start exactly on the last frame of the previous clip: the same finished property, same high aerial three-quarter view from the front-left corner, same golden-hour late-afternoon light from the left. Keep the architecture 100% identical: do not invent, add, remove, move, resize or restyle anything. Only the level of realism changes.
-
-0.0 to 1.2 s — THE FLASH: The camera holds still for an instant, then a soft, elegant warm-white cinematic light flash (a quick bloom of light, like sunlight hitting the lens) sweeps across the whole property from left to right. As the flash passes, everything that looked like a 3D model turns into a REAL, already-built, photographed property: real smooth ivory-white stucco with subtle natural texture and slight sun shading; real warm beige-tan stacked natural ledgestone with depth, irregular stones and soft shadows between them; real black aluminum window frames and glass with true reflections of the sky; real horizontal black aluminum louvers; real gray stone pavers with joints; real lush green lawn with natural blades and color variation; real trees with moving leaves; the parked cars become real modern premium SUVs and a sedan with glossy paint and true reflections. Same shapes, same positions, same colors as before — only photographic realism is added.
-
-1.2 to 8.0 s — THE ARRIVAL: One smooth, continuous, slow cinematic drone move, gimbal-stable, no cuts. The camera glides forward and descends in a gentle curve toward the front of the house, passing above the gray stone sidewalk, and ends at human eye level (1.6 m), standing on the sidewalk about 3 meters in front of the main entrance, centered on it and facing it straight on. The final composition shows, exactly as designed:
-- The main entrance in the center: a tall rectangular opening framed by warm beige-tan stacked natural ledgestone, with a pair of tall solid warm-brown wooden doors (vertical wood planks, slim black vertical handles) slowly swinging fully open inward to both sides.
-- A matte black iron carriage lantern mounted on each side of the entrance, glowing with warm amber light.
-- A low rectangular stone planter on each side of the entrance at ground level, built of the same ledgestone, planted with fresh green leafy shrubs.
-- Above the entrance, a thin ivory-white horizontal concrete canopy, and on the white wall above it the existing raised lettering "BIENVENIDO A SANTO REMEDIO" with "TEMAZCAL Y SPA" below, in dark bronze serif letters (keep the text exactly as it already exists; do not add any other text).
-- On the left: a tall ledgestone pilaster with a slim black vertical metal strip, and further left the charcoal-black garage door divided into panels, with the middle panels in warm natural wood.
-- Behind and above: the ivory-white second floor with the large window covered by horizontal black aluminum louvers and a smaller louvered window to its right.
-- Through the open doors: a bright entry space with light-colored floor, a white wall, a stone-clad wall section and an inner glass door with warm interior light.
-
-LOOK: ultra photorealistic, shot on a cinema camera with a 24 mm lens, real-estate luxury film, Architectural Digest quality, golden-hour warm light, long soft shadows, gentle lens flare only during the flash, natural color grade, shallow-but-not-extreme depth of field, crisp textures, no CGI or video-game look, no plastic surfaces.
-
-AUDIO: a soft cinematic "whoosh" with a light shimmer at the flash, then calm outdoor ambience: light breeze, distant birds, and the soft creak of the wooden doors opening at the end. No music, no voices, no narration.
-
-DO NOT: add people, pets, cars on the road, extra windows, balconies, railings, extra plants, extra lights, house numbers, mailboxes, extra signs or text, logos or watermarks. Do not change the colors or materials. Do not change the facade layout or the proportions. Do not cut to another shot. Do not enter the house yet: end on the open entrance.
+Turn THIS EXACT IMAGE into a real professional architectural photograph of an already-built, finished property.
+KEEP 100% IDENTICAL: the camera position, height, angle, lens and framing; the composition; every wall, ceiling, floor, window, door, opening, stone surface, piece of furniture, lamp, artwork, plant, object, car, tree and the sky — same position, same shape, same size, same proportions, same colors, same materials, same count. Nothing moves.
+DO NOT add, remove, move, replace or redesign anything. Do not add people, pets, text, logos, extra furniture, extra decor, extra lamps, extra plants, extra windows, extra doors, extra buildings, extra cars. Do not change the architecture, the layout or the style.
+ONLY CHANGE the rendering quality to real-world photography: real materials with natural texture and imperfections (smooth ivory-white stucco and plaster, warm beige-tan stacked natural ledgestone with depth and shadows, light natural oak wood with grain, walnut-brown wood with grain, white Carrara marble with soft veins, matte black metal, clear glass with true reflections, soft linen and cotton fabrics, real leather, real green plants), real light with soft natural shadows, ambient occlusion in corners, accurate reflections, warm golden-hour daylight through the windows and warm interior lighting where lamps exist.
+STYLE: minimalist contemporary Mexican architecture, high-end real-estate photography, Architectural Digest quality, natural warm color grade, sharp focus, 16:9. No CGI look, no 3D-model look, no video-game look, no miniature look.
 ```
 
-## Elegir
-Una sola salida. Revisa que:
-1. Se vea el destello y la casa pase a ser real.
-2. La fachada sea la misma.
-3. Termine frente a la puerta de madera abierta, a la altura de los ojos.
+## Paso 2 · Tramos (1 salida cada uno)
+
+### Tramo 2A · La manta, el helicóptero y la casa real
+- Primer fotograma: 00_aerea.jpg (el de la maqueta, sin convertir)
+- Último fotograma: 00_aerea REAL (la que hiciste en el paso 1)
+
+```
+STRICT CONTINUATION OF AN EXISTING ARCHITECTURAL PROJECT. The first frame and the last frame show the SAME property from the SAME camera position; the last frame is the real, photographed version. The building must never change shape, size, roof, openings or layout: it must end exactly as in the last frame. Do NOT invent, add, move or remove anything.
+CAMERA: locked-off high aerial three-quarter view from the front-left corner. It does not move, zoom, pan or tilt during the whole shot.
+0.0 to 0.7 s: The first frame holds. A single gigantic plain white fabric cloth drops from above and drapes over the whole property, the folds following the shapes of the buildings underneath.
+0.7 to 3.0 s: A real dark-gray helicopter appears at the top of the frame, hovering high above, the white cloth hanging from it by four long cables tied to its corners. The helicopter climbs and flies away toward the top-right, pulling the cloth up and off in one fast, smooth, elegant motion; the cloth ripples in the rotor wind and leaves the frame with the helicopter.
+3.0 to 8.0 s: Revealed underneath is exactly the last frame: the same property, now real and photographed. Hold on it while light smoke rises gently from the house chimney and from the temazcal oven chimney and the grass and trees move slightly in the breeze.
+LOOK: ultra photorealistic, cinematic real-estate film, golden-hour warm sunlight from the left, long soft shadows.
+AUDIO: soft rush of falling fabric, then a real helicopter rotor sound fading away, then calm outdoor breeze and distant birds. No music, no voices.
+DO NOT: add people, workers, extra vehicles, extra buildings, garages, driveways, gates, doors, roofs or text. Do not change the camera angle. Do not cut.
+```
+
+### Tramo 2B · Del aire a la puerta principal
+- Primer fotograma: 00_aerea REAL
+- Último fotograma: 01_entrada REAL
+
+```
+STRICT ARCHITECTURAL WALKTHROUGH OF AN EXISTING, ALREADY-BUILT PROPERTY. The first frame and the last frame are both the real, final design. Everything that appears between them must belong to the same house: same walls, openings, materials, colors, furniture and decor as shown in the two frames. Do NOT invent, add, move, remove or redesign anything. Do NOT add people, pets, text, logos, extra rooms, extra doors, extra windows, extra furniture, extra decor or extra lights. The camera never passes through walls or furniture: it only moves through open doorways and open space.
+LOOK: ultra photorealistic, real-estate luxury film, cinematic, minimalist contemporary Mexican architecture, warm golden-hour daylight, warm interior lamps, natural color grade, real textures, no CGI or 3D-model look.
+CAMERA: one continuous shot, no cuts, smooth gimbal/steadicam movement at a calm walking pace, eye level about 1.6 m, slight natural ease-in and ease-out, no shake, no fast zooms.
+AUDIO: calm interior ambience, soft footsteps on wood, distant birds outside. No music, no voices, no narration.
+MOVE: Starting from the high aerial view, the camera descends in one smooth, slow curve toward the front of the property, gliding over the dirt road and the gray stone sidewalk, and lands at human eye level centered in front of the main entrance, exactly matching the last frame: the stone-framed entrance with the two tall warm-brown wooden doors standing open, a black iron lantern glowing on each side, a low stone planter with green shrubs on each side, the bronze lettering "BIENVENIDO A SANTO REMEDIO / TEMAZCAL Y SPA" above, the black-and-wood garage door on the left, and the black horizontal louvers on the upper floor. Exterior shot: golden-hour sunlight, outdoor ambience with light breeze.
+```
+
+### Tramo 2C · Entrar y llegar a la sala con chimenea
+- Primer fotograma: 01_entrada REAL
+- Último fotograma: 02_sala REAL
+
+```
+STRICT ARCHITECTURAL WALKTHROUGH OF AN EXISTING, ALREADY-BUILT PROPERTY. The first frame and the last frame are both the real, final design. Everything that appears between them must belong to the same house: same walls, openings, materials, colors, furniture and decor as shown in the two frames. Do NOT invent, add, move, remove or redesign anything. Do NOT add people, pets, text, logos, extra rooms, extra doors, extra windows, extra furniture, extra decor or extra lights. The camera never passes through walls or furniture: it only moves through open doorways and open space.
+LOOK: ultra photorealistic, real-estate luxury film, cinematic, minimalist contemporary Mexican architecture, warm golden-hour daylight, warm interior lamps, natural color grade, real textures, no CGI or 3D-model look.
+CAMERA: one continuous shot, no cuts, smooth gimbal/steadicam movement at a calm walking pace, eye level about 1.6 m, slight natural ease-in and ease-out, no shake, no fast zooms.
+AUDIO: calm interior ambience, soft footsteps on wood, distant birds outside. No music, no voices, no narration.
+MOVE: From the sidewalk the camera walks straight forward through the open wooden double doors, crosses the bright entry space with light flooring, passes the inner glass door and enters the living room, then turns gently to the left to end exactly on the last frame: the tall stacked natural-stone fireplace column rising to the ceiling with a real fire burning, the brown leather sofa with cream and sage-green cushions, the round light travertine coffee table with a small black vase, the indoor tree in a black pot, light oak floor, white walls, the open double-height space, and the dining area visible in the background.
+```
+
+### Tramo 2D · De la sala al comedor
+- Primer fotograma: 02_sala REAL
+- Último fotograma: 03_comedor REAL
+
+```
+STRICT ARCHITECTURAL WALKTHROUGH OF AN EXISTING, ALREADY-BUILT PROPERTY. The first frame and the last frame are both the real, final design. Everything that appears between them must belong to the same house: same walls, openings, materials, colors, furniture and decor as shown in the two frames. Do NOT invent, add, move, remove or redesign anything. Do NOT add people, pets, text, logos, extra rooms, extra doors, extra windows, extra furniture, extra decor or extra lights. The camera never passes through walls or furniture: it only moves through open doorways and open space.
+LOOK: ultra photorealistic, real-estate luxury film, cinematic, minimalist contemporary Mexican architecture, warm golden-hour daylight, warm interior lamps, natural color grade, real textures, no CGI or 3D-model look.
+CAMERA: one continuous shot, no cuts, smooth gimbal/steadicam movement at a calm walking pace, eye level about 1.6 m, slight natural ease-in and ease-out, no shake, no fast zooms.
+AUDIO: calm interior ambience, soft footsteps on wood, distant birds outside. No music, no voices, no narration.
+MOVE: From the living room the camera glides slowly forward and turns to face the dining area, ending exactly on the last frame: the long light oak dining table with a white vase and a small plant, light upholstered chairs, the cluster of white glass globe pendants hanging from the double-height ceiling, large black-framed windows, the walnut-brown kitchen cabinets with white marble countertop and island in the background, three black cone pendants over the island, and the stainless steel refrigerator on the right.
+```
+
+### Tramo 2E · Del comedor a la cocina
+- Primer fotograma: 03_comedor REAL
+- Último fotograma: 04_cocina REAL
+
+```
+STRICT ARCHITECTURAL WALKTHROUGH OF AN EXISTING, ALREADY-BUILT PROPERTY. The first frame and the last frame are both the real, final design. Everything that appears between them must belong to the same house: same walls, openings, materials, colors, furniture and decor as shown in the two frames. Do NOT invent, add, move, remove or redesign anything. Do NOT add people, pets, text, logos, extra rooms, extra doors, extra windows, extra furniture, extra decor or extra lights. The camera never passes through walls or furniture: it only moves through open doorways and open space.
+LOOK: ultra photorealistic, real-estate luxury film, cinematic, minimalist contemporary Mexican architecture, warm golden-hour daylight, warm interior lamps, natural color grade, real textures, no CGI or 3D-model look.
+CAMERA: one continuous shot, no cuts, smooth gimbal/steadicam movement at a calm walking pace, eye level about 1.6 m, slight natural ease-in and ease-out, no shake, no fast zooms.
+AUDIO: calm interior ambience, soft footsteps on wood, distant birds outside. No music, no voices, no narration.
+MOVE: The camera walks past the dining table toward the kitchen and approaches the island, ending exactly on the last frame: the white Carrara marble island with a black induction cooktop and a dark bowl with oranges, apples and green fruit, three matte black cone pendant lamps hanging above it, walnut-brown lower cabinets with slim black handles, white marble countertops, the black sink area with a small orange vase and plant, and large black-framed windows with daylight.
+```
+
+### Tramo 2F · De la cocina al dormitorio
+- Primer fotograma: 04_cocina REAL
+- Último fotograma: 05_dormitorio REAL
+
+```
+STRICT ARCHITECTURAL WALKTHROUGH OF AN EXISTING, ALREADY-BUILT PROPERTY. The first frame and the last frame are both the real, final design. Everything that appears between them must belong to the same house: same walls, openings, materials, colors, furniture and decor as shown in the two frames. Do NOT invent, add, move, remove or redesign anything. Do NOT add people, pets, text, logos, extra rooms, extra doors, extra windows, extra furniture, extra decor or extra lights. The camera never passes through walls or furniture: it only moves through open doorways and open space.
+LOOK: ultra photorealistic, real-estate luxury film, cinematic, minimalist contemporary Mexican architecture, warm golden-hour daylight, warm interior lamps, natural color grade, real textures, no CGI or 3D-model look.
+CAMERA: one continuous shot, no cuts, smooth gimbal/steadicam movement at a calm walking pace, eye level about 1.6 m, slight natural ease-in and ease-out, no shake, no fast zooms.
+AUDIO: calm interior ambience, soft footsteps on wood, distant birds outside. No music, no voices, no narration.
+MOVE: The camera turns away from the island and walks calmly through the open interior doorway into the ground-floor bedroom, ending exactly on the last frame: the tall light oak wardrobe with slim black handles on the left, the bed with a dark upholstered headboard, sage-green and soft-gray bedding and green cushions, a white table lamp on the nightstand, the framed landscape artwork in warm terracotta and sage tones above the bed, sheer linen curtains, a window, and light oak floor.
+```
+
+### Tramo 2G · Del dormitorio al baño
+- Primer fotograma: 05_dormitorio REAL
+- Último fotograma: 06_bano REAL
+
+```
+STRICT ARCHITECTURAL WALKTHROUGH OF AN EXISTING, ALREADY-BUILT PROPERTY. The first frame and the last frame are both the real, final design. Everything that appears between them must belong to the same house: same walls, openings, materials, colors, furniture and decor as shown in the two frames. Do NOT invent, add, move, remove or redesign anything. Do NOT add people, pets, text, logos, extra rooms, extra doors, extra windows, extra furniture, extra decor or extra lights. The camera never passes through walls or furniture: it only moves through open doorways and open space.
+LOOK: ultra photorealistic, real-estate luxury film, cinematic, minimalist contemporary Mexican architecture, warm golden-hour daylight, warm interior lamps, natural color grade, real textures, no CGI or 3D-model look.
+CAMERA: one continuous shot, no cuts, smooth gimbal/steadicam movement at a calm walking pace, eye level about 1.6 m, slight natural ease-in and ease-out, no shake, no fast zooms.
+AUDIO: calm interior ambience, soft footsteps on wood, distant birds outside. No music, no voices, no narration.
+MOVE: The camera leaves the bedroom through its open door and walks a few steps into the bathroom, ending exactly on the last frame: the floating light oak vanity with a round white vessel sink, matte black faucet and a small plant in a white vase, a white towel hanging on its front bar, the white wall-hung toilet with a black flush plate, white walls, light gray floor tiles and the light wood door on the right. Soft, bright, clean light.
+```
+
+### Tramo 2H · Del baño al consultorio
+- Primer fotograma: 06_bano REAL
+- Último fotograma: 07_consultorio REAL
+
+```
+STRICT ARCHITECTURAL WALKTHROUGH OF AN EXISTING, ALREADY-BUILT PROPERTY. The first frame and the last frame are both the real, final design. Everything that appears between them must belong to the same house: same walls, openings, materials, colors, furniture and decor as shown in the two frames. Do NOT invent, add, move, remove or redesign anything. Do NOT add people, pets, text, logos, extra rooms, extra doors, extra windows, extra furniture, extra decor or extra lights. The camera never passes through walls or furniture: it only moves through open doorways and open space.
+LOOK: ultra photorealistic, real-estate luxury film, cinematic, minimalist contemporary Mexican architecture, warm golden-hour daylight, warm interior lamps, natural color grade, real textures, no CGI or 3D-model look.
+CAMERA: one continuous shot, no cuts, smooth gimbal/steadicam movement at a calm walking pace, eye level about 1.6 m, slight natural ease-in and ease-out, no shake, no fast zooms.
+AUDIO: calm interior ambience, soft footsteps on wood, distant birds outside. No music, no voices, no narration.
+MOVE: The camera turns out of the bathroom, walks along the interior hallway toward the front of the house and enters the consultorio through its open light wood door, ending exactly on the last frame: the light oak desk with a black base, a light upholstered chair, two stacked books and a white vase with a plant on the desk, a large black-framed window, a tall indoor plant in a black pot on the right, white walls and light oak floor, with the living room visible through the doorway.
+```
