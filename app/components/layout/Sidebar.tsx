@@ -19,7 +19,7 @@ const NAV = [
   { href: "/completados", label: "Completados", Icon: Trophy, color: "#16a34a" },
   { href: "/perdidos", label: "Perdidos", Icon: XCircle, color: "#6b7280" },
   { href: "/archivados", label: "Archivados", Icon: Archive, color: "#9ca3af" },
-  { href: "/studio", label: "Visage IA (barberías)", Icon: ScanFace, color: "#d4af6a" },
+  { href: "/barberias", label: "Barberías (Visage)", Icon: ScanFace, color: "#d4af6a" },
   { href: "/compartir", label: "Comparte y crece", Icon: Share2, color: "#e8b763" },
   { href: "/equipo", label: "Equipo", Icon: UserCog, color: "#06b6d4" },
   { href: "/admin", label: "Panel admin", Icon: ShieldCheck, color: "#e8b763" },

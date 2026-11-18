@@ -1,5 +1,6 @@
 import { z } from "zod/v4"
-import { verificarAcceso } from "@/app/studio/lib/acceso"
+import { db } from "@/app/lib/db"
+import { json, requerirBarberia } from "@/app/studio/lib/servidor"
 
 export const maxDuration = 90
 
@@ -10,7 +11,10 @@ export const maxDuration = 90
  */
 const MODELOS_RESPALDO = ["gemini-3.1-flash-image", "gemini-2.5-flash-image"]
 
+const MAX_SIMULACIONES = 6
+
 const Entrada = z.object({
+  diagnosticoId: z.string().max(40),
   base64: z.string().min(100),
   instruccion: z.string().min(5).max(1500),
 })
@@ -36,8 +40,8 @@ Strict rules:
 }
 
 export async function POST(req: Request) {
-  const bloqueo = await verificarAcceso(req)
-  if (bloqueo) return bloqueo
+  const barberia = await requerirBarberia()
+  if (barberia instanceof Response) return barberia
 
   const llave = process.env.GEMINI_API_KEY
   if (!llave) {
@@ -49,6 +53,17 @@ export async function POST(req: Request) {
 
   const parsed = Entrada.safeParse(await req.json().catch(() => null))
   if (!parsed.success) return Response.json({ error: "Datos inválidos" }, { status: 400 })
+
+  // Tope por diagnóstico para que el costo por cliente sea predecible
+  const diag = await db.diagnosticoVisage.findFirst({
+    where: { id: parsed.data.diagnosticoId, barberiaId: barberia.id },
+    select: { simulaciones: true },
+  })
+  if (!diag) return Response.json({ error: "Diagnóstico no encontrado" }, { status: 404 })
+  const hechas = Object.keys(json<Record<string, unknown>>(diag.simulaciones, {})).length
+  if (hechas >= MAX_SIMULACIONES) {
+    return Response.json({ error: `Máximo ${MAX_SIMULACIONES} simulaciones por cliente` }, { status: 429 })
+  }
 
   const modelos = process.env.GEMINI_IMAGE_MODEL
     ? [process.env.GEMINI_IMAGE_MODEL, ...MODELOS_RESPALDO]
@@ -71,7 +86,7 @@ export async function POST(req: Request) {
   for (const modelo of [...new Set(modelos)]) {
     try {
       const r = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(modelo)}:generateContent`,
+        `${process.env.GEMINI_BASE_URL ?? "https://generativelanguage.googleapis.com"}/v1beta/models/${encodeURIComponent(modelo)}:generateContent`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json", "x-goog-api-key": llave },

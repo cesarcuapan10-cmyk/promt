@@ -345,3 +345,82 @@ model IntentoLogin {
   @@index([correo])
   @@index([creadoEn])
 }
+
+// ─────────────────────────────────────────────────────────────
+// VISAGE · Estudio de visagismo con IA para barberías (multi-negocio)
+// Cada barbería que contrata el servicio es un registro aquí.
+// Los JSON se guardan como texto (compatibilidad SQLite/Turso).
+// ─────────────────────────────────────────────────────────────
+
+model Barberia {
+  id               String    @id @default(cuid())
+  slug             String    @unique
+  nombre           String
+  logo             String?
+  colorMarca       String    @default("#d4af6a")
+  whatsapp         String?
+  enlaceAgenda     String?
+  instagram        String?
+  ciudad           String?
+  pinHash          String
+  plan             String    @default("PRO")
+  limiteMensual    Int       @default(150)
+  activa           Boolean   @default(true)
+  catalogo         String    @default("[]")
+  barberos         String    @default("[]")
+  intentosFallidos Int       @default(0)
+  bloqueadoHasta   DateTime?
+  creadoEn         DateTime  @default(now())
+  actualizadoEn    DateTime  @updatedAt
+
+  clientes     ClienteVisage[]
+  diagnosticos DiagnosticoVisage[]
+
+  @@index([activa])
+}
+
+model ClienteVisage {
+  id            String   @id @default(cuid())
+  barberiaId    String
+  nombre        String
+  telefono      String?
+  edad          String?
+  ocupacion     String?
+  notas         String?
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+
+  barberia     Barberia            @relation(fields: [barberiaId], references: [id])
+  diagnosticos DiagnosticoVisage[]
+
+  @@index([barberiaId])
+  @@index([telefono])
+}
+
+model DiagnosticoVisage {
+  id                String    @id @default(cuid())
+  barberiaId        String
+  clienteId         String
+  barbero           String?
+  contexto          String
+  medidas           String?
+  diagnostico       String
+  fotoFrente        String
+  simulaciones      String    @default("{}")
+  corteElegido      String?
+  fotoReal          String?
+  serviciosVendidos String    @default("[]")
+  total             Float?
+  extras            Float?
+  token             String    @unique
+  cerradoEn         DateTime?
+  proximaVisita     DateTime?
+  creadoEn          DateTime  @default(now())
+
+  barberia Barberia      @relation(fields: [barberiaId], references: [id])
+  cliente  ClienteVisage @relation(fields: [clienteId], references: [id])
+
+  @@index([barberiaId, creadoEn])
+  @@index([clienteId])
+  @@index([proximaVisita])
+}

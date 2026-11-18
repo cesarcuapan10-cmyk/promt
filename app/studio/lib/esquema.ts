@@ -99,8 +99,13 @@ export const Diagnostico = z.object({
   }),
   cuidadoEnCasa: z.array(z.string()),
   serviciosComplementarios: z
-    .array(z.object({ servicio: z.string(), motivo: z.string() }))
-    .describe("Servicios adicionales de barbería/estética que sí aportan a este cliente"),
+    .array(z.object({ servicio: z.string(), precio: z.number().nullable(), motivo: z.string() }))
+    .describe(
+      "Servicios adicionales que sí aportan a este cliente. Si hay catálogo, elige SOLO de él y copia el nombre y precio exactos; si no hay, precio null",
+    ),
+  productosRecomendados: z
+    .array(z.object({ producto: z.string(), precio: z.number().nullable(), motivo: z.string() }))
+    .describe("Productos para casa. Si el catálogo trae productos, elige de él con nombre y precio exactos"),
   resumenCliente: z.string().describe("3-4 frases cálidas y claras para explicarle al cliente su diagnóstico"),
   notaSalud: z
     .string()
@@ -124,8 +129,31 @@ export type Medidas = {
   formaGeometrica: (typeof FORMAS_ROSTRO)[number]
 }
 
+export type ItemCatalogo = {
+  nombre: string
+  precio: number
+  tipo: "corte" | "servicio" | "producto"
+}
+
+export type BarberiaPublica = {
+  id: string
+  slug: string
+  nombre: string
+  logo: string | null
+  colorMarca: string
+  whatsapp: string
+  enlaceAgenda: string
+  instagram: string
+  ciudad: string
+  plan: string
+  limiteMensual: number
+  catalogo: ItemCatalogo[]
+  barberos: string[]
+}
+
 export type Contexto = {
   nombre: string
+  telefono: string
   edad: string
   ocupacion: string
   arregloDiario: "5" | "10" | "20"

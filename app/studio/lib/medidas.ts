@@ -75,7 +75,21 @@ export type Punto = { x: number; y: number }
 
 export type ResultadoMedicion = { medidas: Medidas; puntos: Punto[]; ancho: number; alto: number }
 
-export async function medirRostro(fotoFrontal: string): Promise<ResultadoMedicion | null> {
+// La misma foto se mide al revisar calidad y al analizar: se guarda el resultado
+const cache = new Map<string, Promise<ResultadoMedicion | null>>()
+
+export function medirRostro(fotoFrontal: string): Promise<ResultadoMedicion | null> {
+  const clave = fotoFrontal.length + fotoFrontal.slice(-64)
+  let r = cache.get(clave)
+  if (!r) {
+    r = medir(fotoFrontal)
+    if (cache.size > 8) cache.clear()
+    cache.set(clave, r)
+  }
+  return r
+}
+
+async function medir(fotoFrontal: string): Promise<ResultadoMedicion | null> {
   try {
     const landmarker = await obtenerLandmarker()
     const img = await cargarImagen(fotoFrontal)

@@ -2,12 +2,14 @@
 
 import { useState } from "react"
 import {
-  AlertTriangle, BookOpen, CalendarPlus, Check, ChevronDown, Clock, Loader2, MessageCircle,
-  Palette, Printer, RefreshCw, Ruler, Scissors, Sparkles, Wand2, X,
+  AlertTriangle, BookOpen, CalendarPlus, Check, CheckCircle2, ChevronDown, Clock, Loader2,
+  ImagePlus, Palette, Printer, RefreshCw, Ruler, Scissors, Send, ShoppingBag, Sparkles, Wand2, X,
 } from "lucide-react"
-import { ETIQUETA_CRANEO, ETIQUETA_FORMA, type Contexto, type TDiagnostico } from "../lib/esquema"
+import { toast } from "sonner"
+import { ETIQUETA_CRANEO, ETIQUETA_FORMA, type BarberiaPublica, type Contexto, type Medidas, type TDiagnostico } from "../lib/esquema"
 import { AVISO_CIENTIFICO, ESTUDIOS } from "../lib/estudios"
 import type { ResultadoMedicion } from "../lib/medidas"
+import { compartirOdescargar, componerPost } from "../lib/post"
 import { AntesDespues } from "./AntesDespues"
 import { MapaFacial } from "./MapaFacial"
 
@@ -18,9 +20,14 @@ type Props = {
   contexto: Contexto
   fotoFrontal: string
   medicion: ResultadoMedicion | null
+  medidas: Medidas | null
   simulaciones: Record<string, Simulacion>
   onSimular: (clave: string, instruccion: string) => void
-  negocio: { nombre: string; whatsapp: string; enlaceAgenda: string }
+  barberia: BarberiaPublica
+  token: string
+  fecha: string
+  cierre: { corte: string; total: number | null; fotoReal: string | null; proximaVisita: string | null } | null
+  onCerrarServicio: () => void
   simulacionDisponible: boolean
   onNuevo: () => void
 }
@@ -33,20 +40,46 @@ const SECCIONES = [
 ] as const
 
 export function Resultados(p: Props) {
-  const { diagnostico: d, contexto, medicion } = p
+  const { diagnostico: d, contexto, medicion, medidas, barberia } = p
   const [personalizada, setPersonalizada] = useState("")
+  const [generandoPost, setGenerandoPost] = useState(false)
   const principal = p.simulaciones["0"]
+  const despuesHeroe = p.cierre?.fotoReal ?? (principal?.estado === "listo" ? principal.imagen : undefined)
+  const extrasSugeridos = [...d.serviciosComplementarios.map((s) => s.precio), ...d.productosRecomendados.map((x) => x.precio)]
+    .filter((n): n is number => typeof n === "number")
+    .reduce((a, b) => a + b, 0)
 
-  function textoWhatsApp() {
-    const r = d.recomendaciones[0]
-    return encodeURIComponent(
-      `${contexto.nombre ? contexto.nombre + ", aquí" : "Aquí"} va tu diagnóstico de ${p.negocio.nombre}:\n\n` +
-        `• Rostro: ${ETIQUETA_FORMA[d.rostro.forma]}\n• Cráneo: ${ETIQUETA_CRANEO[d.craneo.tipo]}\n` +
-        `• Cabello: tipo ${d.cabello.tipoRizo}, ${d.cabello.grosor}, densidad ${d.cabello.densidad}\n\n` +
-        `Tu corte ideal: ${r.nombre} (${Math.round(r.compatibilidad)}% compatible)\n${r.porQueFunciona}\n\n` +
-        `Mantenimiento: cada ${r.fichaTecnica.mantenimientoSemanas} semanas.` +
-        (p.negocio.enlaceAgenda ? `\nAgenda tu próximo corte: ${p.negocio.enlaceAgenda}` : ""),
+  function enlaceCliente() {
+    const tel = contexto.telefono.replace(/\D/g, "").slice(-10)
+    const texto = encodeURIComponent(
+      `${contexto.nombre ? contexto.nombre.split(" ")[0] + ", aquí" : "Aquí"} está tu diagnóstico de estilo de ${barberia.nombre}: ` +
+        `tu corte ideal es ${d.recomendaciones[0].nombre}. Ve tu antes y después, tu rutina en casa y cuándo te toca el retoque:\n` +
+        `${location.origin}/v/${p.token}`,
     )
+    return tel.length === 10 ? `https://wa.me/52${tel}?text=${texto}` : `https://wa.me/?text=${texto}`
+  }
+
+  async function post() {
+    const despues = p.cierre?.fotoReal ?? Object.values(p.simulaciones).find((s) => s.estado === "listo")?.imagen
+    if (!despues) {
+      toast.info("Primero simula un corte o cierra el servicio con la foto real")
+      return
+    }
+    setGenerandoPost(true)
+    try {
+      const blob = await componerPost({
+        antes: p.fotoFrontal,
+        despues,
+        barberia,
+        corte: p.cierre?.corte ?? d.recomendaciones[0].nombre,
+        esSimulacion: !p.cierre?.fotoReal,
+      })
+      await compartirOdescargar(blob, `antes-despues-${(contexto.nombre || "cliente").toLowerCase().replace(/\s+/g, "-")}.jpg`, `${p.cierre?.corte ?? d.recomendaciones[0].nombre} · ${barberia.nombre}`)
+    } catch {
+      toast.error("No se pudo generar el post")
+    } finally {
+      setGenerandoPost(false)
+    }
   }
 
   return (
@@ -54,24 +87,44 @@ export function Resultados(p: Props) {
       {/* Encabezado */}
       <header className="mb-5 flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-[11px] uppercase tracking-[0.25em] text-[#d4af6a]">{p.negocio.nombre} · Visagismo IA</p>
+          <p className="text-[11px] uppercase tracking-[0.25em] text-[#d4af6a]">{barberia.nombre} · Visagismo IA</p>
           <h1 className="mt-1 text-3xl font-semibold tracking-tight">{contexto.nombre || "Diagnóstico del cliente"}</h1>
           <p className="text-sm text-white/50">
-            {new Date().toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })}
+            {new Date(p.fecha).toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })}
           </p>
         </div>
-        <div className="flex gap-2 print:hidden">
+        <div className="flex flex-wrap gap-2 print:hidden">
           <button onClick={() => window.print()} className="boton-sec">
             <Printer className="h-4 w-4" /> PDF
           </button>
-          <a href={`https://wa.me/${p.negocio.whatsapp.replace(/\D/g, "")}?text=${textoWhatsApp()}`} target="_blank" rel="noreferrer" className="boton-sec">
-            <MessageCircle className="h-4 w-4" /> WhatsApp
+          <a href={enlaceCliente()} target="_blank" rel="noreferrer" className="boton-sec">
+            <Send className="h-4 w-4" /> Enviar al cliente
           </a>
-          <button onClick={p.onNuevo} className="boton-oro">
-            <RefreshCw className="h-4 w-4" /> Nuevo cliente
+          <button onClick={post} disabled={generandoPost} className="boton-sec disabled:opacity-50">
+            {generandoPost ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />} Post para redes
           </button>
+          {p.cierre ? (
+            <button onClick={p.onNuevo} className="boton-oro">
+              <RefreshCw className="h-4 w-4" /> Nuevo cliente
+            </button>
+          ) : (
+            <button onClick={p.onCerrarServicio} className="boton-oro">
+              <CheckCircle2 className="h-4 w-4" /> Cerrar servicio
+            </button>
+          )}
         </div>
       </header>
+
+      {p.cierre && (
+        <div className="mb-5 flex flex-wrap items-center gap-x-4 gap-y-1 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm text-emerald-100">
+          <CheckCircle2 className="h-4 w-4" />
+          <span>Servicio cerrado: <b>{p.cierre.corte}</b></span>
+          {p.cierre.total !== null && <span>Total ${p.cierre.total}</span>}
+          {p.cierre.proximaVisita && (
+            <span>Regresa el {new Date(p.cierre.proximaVisita).toLocaleDateString("es-MX", { day: "numeric", month: "long" })}</span>
+          )}
+        </div>
+      )}
 
       <nav className="sticky top-0 z-30 -mx-4 mb-6 flex gap-1 overflow-x-auto bg-[#0b0b0c]/90 px-4 py-2 backdrop-blur print:hidden">
         {SECCIONES.map(([id, label]) => (
@@ -88,8 +141,8 @@ export function Resultados(p: Props) {
       {/* Héroe: antes/después del corte principal */}
       <section className="grid gap-5 md:grid-cols-2">
         <div>
-          {principal?.estado === "listo" && principal.imagen ? (
-            <AntesDespues antes={p.fotoFrontal} despues={principal.imagen} alt={d.recomendaciones[0].nombre} />
+          {despuesHeroe ? (
+            <AntesDespues antes={p.fotoFrontal} despues={despuesHeroe} alt={p.cierre?.corte ?? d.recomendaciones[0].nombre} />
           ) : (
             <div className="relative">
               <MapaFacial foto={p.fotoFrontal} medicion={medicion} />
@@ -121,17 +174,17 @@ export function Resultados(p: Props) {
         <div className="grid gap-4 lg:grid-cols-2">
           <Tarjeta titulo="Rostro" etiqueta={ETIQUETA_FORMA[d.rostro.forma] + (d.rostro.formaSecundaria ? ` · tendencia ${ETIQUETA_FORMA[d.rostro.formaSecundaria].toLowerCase()}` : "")}>
             <p className="mb-3 text-sm text-white/70">{d.rostro.explicacion}</p>
-            {medicion && (
+            {medidas && (
               <div className="mb-4 space-y-3">
-                <Barra etiqueta="Largo / ancho (malla)" valor={medicion.medidas.largoAncho} min={0.85} max={1.4} formato={(v) => v.toFixed(2)} />
-                <Barra etiqueta="Mandíbula / pómulos" valor={medicion.medidas.mandibulaPomulo} min={0.6} max={1.05} formato={(v) => v.toFixed(2)} />
-                <Barra etiqueta="Frente / pómulos" valor={medicion.medidas.frentePomulo} min={0.6} max={1.05} formato={(v) => v.toFixed(2)} />
-                <Barra etiqueta="Ojos-boca / largo (ref. 0.36)" valor={medicion.medidas.ojosBocaLargo} min={0.25} max={0.45} ideal={0.36} formato={(v) => v.toFixed(2)} />
-                <Barra etiqueta="Entre pupilas / ancho (ref. 0.46)" valor={medicion.medidas.interocularAncho} min={0.3} max={0.6} ideal={0.46} formato={(v) => v.toFixed(2)} />
-                <Tercios t={medicion.medidas.tercios} />
+                <Barra etiqueta="Largo / ancho (malla)" valor={medidas.largoAncho} min={0.85} max={1.4} formato={(v) => v.toFixed(2)} />
+                <Barra etiqueta="Mandíbula / pómulos" valor={medidas.mandibulaPomulo} min={0.6} max={1.05} formato={(v) => v.toFixed(2)} />
+                <Barra etiqueta="Frente / pómulos" valor={medidas.frentePomulo} min={0.6} max={1.05} formato={(v) => v.toFixed(2)} />
+                <Barra etiqueta="Ojos-boca / largo (ref. 0.36)" valor={medidas.ojosBocaLargo} min={0.25} max={0.45} ideal={0.36} formato={(v) => v.toFixed(2)} />
+                <Barra etiqueta="Entre pupilas / ancho (ref. 0.46)" valor={medidas.interocularAncho} min={0.3} max={0.6} ideal={0.46} formato={(v) => v.toFixed(2)} />
+                <Tercios t={medidas.tercios} />
                 <p className="text-xs text-white/40">
-                  Simetría {medicion.medidas.simetria}% · Pre-clasificación geométrica: {ETIQUETA_FORMA[medicion.medidas.formaGeometrica]}
-                  {Math.abs(medicion.medidas.inclinacion) > 6 && ` · Cabeza inclinada ${medicion.medidas.inclinacion}°, repetir foto para mayor precisión`}
+                  Simetría {medidas.simetria}% · Pre-clasificación geométrica: {ETIQUETA_FORMA[medidas.formaGeometrica]}
+                  {Math.abs(medidas.inclinacion) > 6 && ` · Cabeza inclinada ${medidas.inclinacion}°, repetir foto para mayor precisión`}
                 </p>
               </div>
             )}
@@ -254,18 +307,23 @@ export function Resultados(p: Props) {
             </ul>
           </Tarjeta>
           <Tarjeta titulo="Servicios que te aportan" etiqueta="Complementos">
-            <ul className="space-y-3 text-sm">
-              {d.serviciosComplementarios.map((s) => (
-                <li key={s.servicio}>
-                  <p className="font-medium">{s.servicio}</p>
-                  <p className="text-white/60">{s.motivo}</p>
-                </li>
-              ))}
-            </ul>
+            <ListaVenta items={d.serviciosComplementarios.map((x) => ({ nombre: x.servicio, precio: x.precio, motivo: x.motivo }))} />
           </Tarjeta>
         </div>
-        {p.negocio.enlaceAgenda && (
-          <a href={p.negocio.enlaceAgenda} target="_blank" rel="noreferrer" className="boton-oro mt-5 w-full justify-center py-3 print:hidden">
+        {d.productosRecomendados.length > 0 && (
+          <div className="mt-4">
+            <Tarjeta titulo="Productos para tu cabello" etiqueta="Para casa">
+              <ListaVenta items={d.productosRecomendados.map((x) => ({ nombre: x.producto, precio: x.precio, motivo: x.motivo }))} />
+            </Tarjeta>
+          </div>
+        )}
+        {extrasSugeridos > 0 && (
+          <p className="mt-3 flex items-center gap-2 text-sm text-[#e9cf95] print:hidden">
+            <ShoppingBag className="h-4 w-4" /> Si toma lo recomendado: +${extrasSugeridos} al ticket
+          </p>
+        )}
+        {barberia.enlaceAgenda && (
+          <a href={barberia.enlaceAgenda} target="_blank" rel="noreferrer" className="boton-oro mt-5 w-full justify-center py-3 print:hidden">
             <CalendarPlus className="h-5 w-5" /> Agendar mantenimiento en {d.recomendaciones[0].fichaTecnica.mantenimientoSemanas} semanas
           </a>
         )}
@@ -381,6 +439,22 @@ function SimulacionBloque({ foto, sim, alt, onReintentar }: { foto: string; sim?
     <div className="mt-3">
       <AntesDespues antes={foto} despues={sim.imagen!} alt={alt} />
     </div>
+  )
+}
+
+function ListaVenta({ items }: { items: { nombre: string; precio: number | null; motivo: string }[] }) {
+  return (
+    <ul className="space-y-3 text-sm">
+      {items.map((x) => (
+        <li key={x.nombre}>
+          <p className="flex justify-between gap-3 font-medium">
+            <span>{x.nombre}</span>
+            {x.precio !== null && <span className="font-mono text-[#e9cf95]">${x.precio}</span>}
+          </p>
+          <p className="text-white/60">{x.motivo}</p>
+        </li>
+      ))}
+    </ul>
   )
 }
 
