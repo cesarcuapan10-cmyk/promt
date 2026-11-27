@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Josefin+Sans:wght@300;400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
+  color-scheme:dark;
   --bg:#0a0909; --bg2:#141212; --card:#1a1717; --ink:#f4efe6; --muted:#a39d93; --line:rgba(244,239,230,.12);
   --red:#d23a2f; --red2:#ff5a4c; --gold:#cdb07a; --neon:#a855f7; --pink:#ff3d8b; --cyan:#38e1ff; --ok:#3ccf8e;
   --ivory:#f6f1e7; --ivory-ink:#1b1715;
@@ -23,7 +24,7 @@ input,select{font:inherit;color:var(--ink)}
 a{color:inherit}
 
 /* ---------- header / nav ---------- */
-.top{position:sticky;top:0;z-index:50;background:rgba(10,9,9,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(10,9,9,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:12px;padding:12px 16px;max-width:1180px;margin:0 auto}
 .brand img{width:34px;height:34px;border-radius:50%}
 .brand .t{font-family:var(--display);letter-spacing:.18em;font-size:13px;text-transform:uppercase}
@@ -522,8 +523,7 @@ h1,h2,h3{font-weight:500}
           <div id="r-frame"></div>
         </div>
         <div class="noprint" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
-          <button class="btn primary" onclick="window.print()">Descargar PDF</button>
-          <button class="btn ghost" style="border-color:#d8cdb8;color:var(--ivory-ink)" id="shareRep">Enviar reporte por WhatsApp</button>
+                    <a class="btn primary" id="shareRep" target="_blank" rel="noopener" href="#">Enviar reporte por WhatsApp</a>
         </div>
       </div>
     </div>
@@ -677,7 +677,7 @@ function go(k){
   $$(".tab").forEach(t=>t.classList.toggle("on",t.dataset.go===k));
   const t=$(`.tab[data-go="${k}"]`); t&&t.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});
   window.scrollTo({top:0,behavior:"smooth"});
-  if(k==="desfile")startShow(); if(k==="reporte")renderReport(); if(k==="panel")renderPanel(); refreshNames();
+  if(k==="desfile")startShow(); if(k==="reporte")renderReport(); if(k==="panel")renderPanel(); if(k==="servicios")renderSvc(); refreshNames();
 }
 document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b){e.preventDefault();go(b.dataset.go)}});
 
@@ -748,14 +748,14 @@ function renderProposal(){
       <div>${frameHTML()}<p style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.5">Versión digital del reconocimiento que hoy se entrega enmarcado. El patrocinador la publica en LinkedIn y en su web.</p></div>
     </div>
     <div class="actions">
-      <button class="btn primary" id="wa">Enviar por WhatsApp</button>
+      <a class="btn primary" id="wa" target="_blank" rel="noopener" href="#">Enviar por WhatsApp</a>
       <button class="btn ghost" data-go="reporte">Ver su reporte</button>
       <button class="btn ghost" data-go="panel">Ver en el panel</button>
     </div>`;
-  $("#wa").onclick=()=>{
+  {
     const txt=`Hola, soy Carlo Rossano. Preparé la propuesta de ${coName()} para el Conscious Fashion Show 44: nivel ${t.k}, apadrinando a ${CAUSAS[S.causa]}${taken?"":`, con exclusividad en ${S.giro}`}. Incluye su marca en pantallas LED, menciones en medios aliados, reporte de impacto y su reconocimiento. ¿Agendamos 15 minutos esta semana?`;
-    window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank");
-  };
+    $("#wa").href="https://wa.me/?text="+encodeURIComponent(txt);
+  }
   refreshNames();
 }
 
@@ -795,7 +795,7 @@ function renderReport(){
   const t=TIERS[S.tier];
   $("#r-reach").textContent=num(t.reach);$("#r-ment").textContent=t.ment;$("#r-led").textContent=t.led;$("#r-guests").textContent=t.guests;
   $("#r-cause").textContent=fmt(t.p*t.cause);$("#r-cname").textContent=CAUSAS[S.causa];
-  $("#r-frame").innerHTML=frameHTML();
+  $("#r-frame").innerHTML=frameHTML();repLink();
   const E=(ic,a,b)=>`<div class="ev"><div class="ic">${ic}</div><div>${a}<small>${b}</small></div></div>`;
   $("#tl").innerHTML=`
     <div class="col"><h4>Antes</h4>${E("📰","Anuncio de patrocinadores","El Heraldo de Puebla")}${E("📻","Spots con mención de marca","Ultra 92.5 · La Ke Buena")}${E("🖥","Espectaculares LED","SAP Anuncios")}${E("📱","Post de bienvenida al Círculo","Redes oficiales")}</div>
@@ -803,7 +803,7 @@ function renderReport(){
     <div class="col"><h4>Después</h4>${E("📸","Fotorreportaje","El Heraldo de Puebla · IN Magazine")}${E("🎬","Kit de contenido entregado","20 fotos + 1 video · 72 h")}${E("🏅","Reconocimiento digital","Verificable por QR")}${E("💼","Nota empresarial","Mundo Ejecutivo Puebla")}</div>`;
   refreshNames();
 }
-$("#shareRep").onclick=()=>window.open("https://wa.me/?text="+encodeURIComponent(`Reporte de impacto de ${coName()} en el Conscious Fashion Show 44: ${num(TIERS[S.tier].reach)} personas alcanzadas, ${TIERS[S.tier].ment} menciones en medios y ${fmt(TIERS[S.tier].p*TIERS[S.tier].cause)} aportados a ${CAUSAS[S.causa]}.`),"_blank");
+const repLink=()=>$("#shareRep").href=("https://wa.me/?text="+encodeURIComponent(`Reporte de impacto de ${coName()} en el Conscious Fashion Show 44: ${num(TIERS[S.tier].reach)} personas alcanzadas, ${TIERS[S.tier].ment} menciones en medios y ${fmt(TIERS[S.tier].p*TIERS[S.tier].cause)} aportados a ${CAUSAS[S.causa]}.`));
 
 /* ---------- servicios ---------- */
 const SVC=[
@@ -812,8 +812,9 @@ const SVC=[
   ["escenario","Lanzamiento con producción de pasarela","Presenta tu producto, desarrollo o sucursal con escenario, pantallas LED, talento y medios aliados."],
   ["poster43","Regalos y uniformes de diseño","Regalos corporativos de autor y uniformes de alto nivel para equipos de atención y ventas."]
 ];
-$("#svc").innerHTML=SVC.map(([im,h,p],i)=>`<div class="card svcard"><div class="im" style="background-image:url('${IMG[im]}')"></div><div class="tx"><span class="pill${i===1?" red":""}">${i===1?"Exclusivo":"Servicio"}</span><h3>${h}</h3><p>${p}</p><button class="btn ghost" data-svc="${i}">Solicitar cotización</button></div></div>`).join("");
-$("#svc").addEventListener("click",e=>{const b=e.target.closest("[data-svc]");if(!b)return;window.open("https://wa.me/?text="+encodeURIComponent(`Hola Carlo, en ${coName()} nos interesa: ${SVC[+b.dataset.svc][1]}. ¿Nos compartes opciones?`),"_blank")});
+function renderSvc(){$("#svc").innerHTML=SVC.map(([im,h,p],i)=>`<div class="card svcard"><div class="im" style="background-image:url('${IMG[im]}')"></div><div class="tx"><span class="pill${i===1?" red":""}">${i===1?"Exclusivo":"Servicio"}</span><h3>${h}</h3><p>${p}</p><a class="btn ghost" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(`Hola Carlo, en ${coName()} nos interesa: ${h}. ¿Nos compartes opciones?`)}">Solicitar cotización</a></div></div>`).join("");
+}
+renderSvc();
 
 /* ---------- comunidad ---------- */
 const POSTS=[
