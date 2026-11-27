@@ -331,7 +331,7 @@ h1,h2,h3{font-weight:500}
 
 <header class="top">
   <div class="brand">
-    <img src="{{IMG:emblema}}" alt="">
+    <img data-img="emblema" alt="">
     <div>
       <div class="t"><b>Círculo Conscious</b> 365</div>
       <div class="s">Carlo Rossano · Conscious Fashion Show</div>
@@ -345,9 +345,9 @@ h1,h2,h3{font-weight:500}
 <!-- ===================== 1. INICIO ===================== -->
 <section class="view on" id="v-inicio">
   <div class="hero">
-    <div class="bg" style="background-image:url('{{IMG:pasarela}}')"></div>
+    <div class="bg" data-bg="pasarela"></div>
     <div class="in">
-      <img class="wm" src="{{PNG:wordmark}}" alt="Carlo Rossano Disegno">
+      <img class="wm" data-img="wordmark" alt="Carlo Rossano Disegno">
       <div class="eyebrow">Conscious Fashion Show · Rumbo al 44 aniversario</div>
       <h1 class="h1" style="margin-top:12px">De una noche<br>de patrocinio<br><span class="serif" style="text-transform:none;font-size:.9em;color:var(--red2)">a un año de pertenencia</span></h1>
       <p class="lead">La plataforma que convierte a cada patrocinador del desfile con causa más publicitado de la Angelópolis en miembro de un círculo de empresas socialmente responsables: con propuesta, evidencia, reconocimiento y comunidad los 365 días.</p>
@@ -374,7 +374,7 @@ h1,h2,h3{font-weight:500}
         <p class="quote" style="margin-top:12px">Hoy el patrocinador se lleva un gran reconocimiento… y una noche inolvidable. <b>Lo que no se lleva es la prueba</b> de todo lo que su marca ganó, ni una razón para quedarse todo el año.</p>
         <p class="lead" style="margin-top:14px">Esta plataforma convierte ese valor —medios, causa, prestigio, relaciones— en algo que el patrocinador ve antes de pagar, presume después del evento y renueva sin que se lo pidan.</p>
       </div>
-      <img src="{{IMG:reconocimiento}}" alt="Entrega de reconocimientos a patrocinadores">
+      <img data-img="reconocimiento" alt="Entrega de reconocimientos a patrocinadores">
     </div>
 
     <div class="sec-head" style="margin-top:44px">
@@ -383,14 +383,14 @@ h1,h2,h3{font-weight:500}
     </div>
     <div class="grid ab">
       <button class="abcard" data-go="propuesta" style="text-align:left">
-        <div class="bg" style="background-image:url('{{IMG:escenario}}')"></div>
+        <div class="bg" data-bg="escenario"></div>
         <div class="tag">A</div>
         <h3>Atelier de Patrocinios</h3>
         <p>El motor de ventas: Carlo arma una propuesta personalizada en segundos, la envía por WhatsApp y cada patrocinador recibe su reporte de impacto.</p>
         <ul><li>Propuesta en vivo con exclusividad por giro</li><li>Noche del desfile con termómetro de recaudación</li><li>Reporte de impacto y reconocimiento verificable</li></ul>
       </button>
       <button class="abcard" data-go="circulo" style="text-align:left">
-        <div class="bg" style="background-image:url('{{IMG:aniversario42}}')"></div>
+        <div class="bg" data-bg="aniversario42"></div>
         <div class="tag">B</div>
         <h3>Círculo Conscious 365</h3>
         <p>La visión: el patrocinio deja de ser un pago por evento y se vuelve una membresía anual de empresas con causa. Ingreso recurrente y renovación automática.</p>
@@ -487,7 +487,7 @@ h1,h2,h3{font-weight:500}
     <div class="paper">
       <div class="ph">
         <div style="display:flex;align-items:center;gap:16px">
-          <img src="{{PNG:wordmark}}" alt="">
+          <img data-img="wordmark" alt="">
           <div>
             <div class="eyebrow">Reporte de impacto · Edición 44</div>
             <div style="font-family:var(--display);font-size:24px;text-transform:uppercase;letter-spacing:.06em;margin-top:6px" class="coName">Tu marca</div>
@@ -508,9 +508,9 @@ h1,h2,h3{font-weight:500}
 
         <h3>Evidencia</h3>
         <div class="evid">
-          <figure><img src="{{IMG:heraldo}}" alt=""><figcaption>Fotorreportaje en El Heraldo de Puebla</figcaption></figure>
-          <figure><img src="{{IMG:escenario}}" alt=""><figcaption>Marca en pantalla principal del escenario</figcaption></figure>
-          <figure><img src="{{IMG:reconocimiento}}" alt=""><figcaption>Entrega de reconocimiento en la gala</figcaption></figure>
+          <figure><img data-img="heraldo" alt=""><figcaption>Fotorreportaje en El Heraldo de Puebla</figcaption></figure>
+          <figure><img data-img="escenario" alt=""><figcaption>Marca en pantalla principal del escenario</figcaption></figure>
+          <figure><img data-img="reconocimiento" alt=""><figcaption>Entrega de reconocimiento en la gala</figcaption></figure>
         </div>
 
         <div class="impact">
@@ -605,7 +605,7 @@ h1,h2,h3{font-weight:500}
     </div>
 
     <div class="card seal" style="margin-top:22px">
-      <div class="s"><div><img src="{{IMG:emblema}}" alt=""><b>Empresa<br>Conscious<br>2027</b></div></div>
+      <div class="s"><div><img data-img="emblema" alt=""><b>Empresa<br>Conscious<br>2027</b></div></div>
       <div>
         <div class="eyebrow">Sello verificable</div>
         <p style="font-size:15px;line-height:1.6;color:#ddd6cb;margin-top:8px">Cada miembro recibe el sello "Empresa Conscious" para su web, LinkedIn, empaques y punto de venta. Al escanearlo, cualquiera ve su causa, su aportación y su historial en el Círculo. <b style="color:var(--ink)">Cada sello publicado es publicidad gratuita para el siguiente patrocinador.</b></p>
@@ -644,8 +644,9 @@ h1,h2,h3{font-weight:500}
 <div class="toast" id="toast"></div>
 
 <script>
-const IMG={emblema:"{{IMG:emblema}}",escenario:"{{IMG:escenario}}",pasarela:"{{IMG:pasarela}}",heraldo:"{{IMG:heraldo}}",poster42:"{{IMG:poster42}}",poster43:"{{IMG:poster43}}",aniversario42:"{{IMG:aniversario42}}",reconocimiento:"{{IMG:reconocimiento}}"};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const IMG={emblema:"{{IMG:emblema}}",wordmark:"{{PNG:wordmark}}",escenario:"{{IMG:escenario}}",pasarela:"{{IMG:pasarela}}",heraldo:"{{IMG:heraldo}}",poster43:"{{IMG:poster43}}",aniversario42:"{{IMG:aniversario42}}",reconocimiento:"{{IMG:reconocimiento}}"};
+$$("[data-img]").forEach(e=>e.src=IMG[e.dataset.img]);$$("[data-bg]").forEach(e=>e.style.backgroundImage=`url(${IMG[e.dataset.bg]})`);
 const fmt=n=>"$"+Math.round(n).toLocaleString("es-MX");
 const num=n=>Math.round(n).toLocaleString("es-MX");
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
