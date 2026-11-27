@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Círculo Conscious 365</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Josefin+Sans:wght@300;400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0909; --bg2:#141212; --card:#1a1717; --ink:#f4efe6; --muted:#a39d93; --line:rgba(244,239,230,.12);
+  --red:#d23a2f; --red2:#ff5a4c; --gold:#cdb07a; --neon:#a855f7; --pink:#ff3d8b; --cyan:#38e1ff; --ok:#3ccf8e;
+  --ivory:#f6f1e7; --ivory-ink:#1b1715;
+  --display:"Josefin Sans",system-ui,sans-serif; --serif:"Cormorant Garamond",Georgia,serif; --body:"Inter",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+body{min-height:100vh;overflow-x:hidden}
+img{display:block;max-width:100%}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+input,select{font:inherit;color:var(--ink)}
+a{color:inherit}
+
+/* ---------- header / nav ---------- */
+.top{position:sticky;top:0;z-index:50;background:rgba(10,9,9,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:12px;padding:12px 16px;max-width:1180px;margin:0 auto}
+.brand img{width:34px;height:34px;border-radius:50%}
+.brand .t{font-family:var(--display);letter-spacing:.18em;font-size:13px;text-transform:uppercase}
+.brand .t b{font-weight:600}
+.brand .s{font-size:11px;color:var(--muted);letter-spacing:.08em}
+.brand .demo{margin-left:auto;font-size:10px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--gold);color:var(--gold);padding:5px 9px;border-radius:99px;white-space:nowrap}
+.tabs{display:flex;gap:4px;overflow-x:auto;padding:0 12px 10px;max-width:1180px;margin:0 auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{white-space:nowrap;padding:8px 13px;border-radius:99px;font-size:13px;color:var(--muted);border:1px solid transparent;transition:.2s}
+.tab .n{font-family:var(--display);font-size:11px;opacity:.6;margin-right:6px}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--ink);border-color:var(--line);background:var(--card)}
+
+.view{display:none;animation:fade .45s ease}
+.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 16px 40px}
+.eyebrow{font-family:var(--display);font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+h1,h2,h3{font-weight:500}
+.h1{font-family:var(--display);font-weight:300;font-size:clamp(34px,6vw,68px);line-height:1.02;letter-spacing:.02em;text-transform:uppercase}
+.h2{font-family:var(--display);font-weight:300;font-size:clamp(26px,4vw,42px);line-height:1.1;text-transform:uppercase;letter-spacing:.03em}
+.serif{font-family:var(--serif);font-style:italic;font-weight:500}
+.lead{color:var(--muted);font-size:16px;line-height:1.6;max-width:640px}
+.sec-head{margin:6px 0 22px}
+.sec-head .h2{margin-top:8px}
+.sec-head .lead{margin-top:10px}
+.grid{display:grid;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.pill.red{border-color:rgba(210,58,47,.5);color:var(--red2)}
+.pill.gold{border-color:rgba(205,176,122,.5);color:var(--gold)}
+.pill.ok{border-color:rgba(60,207,142,.45);color:var(--ok)}
+.ex{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);opacity:.85}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 20px;border-radius:12px;font-weight:600;font-size:14px;transition:.2s}
+.btn.primary{background:var(--red);color:#fff}
+.btn.primary:hover{background:var(--red2)}
+.btn.ghost{border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--ink)}
+.btn.gold{background:var(--gold);color:#1a1510}
+.btn.block{width:100%}
+.next{display:flex;justify-content:flex-end;margin-top:28px}
+
+/* ---------- inicio ---------- */
+.hero{position:relative;min-height:min(86vh,760px);display:flex;align-items:flex-end;overflow:hidden}
+.hero .bg{position:absolute;inset:0;background-size:cover;background-position:center 40%;filter:saturate(1.1)}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,9,9,.85),rgba(10,9,9,.2) 70%);z-index:1}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,9,.2) 0%,rgba(10,9,9,.55) 45%,var(--bg) 96%)}
+.hero .in{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:40px 16px 36px;width:100%}
+.hero .wm{width:min(300px,66vw);margin-bottom:22px;filter:drop-shadow(0 2px 18px rgba(0,0,0,.6))}
+.hero .lead{color:#d6d0c6;margin-top:16px}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-top:8px}
+.stat{background:var(--bg2);padding:18px 16px}
+.stat .v{font-family:var(--display);font-size:clamp(26px,4vw,40px);font-weight:300}
+.stat .l{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+.marquee{overflow:hidden;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0;margin:32px 0;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marquee .track{display:flex;gap:42px;width:max-content;animation:mq 48s linear infinite}
+.marquee span{font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-size:13px;color:var(--muted);white-space:nowrap}
+.marquee span i{color:var(--red);font-style:normal;margin-left:42px}
+@keyframes mq{to{transform:translateX(-50%)}}
+.ab{grid-template-columns:1fr 1fr}
+.abcard{position:relative;overflow:hidden;min-height:330px;display:flex;flex-direction:column;justify-content:flex-end;padding:24px;border-radius:20px;border:1px solid var(--line)}
+.abcard .bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.42;transition:.6s}
+.abcard:hover .bg{transform:scale(1.04);opacity:.55}
+.abcard::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 10%,rgba(10,9,9,.94) 75%);z-index:1}
+.abcard>*{position:relative;z-index:2}
+.abcard .tag{font-family:var(--display);font-size:56px;font-weight:300;line-height:1;color:var(--red2)}
+.abcard h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:20px;margin:6px 0 8px;font-weight:400}
+.abcard p{color:#cfc8bd;font-size:14px;line-height:1.55}
+.abcard ul{list-style:none;margin-top:12px;display:grid;gap:6px}
+.abcard li{font-size:13px;color:#d9d2c7;padding-left:16px;position:relative}
+.abcard li::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--red)}
+.problem{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:center;margin-top:36px}
+.problem img{border-radius:18px;border:1px solid var(--line)}
+.quote{font-family:var(--serif);font-style:italic;font-size:clamp(22px,3vw,30px);line-height:1.3}
+.quote b{font-style:normal;font-family:var(--display);font-weight:400;color:var(--red2)}
+
+/* ---------- propuesta ---------- */
+.builder{grid-template-columns:380px 1fr;align-items:start}
+.field{display:grid;gap:8px;margin-bottom:18px}
+.field label{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.inp{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;font-size:16px;outline:none;transition:.2s}
+.inp:focus{border-color:var(--gold)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:9px 12px;border-radius:10px;border:1px solid var(--line);font-size:13px;color:#d9d2c7;transition:.15s;display:flex;align-items:center;gap:6px}
+.chip:hover{border-color:var(--muted)}
+.chip.on{border-color:var(--gold);background:rgba(205,176,122,.12);color:var(--ink)}
+.chip.taken{opacity:.55}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.chip.taken .dot{background:var(--red)}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tier{text-align:left;padding:12px;border-radius:12px;border:1px solid var(--line);transition:.15s}
+.tier.on{border-color:var(--gold);background:rgba(205,176,122,.1)}
+.tier b{display:block;font-family:var(--display);text-transform:uppercase;letter-spacing:.1em;font-size:13px;font-weight:600}
+.tier span{font-size:13px;color:var(--muted)}
+.empty{min-height:420px;display:grid;place-items:center;text-align:center;border:1px dashed var(--line);border-radius:20px;color:var(--muted);padding:30px}
+.empty .serif{font-size:28px;color:var(--ink);margin-bottom:8px}
+.led{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:16/8;background:#120609;border:1px solid rgba(255,61,139,.25);display:grid;place-items:center;text-align:center;isolation:isolate}
+.led::before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent 0 20%,rgba(255,61,139,.35) 25%,transparent 32% 52%,rgba(56,225,255,.3) 57%,transparent 64% 80%,rgba(168,85,247,.35) 86%,transparent 92%);animation:spin 9s linear infinite;z-index:-2}
+.led::after{content:"";position:absolute;inset:0;background:radial-gradient(transparent 1px,rgba(0,0,0,.55) 1.4px) 0 0/4px 4px;z-index:-1}
+@keyframes spin{to{transform:rotate(360deg)}}
+.led .pre{font-family:var(--display);letter-spacing:.35em;font-size:clamp(10px,1.4vw,13px);text-transform:uppercase;color:#ffd6e6}
+.led .co{font-family:var(--display);font-weight:600;font-size:clamp(28px,6vw,64px);text-transform:uppercase;letter-spacing:.06em;color:#fff;text-shadow:0 0 18px rgba(255,61,139,.9),0 0 40px rgba(168,85,247,.6);line-height:1.05;padding:0 16px;word-break:break-word}
+.led .evt{font-family:var(--display);font-size:clamp(12px,1.8vw,16px);color:#e8ff6a;letter-spacing:.14em;text-transform:uppercase;margin-top:10px;text-shadow:0 0 12px rgba(232,255,106,.7)}
+.res{display:grid;gap:16px;margin-top:16px}
+.res2{grid-template-columns:1.15fr .85fr}
+.incl{list-style:none;display:grid;gap:10px}
+.incl li{display:flex;gap:10px;font-size:14px;line-height:1.45;color:#ddd6cb}
+.incl li svg{flex:0 0 18px;margin-top:1px;color:var(--gold)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.kpi{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px}
+.kpi .v{font-family:var(--display);font-size:26px;font-weight:300}
+.kpi .l{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.35}
+.price{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:16px;margin-top:16px}
+.price .v{font-family:var(--display);font-size:34px;font-weight:300}
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:rgba(210,58,47,.1);border:1px solid rgba(210,58,47,.35);font-size:13px;line-height:1.5;color:#ffd3cf;margin-bottom:16px}
+
+/* reconocimiento */
+.frame{background:#efe7d6;padding:14px;border-radius:6px;box-shadow:0 20px 50px rgba(0,0,0,.5),inset 0 0 0 1px rgba(0,0,0,.08)}
+.frame .art{background:#fffdf8;border:1px solid #d9cfba;padding:18px 14px;text-align:center;color:var(--ivory-ink);position:relative;overflow:hidden}
+.frame .art::before{content:"";position:absolute;inset:0;background:repeating-conic-gradient(from 0deg at 50% 38%,rgba(210,58,47,.07) 0 6deg,transparent 6deg 12deg)}
+.frame .art>*{position:relative}
+.frame .em{width:62px;height:62px;border-radius:50%;margin:0 auto 10px;box-shadow:0 0 0 4px #fffdf8,0 0 0 5px #d9cfba}
+.frame .k{font-family:var(--display);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:#8a7f6b}
+.frame .nm{font-family:var(--serif);font-size:24px;font-weight:600;line-height:1.1;margin:8px 0 4px;word-break:break-word}
+.frame .sub{font-size:11px;color:#6d6455;line-height:1.45}
+.frame .foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;padding-top:10px;border-top:1px solid #e3d9c5;text-align:left}
+.frame .foot small{font-size:9px;color:#8a7f6b;line-height:1.4;letter-spacing:.04em}
+.qr{width:58px;height:58px;flex:0 0 58px}
+
+/* ---------- desfile ---------- */
+.show{position:relative;background:#06040a;border-radius:22px;overflow:hidden;border:1px solid rgba(168,85,247,.3);isolation:isolate}
+.show.fs{position:fixed;inset:0;z-index:100;border-radius:0;border:0}
+.floor{position:absolute;inset:auto -20% -10% -20%;height:62%;transform:perspective(500px) rotateX(58deg);transform-origin:bottom;display:grid;grid-template-columns:repeat(14,1fr);gap:4px;z-index:-1;opacity:.85}
+.floor i{border-radius:3px;animation:tile 3.2s ease-in-out infinite}
+@keyframes tile{0%,100%{background:rgba(168,85,247,.15)}33%{background:rgba(255,61,139,.55)}66%{background:rgba(56,225,255,.4)}}
+.show .glow{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(168,85,247,.35),transparent 60%);z-index:-1}
+.show .in{padding:28px 20px 34px;min-height:620px;display:grid;grid-template-columns:1fr 320px;gap:24px}
+.show.fs .in{min-height:100vh;padding:40px}
+.live{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#ffb3cf}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--pink);box-shadow:0 0 10px var(--pink);animation:blink 1.2s infinite}
+@keyframes blink{50%{opacity:.25}}
+.raised{font-family:var(--display);font-weight:300;font-size:clamp(48px,9vw,112px);line-height:1;margin:14px 0 6px;text-shadow:0 0 30px rgba(255,61,139,.5);font-variant-numeric:tabular-nums}
+.goal{font-size:14px;color:#d8cfe6}
+.bar{height:16px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden;margin:18px 0 10px;border:1px solid rgba(255,255,255,.1)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--neon),var(--pink),#ffcf5a);border-radius:99px;transition:width 1.2s cubic-bezier(.2,.8,.2,1);box-shadow:0 0 18px rgba(255,61,139,.7)}
+.now{margin-top:26px;padding:16px;border-radius:16px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);max-width:520px}
+.now .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#e8ff6a}
+.now .t{font-family:var(--display);font-size:22px;text-transform:uppercase;letter-spacing:.06em;margin-top:6px}
+.now .t b{color:#ff9cc4;font-weight:600}
+.donors{display:grid;gap:8px;margin-top:16px;max-width:520px}
+.donor{display:flex;justify-content:space-between;font-size:13px;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,.05);animation:pop .5s ease}
+@keyframes pop{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:none}}
+.credits{position:relative;height:560px;overflow:hidden;border-left:1px solid rgba(255,255,255,.1);mask-image:linear-gradient(180deg,transparent,#000 14%,#000 86%,transparent)}
+.show.fs .credits{height:calc(100vh - 80px)}
+.credits .roll{position:absolute;left:0;right:0;text-align:center;animation:roll 38s linear infinite}
+@keyframes roll{from{transform:translateY(560px)}to{transform:translateY(-100%)}}
+.credits h4{font-family:var(--display);font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#e8ff6a;margin:26px 0 12px;font-weight:400}
+.credits p{font-family:var(--display);text-transform:uppercase;letter-spacing:.12em;font-size:15px;margin:10px 0;color:#efe9ff}
+.credits p.me{color:#fff;font-size:20px;font-weight:600;text-shadow:0 0 16px var(--pink)}
+.showbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.showbar .btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16)}
+.showbar .btn.pk{background:var(--pink);border-color:var(--pink);color:#fff}
+.xfs{position:absolute;top:16px;right:16px;z-index:3;display:none}
+.show.fs .xfs{display:inline-flex}
+
+/* ---------- reporte ---------- */
+.paper{background:var(--ivory);color:var(--ivory-ink);border-radius:20px;overflow:hidden}
+.paper .ph{background:#0f0d0d;color:var(--ink);padding:26px 24px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.paper .ph img{height:54px}
+.paper .pb{padding:26px 24px}
+.paper .pk{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#e2d8c6;border:1px solid #e2d8c6;border-radius:14px;overflow:hidden}
+.paper .pk div{background:#fffdf8;padding:16px}
+.paper .pk b{display:block;font-family:var(--display);font-weight:300;font-size:30px}
+.paper .pk span{font-size:11px;color:#6d6455;line-height:1.35;display:block;margin-top:3px}
+.paper h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-size:13px;margin:28px 0 14px;font-weight:600;color:#8a3a2f}
+.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tl .col{background:#fffdf8;border:1px solid #e2d8c6;border-radius:14px;padding:16px}
+.tl .col h4{font-family:var(--serif);font-style:italic;font-size:24px;font-weight:600;margin-bottom:10px}
+.ev{display:flex;gap:10px;padding:9px 0;border-top:1px solid #efe6d5;font-size:13px;line-height:1.4}
+.ev:first-of-type{border-top:0}
+.ev .ic{flex:0 0 26px;height:26px;border-radius:8px;background:#f1e7d4;display:grid;place-items:center;font-size:12px}
+.ev small{display:block;color:#857a68;font-size:11px}
+.evid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.evid figure{background:#fffdf8;border:1px solid #e2d8c6;border-radius:12px;overflow:hidden}
+.evid img{height:180px;width:100%;object-fit:cover}
+.evid figcaption{font-size:11px;color:#6d6455;padding:8px 10px}
+.impact{display:grid;grid-template-columns:1fr 260px;gap:18px;align-items:center;background:#1b1715;color:var(--ink);border-radius:16px;padding:22px;margin-top:24px}
+.impact .big{font-family:var(--display);font-weight:300;font-size:46px;color:#ffb0a8}
+
+/* ---------- servicios ---------- */
+.svc{grid-template-columns:repeat(2,1fr)}
+.svcard{display:grid;grid-template-columns:150px 1fr;gap:0;overflow:hidden;padding:0}
+.svcard .im{background-size:cover;background-position:center;min-height:100%}
+.svcard .tx{padding:20px}
+.svcard h3{font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:17px;font-weight:400;margin:8px 0}
+.svcard p{font-size:14px;color:#cfc8bd;line-height:1.55}
+.svcard .btn{margin-top:14px;padding:10px 14px;font-size:13px}
+.ladder{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.step{padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--bg2)}
+.step .n{font-family:var(--display);color:var(--red2);font-size:28px;font-weight:300}
+.step b{display:block;font-size:14px;margin:4px 0}
+.step span{font-size:13px;color:var(--muted);line-height:1.45}
+
+/* ---------- comunidad ---------- */
+.feed{grid-template-columns:1.2fr .8fr;align-items:start}
+.post{padding:0;overflow:hidden}
+.post .hd{display:flex;align-items:center;gap:10px;padding:14px 16px}
+.post .hd img{width:36px;height:36px;border-radius:50%}
+.post .hd b{font-size:14px}
+.post .hd small{display:block;color:var(--muted);font-size:12px}
+.post .ph{width:100%;max-height:520px;object-fit:cover}
+.post .bd{padding:14px 16px;font-size:14px;line-height:1.55;color:#ddd6cb}
+.post .ft{display:flex;gap:18px;padding:0 16px 14px;font-size:13px;color:var(--muted)}
+.post .ft button{display:flex;gap:6px;align-items:center}
+.post .ft button.on{color:var(--pink)}
+.poll .opt{position:relative;display:flex;justify-content:space-between;width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);margin-top:8px;overflow:hidden;font-size:14px;text-align:left}
+.poll .opt i{position:absolute;inset:0 auto 0 0;background:rgba(210,58,47,.22);width:0;transition:width .8s ease;z-index:0}
+.poll .opt span{position:relative;z-index:1}
+.auction .cur{font-family:var(--display);font-size:40px;font-weight:300;margin:6px 0}
+.auction .tm{font-variant-numeric:tabular-nums;font-family:var(--display);color:var(--gold);letter-spacing:.1em}
+.bids{display:grid;gap:6px;margin:12px 0;font-size:13px;color:var(--muted)}
+.bids div{display:flex;justify-content:space-between}
+
+/* ---------- círculo ---------- */
+.member{grid-template-columns:repeat(4,1fr)}
+.mcard{position:relative;padding:22px 18px;border-radius:18px;border:1px solid var(--line);background:var(--card);display:flex;flex-direction:column}
+.mcard.hl{border-color:var(--gold);background:linear-gradient(180deg,rgba(205,176,122,.14),var(--card) 50%)}
+.mcard .nm{font-family:var(--display);text-transform:uppercase;letter-spacing:.14em;font-size:15px}
+.mcard .pr{font-family:var(--display);font-weight:300;font-size:32px;margin:10px 0 2px}
+.mcard .pr small{font-size:13px;color:var(--muted)}
+.mcard ul{list-style:none;margin:14px 0 0;display:grid;gap:8px;font-size:13px;color:#d6cfc4;line-height:1.4}
+.mcard li{padding-left:16px;position:relative}
+.mcard li::before{content:"—";position:absolute;left:0;color:var(--gold)}
+.mcard .badge{position:absolute;top:-10px;right:14px;background:var(--gold);color:#1a1510;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 8px;border-radius:99px}
+.cal{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+.cal .m{padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--bg2)}
+.cal .m .mo{font-family:var(--display);font-size:12px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+.cal .m b{display:block;margin:8px 0 4px;font-size:15px;font-weight:600}
+.cal .m span{font-size:13px;color:var(--muted);line-height:1.45}
+.cal .m.big{border-color:rgba(210,58,47,.5);background:linear-gradient(180deg,rgba(210,58,47,.16),var(--bg2))}
+.seal{display:flex;gap:22px;align-items:center;margin-top:22px}
+.seal .s{width:130px;height:130px;flex:0 0 130px;border-radius:50%;border:1px solid var(--gold);display:grid;place-items:center;text-align:center;position:relative}
+.seal .s::before{content:"";position:absolute;inset:7px;border-radius:50%;border:1px dashed rgba(205,176,122,.5)}
+.seal .s img{width:42px;height:42px;border-radius:50%;margin:0 auto 6px}
+.seal .s b{font-family:var(--display);font-size:10px;letter-spacing:.2em;text-transform:uppercase;display:block;line-height:1.4}
+
+/* ---------- panel ---------- */
+.dash{grid-template-columns:repeat(4,1fr)}
+.pipe{display:grid;grid-template-columns:repeat(5,minmax(200px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px;margin-top:18px}
+.pcol{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:12px;min-height:300px}
+.pcol>h4{display:flex;justify-content:space-between;font-family:var(--display);text-transform:uppercase;letter-spacing:.12em;font-size:11px;color:var(--muted);font-weight:400;padding:4px 4px 10px}
+.deal{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px;font-size:13px}
+.deal b{display:block;font-size:14px;margin-bottom:4px}
+.deal .m{color:var(--muted);font-size:12px}
+.deal .fu{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+.deal .fu span{font-size:10px;padding:3px 6px;border-radius:6px;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+.deal .fu span.done{color:var(--ok);border-color:rgba(60,207,142,.4)}
+.deal .fu span.due{color:#1a1510;background:var(--gold);border-color:var(--gold)}
+.deal.me{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 10px 30px rgba(205,176,122,.15);animation:pop .6s ease}
+.todo{display:grid;gap:8px;margin-top:10px}
+.todo div{display:flex;gap:10px;align-items:center;font-size:14px;padding:12px;border-radius:12px;background:var(--bg2);border:1px solid var(--line)}
+.todo i{width:8px;height:8px;border-radius:50%;background:var(--gold);flex:0 0 8px}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:#111;padding:12px 18px;border-radius:12px;font-size:14px;font-weight:600;opacity:0;transition:.3s;z-index:200;pointer-events:none;max-width:calc(100vw - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.pagefoot{border-top:1px solid var(--line);padding:22px 16px 40px;text-align:center;color:var(--muted);font-size:12px;line-height:1.6}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .ab,.builder,.res2,.feed,.svc,.problem{grid-template-columns:1fr}
+  .member,.dash{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr}
+  .show .in{grid-template-columns:1fr}
+  .credits{height:260px;border-left:0;border-top:1px solid rgba(255,255,255,.1)}
+  @keyframes roll{from{transform:translateY(260px)}to{transform:translateY(-100%)}}
+  .tl,.evid{grid-template-columns:1fr}
+  .paper .pk{grid-template-columns:1fr 1fr}
+  .impact{grid-template-columns:1fr}
+  .cal{grid-template-columns:1fr 1fr}
+  .ladder{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  .actions{grid-template-columns:1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .svcard{grid-template-columns:1fr}
+  .svcard .im{min-height:170px}
+  .member,.dash,.cal{grid-template-columns:1fr}
+  .seal{flex-direction:column;align-items:flex-start}
+  .brand .s{display:none}
+}
+@media print{
+  .top,.next,.pagefoot,.noprint{display:none!important}
+  body,html{background:#fff}
+  .view{display:none!important}
+  #v-reporte{display:block!important}
+  .wrap{padding:0}
+  .paper{border-radius:0}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <img src="{{IMG:emblema}}" alt="">
+    <div>
+      <div class="t"><b>Círculo Conscious</b> 365</div>
+      <div class="s">Carlo Rossano · Conscious Fashion Show</div>
+    </div>
+    <span class="demo">Demo · Edición 44</span>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+
+<main>
+<!-- ===================== 1. INICIO ===================== -->
+<section class="view on" id="v-inicio">
+  <div class="hero">
+    <div class="bg" style="background-image:url('{{IMG:pasarela}}')"></div>
+    <div class="in">
+      <img class="wm" src="{{PNG:wordmark}}" alt="Carlo Rossano Disegno">
+      <div class="eyebrow">Conscious Fashion Show · Rumbo al 44 aniversario</div>
+      <h1 class="h1" style="margin-top:12px">De una noche<br>de patrocinio<br><span class="serif" style="text-transform:none;font-size:.9em;color:var(--red2)">a un año de pertenencia</span></h1>
+      <p class="lead">La plataforma que convierte a cada patrocinador del desfile con causa más publicitado de la Angelópolis en miembro de un círculo de empresas socialmente responsables: con propuesta, evidencia, reconocimiento y comunidad los 365 días.</p>
+      <div class="cta">
+        <button class="btn primary" data-go="propuesta">Crear una propuesta en vivo →</button>
+        <button class="btn ghost" data-go="desfile">Ver la noche del desfile</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap" style="padding-top:8px">
+    <div class="stats">
+      <div class="stat"><div class="v">43</div><div class="l">aniversarios de la firma Carlo Rossano</div></div>
+      <div class="stat"><div class="v">10</div><div class="l">años del Conscious Fashion Show</div></div>
+      <div class="stat"><div class="v">20+</div><div class="l">marcas aliadas en las últimas ediciones</div></div>
+      <div class="stat"><div class="v">13</div><div class="l">medios aliados: TV, radio, prensa y digital</div></div>
+    </div>
+
+    <div class="marquee"><div class="track" id="mq"></div></div>
+
+    <div class="problem">
+      <div>
+        <div class="eyebrow">El reto</div>
+        <p class="quote" style="margin-top:12px">Hoy el patrocinador se lleva un gran reconocimiento… y una noche inolvidable. <b>Lo que no se lleva es la prueba</b> de todo lo que su marca ganó, ni una razón para quedarse todo el año.</p>
+        <p class="lead" style="margin-top:14px">Esta plataforma convierte ese valor —medios, causa, prestigio, relaciones— en algo que el patrocinador ve antes de pagar, presume después del evento y renueva sin que se lo pidan.</p>
+      </div>
+      <img src="{{IMG:reconocimiento}}" alt="Entrega de reconocimientos a patrocinadores">
+    </div>
+
+    <div class="sec-head" style="margin-top:44px">
+      <div class="eyebrow">Dos propuestas, una plataforma</div>
+      <h2 class="h2">El motor y la visión</h2>
+    </div>
+    <div class="grid ab">
+      <button class="abcard" data-go="propuesta" style="text-align:left">
+        <div class="bg" style="background-image:url('{{IMG:escenario}}')"></div>
+        <div class="tag">A</div>
+        <h3>Atelier de Patrocinios</h3>
+        <p>El motor de ventas: Carlo arma una propuesta personalizada en segundos, la envía por WhatsApp y cada patrocinador recibe su reporte de impacto.</p>
+        <ul><li>Propuesta en vivo con exclusividad por giro</li><li>Noche del desfile con termómetro de recaudación</li><li>Reporte de impacto y reconocimiento verificable</li></ul>
+      </button>
+      <button class="abcard" data-go="circulo" style="text-align:left">
+        <div class="bg" style="background-image:url('{{IMG:aniversario42}}')"></div>
+        <div class="tag">B</div>
+        <h3>Círculo Conscious 365</h3>
+        <p>La visión: el patrocinio deja de ser un pago por evento y se vuelve una membresía anual de empresas con causa. Ingreso recurrente y renovación automática.</p>
+        <ul><li>Sello "Empresa Conscious" verificable</li><li>4 encuentros privados al año + la gala</li><li>Servicios de eventos de Carlo con precio de miembro</li></ul>
+      </button>
+    </div>
+    <div class="next"><button class="btn primary" data-go="propuesta">Empezar la demo →</button></div>
+  </div>
+</section>
+
+<!-- ===================== 2. PROPUESTA ===================== -->
+<section class="view" id="v-propuesta">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">A · Atelier de Patrocinios</div>
+      <h2 class="h2">Escribe la empresa que quieres de patrocinador</h2>
+      <p class="lead">En menos de un minuto se arma su propuesta: su marca en la pantalla del desfile, su causa, su alcance estimado y su reconocimiento.</p>
+    </div>
+    <div class="grid builder">
+      <div class="card">
+        <div class="field">
+          <label for="f-co">Empresa</label>
+          <input class="inp" id="f-co" placeholder="Ej. Grupo Inmobiliario Angelópolis" maxlength="48" autocomplete="off">
+        </div>
+        <div class="field">
+          <label>Giro · exclusividad edición 44</label>
+          <div class="chips" id="f-giro"></div>
+          <span class="ex">Disponibilidad de ejemplo</span>
+        </div>
+        <div class="field">
+          <label>Nivel</label>
+          <div class="tiers" id="f-tier"></div>
+          <span class="ex">Precios de ejemplo — se ajustan a los de Carlo</span>
+        </div>
+        <div class="field">
+          <label>Causa que apadrina</label>
+          <div class="chips" id="f-causa"></div>
+        </div>
+        <button class="btn primary block" id="gen">Generar propuesta ✦</button>
+      </div>
+
+      <div id="out">
+        <div class="empty"><div><div class="serif">Aquí aparecerá su marca en la pasarela</div><p>Escribe el nombre de una empresa y presiona <b>Generar propuesta</b>.</p></div></div>
+      </div>
+    </div>
+    <div class="next"><button class="btn ghost" data-go="desfile">Siguiente: la noche del desfile →</button></div>
+  </div>
+</section>
+
+<!-- ===================== 3. DESFILE ===================== -->
+<section class="view" id="v-desfile">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Modo pantalla gigante</div>
+      <h2 class="h2">La noche del desfile</h2>
+      <p class="lead">Se proyecta en las pantallas LED del evento. Cada donación y cada patrocinador aparecen en vivo frente a todo el público: el momento que el patrocinador presume al día siguiente.</p>
+    </div>
+    <div class="show" id="show">
+      <div class="glow"></div>
+      <div class="floor" id="floor"></div>
+      <button class="btn ghost xfs" id="xfs">✕ Salir</button>
+      <div class="in">
+        <div>
+          <div class="live"><i></i>En vivo · Conscious Fashion Show 44</div>
+          <div class="raised" id="raised">$0</div>
+          <div class="goal">recaudados para <b id="causeName">Doctores Apapachos</b> · meta <span id="goalTxt">$500,000</span> <span class="ex">(cifras de ejemplo)</span></div>
+          <div class="bar"><i id="barFill"></i></div>
+          <div class="now">
+            <div class="k">Ahora en pasarela</div>
+            <div class="t" id="nowTxt">Look 07 · presentado por <b>Tu marca</b></div>
+          </div>
+          <div class="donors" id="donors"></div>
+          <div class="showbar noprint">
+            <button class="btn pk" id="donate">♥ Simular donación</button>
+            <button class="btn" id="nextLook">Siguiente look</button>
+            <button class="btn" id="fsBtn">⛶ Pantalla completa</button>
+          </div>
+        </div>
+        <div class="credits"><div class="roll" id="roll"></div></div>
+      </div>
+    </div>
+    <div class="next"><button class="btn ghost" data-go="reporte">Siguiente: el reporte del patrocinador →</button></div>
+  </div>
+</section>
+
+<!-- ===================== 4. REPORTE ===================== -->
+<section class="view" id="v-reporte">
+  <div class="wrap">
+    <div class="sec-head noprint">
+      <div class="eyebrow">Lo que recibe 72 horas después</div>
+      <h2 class="h2">Reporte de impacto</h2>
+      <p class="lead">El "antes, durante y después" que promete el Conscious Fashion Show, convertido en evidencia. Es lo que el patrocinador presenta en su empresa para justificar su inversión y renovar.</p>
+    </div>
+    <div class="paper">
+      <div class="ph">
+        <div style="display:flex;align-items:center;gap:16px">
+          <img src="{{PNG:wordmark}}" alt="">
+          <div>
+            <div class="eyebrow">Reporte de impacto · Edición 44</div>
+            <div style="font-family:var(--display);font-size:24px;text-transform:uppercase;letter-spacing:.06em;margin-top:6px" class="coName">Tu marca</div>
+          </div>
+        </div>
+        <span class="pill gold">Datos de ejemplo</span>
+      </div>
+      <div class="pb">
+        <div class="pk">
+          <div><b id="r-reach">—</b><span>personas alcanzadas en medios y redes</span></div>
+          <div><b id="r-ment">—</b><span>menciones de marca documentadas</span></div>
+          <div><b id="r-led">—</b><span>apariciones en pantallas LED</span></div>
+          <div><b id="r-guests">—</b><span>invitados AB presentes en la gala</span></div>
+        </div>
+
+        <h3>Antes · Durante · Después</h3>
+        <div class="tl" id="tl"></div>
+
+        <h3>Evidencia</h3>
+        <div class="evid">
+          <figure><img src="{{IMG:heraldo}}" alt=""><figcaption>Fotorreportaje en El Heraldo de Puebla</figcaption></figure>
+          <figure><img src="{{IMG:escenario}}" alt=""><figcaption>Marca en pantalla principal del escenario</figcaption></figure>
+          <figure><img src="{{IMG:reconocimiento}}" alt=""><figcaption>Entrega de reconocimiento en la gala</figcaption></figure>
+        </div>
+
+        <div class="impact">
+          <div>
+            <div class="eyebrow">Impacto social</div>
+            <div class="big" id="r-cause">$0</div>
+            <p style="color:#cfc8bd;font-size:14px;line-height:1.55;margin-top:6px">aportados a <b id="r-cname">la causa</b> con la participación de <b class="coName">tu marca</b>. Evidencia lista para su informe de responsabilidad social.</p>
+          </div>
+          <div id="r-frame"></div>
+        </div>
+        <div class="noprint" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+          <button class="btn primary" onclick="window.print()">Descargar PDF</button>
+          <button class="btn ghost" style="border-color:#d8cdb8;color:var(--ivory-ink)" id="shareRep">Enviar reporte por WhatsApp</button>
+        </div>
+      </div>
+    </div>
+    <div class="next"><button class="btn ghost" data-go="servicios">Siguiente: servicios para su marca →</button></div>
+  </div>
+</section>
+
+<!-- ===================== 5. SERVICIOS ===================== -->
+<section class="view" id="v-servicios">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Del patrocinio al contrato grande</div>
+      <h2 class="h2">Lleva esta noche a tu empresa</h2>
+      <p class="lead">Se ofrece entre 48 y 72 horas después del desfile, cuando el patrocinador acaba de recibir su reporte y la emoción sigue viva. El patrocinio es la puerta; los eventos de Carlo son la venta mayor.</p>
+    </div>
+    <div class="grid svc" id="svc"></div>
+    <div class="ladder">
+      <div class="step"><div class="n">01</div><b>Patrocina</b><span>Entra al desfile con su causa y su giro en exclusiva.</span></div>
+      <div class="step"><div class="n">02</div><b>Comprueba</b><span>Recibe evidencia, contenido profesional y su reconocimiento.</span></div>
+      <div class="step"><div class="n">03</div><b>Contrata</b><span>Lleva la experiencia Carlo Rossano a sus clientes y equipo.</span></div>
+    </div>
+    <div class="next"><button class="btn ghost" data-go="comunidad">Siguiente: la comunidad →</button></div>
+  </div>
+</section>
+
+<!-- ===================== 6. COMUNIDAD ===================== -->
+<section class="view" id="v-comunidad">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Entre una edición y otra</div>
+      <h2 class="h2">Comunidad Conscious</h2>
+      <p class="lead">Carlo publica, la comunidad vota y participa, y los patrocinadores siguen visibles los 365 días, no solo la noche del desfile.</p>
+    </div>
+    <div class="grid feed">
+      <div class="grid" id="posts"></div>
+      <div class="grid">
+        <div class="card poll" id="poll">
+          <span class="pill red">Votación abierta</span>
+          <h3 style="font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:17px;font-weight:400;margin:12px 0 4px">Look favorito del 43 aniversario</h3>
+          <p style="font-size:13px;color:var(--muted)">Toca para votar</p>
+          <div id="pollOpts"></div>
+        </div>
+        <div class="card auction">
+          <span class="pill gold">Subasta en vivo</span>
+          <h3 style="font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:17px;font-weight:400;margin:12px 0 4px">El look patrocinado</h3>
+          <p style="font-size:13px;color:var(--muted);line-height:1.5">Pieza única diseñada por Carlo Rossano inspirada en <b class="coName" style="color:var(--ink)">tu marca</b>. Lo recaudado va a la causa.</p>
+          <div class="cur" id="bid">$18,000</div>
+          <div class="tm">Cierra en <span id="timer">04:59</span></div>
+          <div class="bids" id="bids"></div>
+          <button class="btn gold block" id="bidBtn">Pujar +$1,000</button>
+          <span class="ex" style="display:block;margin-top:8px">Montos de ejemplo</span>
+        </div>
+      </div>
+    </div>
+    <div class="next"><button class="btn ghost" data-go="circulo">Siguiente: Círculo Conscious 365 →</button></div>
+  </div>
+</section>
+
+<!-- ===================== 7. CÍRCULO ===================== -->
+<section class="view" id="v-circulo">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">B · La visión</div>
+      <h2 class="h2">Círculo Conscious 365</h2>
+      <p class="lead">Carlo deja de empezar de cero cada edición. Las empresas no patrocinan una noche: se vuelven miembros de un círculo de empresas socialmente responsables de Puebla, con beneficios todo el año.</p>
+    </div>
+    <div class="grid member" id="member"></div>
+    <span class="ex" style="display:block;margin-top:10px">Niveles y precios de ejemplo</span>
+
+    <div class="sec-head" style="margin-top:40px">
+      <div class="eyebrow">Calendario propuesto</div>
+      <h2 class="h2" style="font-size:clamp(22px,3vw,30px)">4 encuentros + la gala</h2>
+    </div>
+    <div class="cal">
+      <div class="m"><div class="mo">Febrero</div><b>Cena del Círculo</b><span>Presentación de la causa del año y bienvenida a nuevos miembros.</span></div>
+      <div class="m"><div class="mo">Mayo</div><b>Mini desfile privado</b><span>Preview de colección para miembros y sus clientes VIP.</span></div>
+      <div class="m"><div class="mo">Agosto</div><b>Foro empresas con causa</b><span>Networking y casos de éxito entre miembros.</span></div>
+      <div class="m big"><div class="mo">Octubre</div><b>Conscious Fashion Show 44</b><span>La gala. Reconocimientos, subasta y termómetro en vivo.</span></div>
+    </div>
+
+    <div class="card seal" style="margin-top:22px">
+      <div class="s"><div><img src="{{IMG:emblema}}" alt=""><b>Empresa<br>Conscious<br>2027</b></div></div>
+      <div>
+        <div class="eyebrow">Sello verificable</div>
+        <p style="font-size:15px;line-height:1.6;color:#ddd6cb;margin-top:8px">Cada miembro recibe el sello "Empresa Conscious" para su web, LinkedIn, empaques y punto de venta. Al escanearlo, cualquiera ve su causa, su aportación y su historial en el Círculo. <b style="color:var(--ink)">Cada sello publicado es publicidad gratuita para el siguiente patrocinador.</b></p>
+      </div>
+    </div>
+    <div class="next"><button class="btn ghost" data-go="panel">Siguiente: el panel de Carlo →</button></div>
+  </div>
+</section>
+
+<!-- ===================== 8. PANEL ===================== -->
+<section class="view" id="v-panel">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Solo para Carlo</div>
+      <h2 class="h2">Panel de patrocinios</h2>
+      <p class="lead">Cada patrocinador en su etapa, con seguimiento programado para que ningún prospecto se enfríe.</p>
+    </div>
+    <div class="grid dash">
+      <div class="card"><div class="ex">Comprometido ed. 44</div><div style="font-family:var(--display);font-size:32px;font-weight:300;margin-top:6px" id="d-total">$0</div></div>
+      <div class="card"><div class="ex">Miembros del Círculo</div><div style="font-family:var(--display);font-size:32px;font-weight:300;margin-top:6px" id="d-mem">0</div></div>
+      <div class="card"><div class="ex">Renovación</div><div style="font-family:var(--display);font-size:32px;font-weight:300;margin-top:6px">68%</div></div>
+      <div class="card"><div class="ex">Giros disponibles</div><div style="font-family:var(--display);font-size:32px;font-weight:300;margin-top:6px" id="d-giros">0</div></div>
+    </div>
+    <span class="ex" style="display:block;margin-top:10px">Todo el panel usa datos de ejemplo</span>
+    <div class="pipe" id="pipe"></div>
+    <div class="card" style="margin-top:16px">
+      <div class="eyebrow">Hoy toca</div>
+      <div class="todo" id="todo"></div>
+    </div>
+    <div class="next"><button class="btn primary" data-go="inicio">Volver al inicio</button></div>
+  </div>
+</section>
+</main>
+
+<div class="pagefoot">Demo de concepto para Carlo Rossano · Conscious Fashion Show.<br>Cifras, precios, niveles y prospectos marcados como ejemplo son ilustrativos.</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const IMG={emblema:"{{IMG:emblema}}",escenario:"{{IMG:escenario}}",pasarela:"{{IMG:pasarela}}",heraldo:"{{IMG:heraldo}}",poster42:"{{IMG:poster42}}",poster43:"{{IMG:poster43}}",aniversario42:"{{IMG:aniversario42}}",reconocimiento:"{{IMG:reconocimiento}}"};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const fmt=n=>"$"+Math.round(n).toLocaleString("es-MX");
+const num=n=>Math.round(n).toLocaleString("es-MX");
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const toast=t=>{const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove("on"),2400)};
+const store={get(k,d){try{const v=localStorage.getItem("cc365_"+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem("cc365_"+k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------- data ---------- */
+const VIEWS=[["inicio","Inicio"],["propuesta","Propuesta"],["desfile","Desfile en vivo"],["reporte","Reporte"],["servicios","Servicios"],["comunidad","Comunidad"],["circulo","Círculo 365"],["panel","Panel"]];
+const SPONSORS=["Audi Center Angelópolis","Audi Center Serdán","Casa Mareño","Hacienda Lomas","Frullatti","Startupero","Intellecta Trading Group","CAPSA Templado","Ibarra Barajas","Papá Colchón","Hub Creativo · Susan Aldeco","Grupo Médico Rossano","Chilian Textil Print","Elemental Tulum","Tin Tun","Be a Lash Girl","Gallery","Varela Bienes Raíces","Tlocpan","ND Productions"];
+const MEDIA=["Imagen Televisión Puebla","El Heraldo de Puebla","Ultra 92.5 FM","La Ke Buena","Los 40 98.7","Magnífica 95.5","SAP Anuncios","IN Magazine","Mundo Ejecutivo Puebla","Mente Política y Empresarial","Grupo Tribuna","Rostros","Personajes"];
+const GIROS=[["Automotriz",1],["Inmobiliaria",1],["Salud",1],["Gastronomía",0],["Belleza",1],["Financiero",0],["Tecnología",0],["Educación",0],["Legal",0],["Hotelería",0],["Joyería",0],["Retail",0]];
+const TIERS=[{k:"Aliado",p:15000,reach:45000,ment:6,led:12,guests:320,cause:.25},{k:"Plata",p:35000,reach:120000,ment:14,led:30,guests:320,cause:.3},{k:"Oro",p:75000,reach:260000,ment:28,led:60,guests:320,cause:.35},{k:"Círculo 365",p:150000,reach:520000,ment:52,led:120,guests:320,cause:.4}];
+const CAUSAS=["Doctores Apapachos","Haz por Más","Otra fundación"];
+const INCL={
+  Aliado:["Logo en pantallas LED y carteles del evento","2 accesos a la gala","Mención en redes oficiales","Reconocimiento Conscious enmarcado"],
+  Plata:["Todo lo de Aliado","4 accesos + mesa compartida","Mención en radio aliada","Kit de contenido: 20 fotos profesionales de su marca","Reporte de impacto con evidencia"],
+  Oro:["Todo lo de Plata","Mesa VIP para 8","Look patrocinado en pasarela con su nombre","Mención en TV y prensa aliada","Kit de contenido foto + video en 72 h","Exclusividad en su giro"],
+  "Círculo 365":["Todo lo de Oro","Membresía anual: 4 encuentros privados","Sello verificable Empresa Conscious","Subasta de su look patrocinado","Precio de miembro en eventos de Carlo","Primera opción de renovación de su giro"]
+};
+
+let S=store.get("s",{co:"",giro:"Gastronomía",tier:2,causa:0,made:false});
+const coName=()=>S.co.trim()||"Tu marca";
+
+/* ---------- nav ---------- */
+$("#tabs").innerHTML=VIEWS.map(([k,l],i)=>`<button class="tab${i?"":" on"}" data-go="${k}"><span class="n">0${i+1}</span>${l}</button>`).join("");
+function go(k){
+  $$(".view").forEach(v=>v.classList.toggle("on",v.id==="v-"+k));
+  $$(".tab").forEach(t=>t.classList.toggle("on",t.dataset.go===k));
+  const t=$(`.tab[data-go="${k}"]`); t&&t.scrollIntoView({inline:"center",block:"nearest",behavior:"smooth"});
+  window.scrollTo({top:0,behavior:"smooth"});
+  if(k==="desfile")startShow(); if(k==="reporte")renderReport(); if(k==="panel")renderPanel(); refreshNames();
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b){e.preventDefault();go(b.dataset.go)}});
+
+/* ---------- inicio ---------- */
+const mqItems=[...SPONSORS,...MEDIA].map(s=>`<span>${esc(s)}<i>✦</i></span>`).join("");
+$("#mq").innerHTML=mqItems+mqItems;
+
+/* ---------- propuesta ---------- */
+function renderForm(){
+  $("#f-co").value=S.co;
+  $("#f-giro").innerHTML=GIROS.map(([g,t])=>`<button class="chip${t?" taken":""}${S.giro===g?" on":""}" data-g="${g}"><span class="dot"></span>${g}</button>`).join("");
+  $("#f-tier").innerHTML=TIERS.map((t,i)=>`<button class="tier${S.tier===i?" on":""}" data-t="${i}"><b>${t.k}</b><span>${fmt(t.p)}</span></button>`).join("");
+  $("#f-causa").innerHTML=CAUSAS.map((c,i)=>`<button class="chip${S.causa===i?" on":""}" data-c="${i}">${c}</button>`).join("");
+}
+$("#f-giro").addEventListener("click",e=>{const b=e.target.closest("[data-g]");if(!b)return;S.giro=b.dataset.g;save();renderForm()});
+$("#f-tier").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(!b)return;S.tier=+b.dataset.t;save();renderForm();if(S.made)renderProposal()});
+$("#f-causa").addEventListener("click",e=>{const b=e.target.closest("[data-c]");if(!b)return;S.causa=+b.dataset.c;save();renderForm();if(S.made)renderProposal()});
+$("#f-co").addEventListener("input",e=>{S.co=e.target.value;save()});
+$("#f-co").addEventListener("keydown",e=>{if(e.key==="Enter")$("#gen").click()});
+$("#gen").addEventListener("click",()=>{
+  if(!S.co.trim()){$("#f-co").focus();toast("Escribe el nombre de una empresa");return}
+  S.made=true;save();renderProposal();
+  if(innerWidth<900)$("#out").scrollIntoView({behavior:"smooth"});
+});
+function save(){store.set("s",S)}
+const check='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+
+function qrSVG(seed){
+  let h=0;for(const c of seed)h=(h*31+c.charCodeAt(0))>>>0;
+  const n=21,cells=[];const rnd=()=>{h^=h<<13;h>>>=0;h^=h>>17;h^=h<<5;h>>>=0;return h/4294967296};
+  const finder=(x,y)=>{for(let i=0;i<7;i++)for(let j=0;j<7;j++){const on=i===0||i===6||j===0||j===6||(i>1&&i<5&&j>1&&j<5);if(on)cells.push([x+i,y+j])}};
+  finder(0,0);finder(n-7,0);finder(0,n-7);
+  const inF=(x,y)=>(x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9);
+  for(let x=0;x<n;x++)for(let y=0;y<n;y++)if(!inF(x,y)&&rnd()>.52)cells.push([x,y]);
+  return `<svg class="qr" viewBox="-1 -1 ${n+2} ${n+2}" shape-rendering="crispEdges"><rect x="-1" y="-1" width="${n+2}" height="${n+2}" fill="#fffdf8"/>${cells.map(([x,y])=>`<rect x="${x}" y="${y}" width="1" height="1" fill="#1b1715"/>`).join("")}</svg>`;
+}
+function frameHTML(){
+  return `<div class="frame"><div class="art">
+    <img class="em" src="${IMG.emblema}" alt="">
+    <div class="k">Reconocimiento Conscious · 44</div>
+    <div class="nm">${esc(coName())}</div>
+    <div class="sub">Empresa socialmente responsable<br>que apadrina a ${esc(CAUSAS[S.causa])}</div>
+    <div class="foot">${qrSVG(coName()+S.tier)}<small>Escanea para verificar<br>su aportación y su causa<br><b>Carlo Rossano · 2027</b></small></div>
+  </div></div>`;
+}
+function renderProposal(){
+  const t=TIERS[S.tier],g=GIROS.find(x=>x[0]===S.giro),taken=g&&g[1];
+  const name=esc(coName());
+  $("#out").innerHTML=`
+    ${taken?`<div class="alert"><span>⚠</span><div><b>El giro ${esc(S.giro)} ya está apartado para la edición 44.</b> Esta es la palanca de escasez: se ofrece lista de espera con prioridad o una categoría alterna. "Si no lo tomas tú, lo toma tu competencia."</div></div>`:""}
+    <div class="led"><div><div class="pre">Conscious Fashion Show · presenta</div><div class="co">${name}</div><div class="evt">44 aniversario · Carlo Rossano</div></div></div>
+    <div class="res res2">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap">
+          <span class="pill gold">Nivel ${t.k}</span>
+          ${taken?'<span class="pill red">Giro ocupado · lista de espera</span>':`<span class="pill ok">Exclusividad ${esc(S.giro)} disponible</span>`}
+        </div>
+        <h3 style="font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:15px;font-weight:400;margin:18px 0 12px;color:var(--muted)">Incluye</h3>
+        <ul class="incl">${INCL[t.k].map(i=>`<li>${check}<span>${i}</span></li>`).join("")}</ul>
+        <h3 style="font-family:var(--display);text-transform:uppercase;letter-spacing:.08em;font-size:15px;font-weight:400;margin:20px 0 12px;color:var(--muted)">Alcance estimado <span class="ex">ejemplo</span></h3>
+        <div class="kpis">
+          <div class="kpi"><div class="v">${num(t.reach/1000)}k</div><div class="l">personas alcanzadas</div></div>
+          <div class="kpi"><div class="v">${t.ment}</div><div class="l">menciones en medios</div></div>
+          <div class="kpi"><div class="v">${fmt(t.p*t.cause)}</div><div class="l">a ${esc(CAUSAS[S.causa])}</div></div>
+        </div>
+        <div class="price"><div><div class="ex">Inversión · ejemplo</div><div class="v">${fmt(t.p)}</div></div><div style="text-align:right;font-size:12px;color:var(--muted);line-height:1.5">Hasta 3 parcialidades<br>Factura · canje parcial</div></div>
+      </div>
+      <div>${frameHTML()}<p style="font-size:12px;color:var(--muted);text-align:center;margin-top:12px;line-height:1.5">Versión digital del reconocimiento que hoy se entrega enmarcado. El patrocinador la publica en LinkedIn y en su web.</p></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="wa">Enviar por WhatsApp</button>
+      <button class="btn ghost" data-go="reporte">Ver su reporte</button>
+      <button class="btn ghost" data-go="panel">Ver en el panel</button>
+    </div>`;
+  $("#wa").onclick=()=>{
+    const txt=`Hola, soy Carlo Rossano. Preparé la propuesta de ${coName()} para el Conscious Fashion Show 44: nivel ${t.k}, apadrinando a ${CAUSAS[S.causa]}${taken?"":`, con exclusividad en ${S.giro}`}. Incluye su marca en pantallas LED, menciones en medios aliados, reporte de impacto y su reconocimiento. ¿Agendamos 15 minutos esta semana?`;
+    window.open("https://wa.me/?text="+encodeURIComponent(txt),"_blank");
+  };
+  refreshNames();
+}
+
+/* ---------- desfile ---------- */
+$("#floor").innerHTML=Array.from({length:14*7},(_,i)=>`<i style="animation-delay:${((i*37)%32)/10}s"></i>`).join("");
+const GOAL=500000;let raised=0,showStarted=false,look=7;
+const DONORS=["Mesa 4","Mesa 12","Invitado VIP","Mesa 7","Mesa 1","Invitada VIP","Mesa 9"];
+function setRaised(v){
+  const from=raised;raised=Math.min(v,GOAL);const t0=performance.now();
+  const step=now=>{const p=Math.min((now-t0)/1100,1),e=1-Math.pow(1-p,3);$("#raised").textContent=fmt(from+(raised-from)*e);if(p<1)requestAnimationFrame(step)};
+  requestAnimationFrame(step);$("#barFill").style.width=(raised/GOAL*100)+"%";
+}
+function addDonor(who,amt){
+  const d=document.createElement("div");d.className="donor";d.innerHTML=`<span>${esc(who)}</span><b>+${fmt(amt)}</b>`;
+  $("#donors").prepend(d);while($("#donors").children.length>3)$("#donors").lastChild.remove();
+}
+function renderCredits(){
+  const me=S.made&&S.co.trim()?`<h4>Patrocinador presentador</h4><p class="me">${esc(S.co.trim())}</p>`:"";
+  $("#roll").innerHTML=`<h4>Carlo Rossano presenta</h4><p>Conscious Fashion Show 44</p>${me}<h4>Con el apoyo de</h4>${SPONSORS.map(s=>`<p>${esc(s)}</p>`).join("")}<h4>Medios aliados</h4>${MEDIA.map(s=>`<p>${esc(s)}</p>`).join("")}<h4>A beneficio de</h4><p>${esc(CAUSAS[S.causa]==="Otra fundación"?"Fundación invitada":CAUSAS[S.causa])}</p>`;
+}
+function startShow(){
+  renderCredits();
+  $("#causeName").textContent=CAUSAS[S.causa]==="Otra fundación"?"la fundación invitada":CAUSAS[S.causa];
+  $("#goalTxt").textContent=fmt(GOAL);
+  $("#nowTxt").innerHTML=`Look ${String(look).padStart(2,"0")} · presentado por <b>${esc(coName())}</b>`;
+  if(!showStarted){showStarted=true;setTimeout(()=>{setRaised(286500);addDonor(coName(),TIERS[S.tier].p*TIERS[S.tier].cause)},350)}
+}
+$("#donate").onclick=()=>{const a=[500,1000,2500,5000,10000][Math.floor(Math.random()*5)];addDonor(DONORS[Math.floor(Math.random()*DONORS.length)],a);setRaised(raised+a);if(raised>=GOAL)toast("¡Meta alcanzada! ✦")};
+$("#nextLook").onclick=()=>{look++;const who=look%3===0?coName():SPONSORS[look%SPONSORS.length];$("#nowTxt").innerHTML=`Look ${String(look).padStart(2,"0")} · presentado por <b>${esc(who)}</b>`};
+$("#fsBtn").onclick=()=>{$("#show").classList.add("fs");document.body.style.overflow="hidden";try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}catch(e){}};
+const exitFs=()=>{$("#show").classList.remove("fs");document.body.style.overflow="";try{document.fullscreenElement&&document.exitFullscreen()}catch(e){}};
+$("#xfs").onclick=exitFs;document.addEventListener("keydown",e=>{if(e.key==="Escape")exitFs()});
+document.addEventListener("fullscreenchange",()=>{if(!document.fullscreenElement)$("#show").classList.remove("fs"),document.body.style.overflow=""});
+
+/* ---------- reporte ---------- */
+function renderReport(){
+  const t=TIERS[S.tier];
+  $("#r-reach").textContent=num(t.reach);$("#r-ment").textContent=t.ment;$("#r-led").textContent=t.led;$("#r-guests").textContent=t.guests;
+  $("#r-cause").textContent=fmt(t.p*t.cause);$("#r-cname").textContent=CAUSAS[S.causa];
+  $("#r-frame").innerHTML=frameHTML();
+  const E=(ic,a,b)=>`<div class="ev"><div class="ic">${ic}</div><div>${a}<small>${b}</small></div></div>`;
+  $("#tl").innerHTML=`
+    <div class="col"><h4>Antes</h4>${E("📰","Anuncio de patrocinadores","El Heraldo de Puebla")}${E("📻","Spots con mención de marca","Ultra 92.5 · La Ke Buena")}${E("🖥","Espectaculares LED","SAP Anuncios")}${E("📱","Post de bienvenida al Círculo","Redes oficiales")}</div>
+    <div class="col"><h4>Durante</h4>${E("✦","Marca en pantalla principal",t.led+" apariciones")}${E("👗","Look patrocinado en pasarela","Look 07")}${E("📺","Cobertura del evento","Imagen Televisión Puebla")}${E("♥","Termómetro con su nombre","Proyectado en vivo")}</div>
+    <div class="col"><h4>Después</h4>${E("📸","Fotorreportaje","El Heraldo de Puebla · IN Magazine")}${E("🎬","Kit de contenido entregado","20 fotos + 1 video · 72 h")}${E("🏅","Reconocimiento digital","Verificable por QR")}${E("💼","Nota empresarial","Mundo Ejecutivo Puebla")}</div>`;
+  refreshNames();
+}
+$("#shareRep").onclick=()=>window.open("https://wa.me/?text="+encodeURIComponent(`Reporte de impacto de ${coName()} en el Conscious Fashion Show 44: ${num(TIERS[S.tier].reach)} personas alcanzadas, ${TIERS[S.tier].ment} menciones en medios y ${fmt(TIERS[S.tier].p*TIERS[S.tier].cause)} aportados a ${CAUSAS[S.causa]}.`),"_blank");
+
+/* ---------- servicios ---------- */
+const SVC=[
+  ["pasarela","Desfile privado para tus clientes","Una pasarela Carlo Rossano en tu agencia, hotel o evento de clientes VIP. Producción, modelos y colección."],
+  ["heraldo","Colección cápsula Carlo Rossano × tu marca","Como las playeras inspiradas en Frida Kahlo del 43 aniversario: una pieza de diseño con tu marca y tu causa."],
+  ["escenario","Lanzamiento con producción de pasarela","Presenta tu producto, desarrollo o sucursal con escenario, pantallas LED, talento y medios aliados."],
+  ["poster43","Regalos y uniformes de diseño","Regalos corporativos de autor y uniformes de alto nivel para equipos de atención y ventas."]
+];
+$("#svc").innerHTML=SVC.map(([im,h,p],i)=>`<div class="card svcard"><div class="im" style="background-image:url('${IMG[im]}')"></div><div class="tx"><span class="pill${i===1?" red":""}">${i===1?"Exclusivo":"Servicio"}</span><h3>${h}</h3><p>${p}</p><button class="btn ghost" data-svc="${i}">Solicitar cotización</button></div></div>`).join("");
+$("#svc").addEventListener("click",e=>{const b=e.target.closest("[data-svc]");if(!b)return;window.open("https://wa.me/?text="+encodeURIComponent(`Hola Carlo, en ${coName()} nos interesa: ${SVC[+b.dataset.svc][1]}. ¿Nos compartes opciones?`),"_blank")});
+
+/* ---------- comunidad ---------- */
+const POSTS=[
+  ["heraldo","hace 3 semanas","El Heraldo de Puebla cubrió nuestro 43 aniversario en Casa Mareño: moda, inclusión y gastronomía a favor de Doctores Apapachos y Haz por Más. Gracias a cada marca que lo hizo posible."],
+  ["pasarela","hace 1 mes","Backstage de la pasarela. Rumbo a la edición 44 ya estamos diseñando los looks patrocinados: cada pieza contará la historia de una empresa y su causa."],
+  ["aniversario42","hace 1 año","42 aniversario en Hacienda Lomas. Así se vive el desfile con causa más importante de la Angelópolis."]
+];
+$("#posts").innerHTML=POSTS.map(([im,t,tx],i)=>`<article class="card post"><div class="hd"><img src="${IMG.emblema}" alt=""><div><b>Carlo Rossano</b><small>${t}</small></div></div><img class="ph" src="${IMG[im]}" alt=""><div class="bd">${tx}</div><div class="ft"><button data-like="${i}">♥ <span>${[214,168,342][i]}</span></button><span>💬 ${[38,21,57][i]}</span><span>↗ Compartir</span></div></article>`).join("");
+$("#posts").addEventListener("click",e=>{const b=e.target.closest("[data-like]");if(!b)return;const s=b.querySelector("span");b.classList.toggle("on");s.textContent=+s.textContent+(b.classList.contains("on")?1:-1)});
+const POLL=[["Vestido terciopelo negro",42],["Jumpsuit esmeralda bordado",61],["Playera Frida Kahlo",37]];let voted=store.get("vote",-1);
+function renderPoll(){const tot=POLL.reduce((a,b)=>a+b[1],0)+(voted>-1?1:0);$("#pollOpts").innerHTML=POLL.map(([n,v],i)=>{const vv=v+(voted===i?1:0),p=Math.round(vv/tot*100);return `<button class="opt" data-v="${i}"><i style="width:${voted>-1?p:0}%"></i><span>${n}${voted===i?" ✓":""}</span><span>${voted>-1?p+"%":""}</span></button>`}).join("")}
+$("#pollOpts").addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(!b)return;voted=+b.dataset.v;store.set("vote",voted);renderPoll();toast("Voto registrado")});
+let bid=18000,secs=299;const bidders=["Mesa 3","Invitada VIP","Mesa 11"];
+const renderBids=()=>{$("#bid").textContent=fmt(bid);$("#bids").innerHTML=bidders.slice(0,3).map((b,i)=>`<div><span>${esc(b)}</span><span>${fmt(bid-i*1000)}</span></div>`).join("")};
+$("#bidBtn").onclick=()=>{bid+=1000;bidders.unshift("Tú");renderBids();toast("Puja registrada: "+fmt(bid))};
+setInterval(()=>{secs=secs>0?secs-1:299;$("#timer").textContent=String(Math.floor(secs/60)).padStart(2,"0")+":"+String(secs%60).padStart(2,"0")},1000);
+
+/* ---------- círculo ---------- */
+const MEM=[
+  ["Aliado",15000,["Presencia en la gala","Reconocimiento digital","1 encuentro al año"]],
+  ["Plata",35000,["Todo lo de Aliado","2 encuentros al año","Kit de contenido","Reporte de impacto"]],
+  ["Oro",75000,["Todo lo de Plata","Exclusividad de giro","Look patrocinado","4 encuentros al año"]],
+  ["Círculo 365",150000,["Todo lo de Oro","Sello Empresa Conscious","Subasta de su look","Precio de miembro en eventos de Carlo"]]
+];
+$("#member").innerHTML=MEM.map(([n,p,l],i)=>`<div class="mcard${i===3?" hl":""}">${i===3?'<span class="badge">Recomendado</span>':""}<div class="nm">${n}</div><div class="pr">${fmt(p)}<small> / año</small></div><ul>${l.map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
+
+/* ---------- panel ---------- */
+function renderPanel(){
+  const cols=[
+    ["Prospecto",[["Clínica dental (ejemplo)","Salud · Plata",[1,0,0]],["Agencia de viajes (ejemplo)","Turismo · Aliado",[0,0,0]]]],
+    ["Propuesta enviada",[["Notaría (ejemplo)","Legal · Oro",[1,1,0]]]],
+    ["Negociación",[["Desarrollo residencial (ejemplo)","Inmobiliaria · Círculo 365",[1,1,1]]]],
+    ["Cerrado",[["Restaurante (ejemplo)","Gastronomía · Plata",[1,1,1]],["Joyería (ejemplo)","Joyería · Oro",[1,1,1]]]],
+    ["Renovación",[["Patrocinador ed. 43 (ejemplo)","Automotriz · Oro",[1,0,0]]]]
+  ];
+  if(S.made&&S.co.trim())cols[1][1].unshift([S.co.trim(),S.giro+" · "+TIERS[S.tier].k,[0,0,0],1]);
+  const lbl=["Día 2 · caso de éxito","Día 5 · exclusividad","Día 10 · cierre"];
+  $("#pipe").innerHTML=cols.map(([h,ds])=>`<div class="pcol"><h4><span>${h}</span><span>${ds.length}</span></h4>${ds.map(([n,m,f,me])=>`<div class="deal${me?" me":""}"><b>${esc(n)}</b><div class="m">${esc(m)}</div><div class="fu">${lbl.map((l,i)=>`<span class="${f[i]?"done":(me&&i===0)?"due":""}">${l}</span>`).join("")}</div></div>`).join("")}</div>`).join("");
+  const base=35000+75000+150000;$("#d-total").textContent=fmt(base+(S.made?TIERS[S.tier].p:0));
+  $("#d-mem").textContent=3+(S.made&&S.tier===3?1:0);$("#d-giros").textContent=GIROS.filter(g=>!g[1]).length+" / "+GIROS.length;
+  const todo=[];if(S.made&&S.co.trim())todo.push(`Enviar caso de éxito a <b>${esc(S.co.trim())}</b> (día 2)`);
+  todo.push("Recordar exclusividad a Notaría (ejemplo) · día 5","Llamada de cierre con Desarrollo residencial (ejemplo)","Ofrecer renovación anticipada a patrocinadores de la edición 43");
+  $("#todo").innerHTML=todo.map(t=>`<div><i></i><span>${t}</span></div>`).join("");
+}
+
+function refreshNames(){$$(".coName").forEach(e=>e.textContent=coName())}
+renderForm();renderPoll();renderBids();refreshNames();if(S.made&&S.co.trim())renderProposal();
+</script>
+</body>
+</html>
