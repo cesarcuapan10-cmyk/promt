@@ -395,7 +395,7 @@ h1,h2,h3{font-weight:500}
         <div class="tag">B</div>
         <h3>Círculo Conscious 365</h3>
         <p>La visión: el patrocinio deja de ser un pago por evento y se vuelve una membresía anual de empresas con causa. Ingreso recurrente y renovación automática.</p>
-        <ul><li>Sello "Empresa Conscious" verificable</li><li>4 encuentros privados al año + la gala</li><li>Servicios de eventos de Carlo con precio de miembro</li></ul>
+        <ul><li>Sello "Empresa Conscious" verificable</li><li>3 encuentros privados al año + la gala</li><li>Descuento de miembro en los eventos de Carlo</li></ul>
       </button>
     </div>
     <div class="next"><button class="btn primary" data-go="propuesta">Empezar la demo →</button></div>
@@ -537,7 +537,7 @@ h1,h2,h3{font-weight:500}
     <div class="sec-head">
       <div class="eyebrow">Del patrocinio al contrato grande</div>
       <h2 class="h2">Lleva esta noche a tu empresa</h2>
-      <p class="lead">Se ofrece entre 48 y 72 horas después del desfile, cuando el patrocinador acaba de recibir su reporte y la emoción sigue viva. El patrocinio es la puerta; los eventos de Carlo son la venta mayor.</p>
+      <p class="lead">Se ofrece entre 48 y 72 horas después del desfile, cuando el patrocinador acaba de recibir su reporte y la emoción sigue viva. El patrocinio es la puerta; los eventos de Carlo son la venta mayor. Los miembros del nivel Círculo 365 los contratan con descuento.</p>
     </div>
     <div class="grid svc" id="svc"></div>
     <div class="ladder">
@@ -595,7 +595,7 @@ h1,h2,h3{font-weight:500}
 
     <div class="sec-head" style="margin-top:40px">
       <div class="eyebrow">Calendario propuesto</div>
-      <h2 class="h2" style="font-size:clamp(22px,3vw,30px)">4 encuentros + la gala</h2>
+      <h2 class="h2" style="font-size:clamp(22px,3vw,30px)">3 encuentros privados + la gala</h2>
     </div>
     <div class="cal">
       <div class="m"><div class="mo">Febrero</div><b>Cena del Círculo</b><span>Presentación de la causa del año y bienvenida a nuevos miembros.</span></div>
@@ -607,8 +607,8 @@ h1,h2,h3{font-weight:500}
     <div class="card seal" style="margin-top:22px">
       <div class="s"><div><img data-img="emblema" alt=""><b>Empresa<br>Conscious<br>2027</b></div></div>
       <div>
-        <div class="eyebrow">Sello verificable</div>
-        <p style="font-size:15px;line-height:1.6;color:#ddd6cb;margin-top:8px">Cada miembro recibe el sello "Empresa Conscious" para su web, LinkedIn, empaques y punto de venta. Al escanearlo, cualquiera ve su causa, su aportación y su historial en el Círculo. <b style="color:var(--ink)">Cada sello publicado es publicidad gratuita para el siguiente patrocinador.</b></p>
+        <div class="eyebrow">Sello verificable · exclusivo del nivel Círculo 365</div>
+        <p style="font-size:15px;line-height:1.6;color:#ddd6cb;margin-top:8px">Los miembros del nivel Círculo 365 reciben el sello anual "Empresa Conscious" para su web, LinkedIn, empaques y punto de venta. Al escanearlo, cualquiera ve su causa, su aportación y su historial en el Círculo. Los demás niveles reciben el reconocimiento digital de la edición. <b style="color:var(--ink)">Cada sello publicado es publicidad gratuita para el siguiente patrocinador.</b></p>
       </div>
     </div>
     <div class="next"><button class="btn ghost" data-go="panel">Siguiente: el panel de Carlo →</button></div>
@@ -662,9 +662,9 @@ const TIERS=[{k:"Aliado",p:15000,reach:45000,ment:6,led:12,guests:320,cause:.25}
 const CAUSAS=["Doctores Apapachos","Haz por Más","Otra fundación"];
 const INCL={
   Aliado:["Logo en pantallas LED y carteles del evento","2 accesos a la gala","Mención en redes oficiales","Reconocimiento Conscious enmarcado"],
-  Plata:["Todo lo de Aliado","4 accesos + mesa compartida","Mención en radio aliada","Kit de contenido: 20 fotos profesionales de su marca","Reporte de impacto con evidencia"],
-  Oro:["Todo lo de Plata","Mesa VIP para 8","Look patrocinado en pasarela con su nombre","Mención en TV y prensa aliada","Kit de contenido foto + video en 72 h","Exclusividad en su giro"],
-  "Círculo 365":["Todo lo de Oro","Membresía anual: 4 encuentros privados","Sello verificable Empresa Conscious","Subasta de su look patrocinado","Precio de miembro en eventos de Carlo","Primera opción de renovación de su giro"]
+  Plata:["Todo lo de Aliado","1 encuentro privado del Círculo","4 accesos + mesa compartida","Mención en radio aliada","Kit de contenido: 20 fotos profesionales de su marca","Reporte de impacto con evidencia"],
+  Oro:["Todo lo de Plata","2 encuentros privados del Círculo","Mesa VIP para 8","Look patrocinado en pasarela con su nombre","Mención en TV y prensa aliada","Kit de contenido foto + video en 72 h","Exclusividad en su giro"],
+  "Círculo 365":["Todo lo de Oro","Los 3 encuentros privados del año","Sello anual verificable Empresa Conscious","Subasta de su look patrocinado","Descuento de miembro al contratar a Carlo para sus eventos","Primera opción de renovación de su giro"]
 };
 
 let S=store.get("s",{co:"",giro:"Gastronomía",tier:2,causa:0,made:false});
@@ -834,10 +834,10 @@ setInterval(()=>{secs=secs>0?secs-1:299;$("#timer").textContent=String(Math.floo
 
 /* ---------- círculo ---------- */
 const MEM=[
-  ["Aliado",15000,["Presencia en la gala","Reconocimiento digital","1 encuentro al año"]],
-  ["Plata",35000,["Todo lo de Aliado","2 encuentros al año","Kit de contenido","Reporte de impacto"]],
-  ["Oro",75000,["Todo lo de Plata","Exclusividad de giro","Look patrocinado","4 encuentros al año"]],
-  ["Círculo 365",150000,["Todo lo de Oro","Sello Empresa Conscious","Subasta de su look","Precio de miembro en eventos de Carlo"]]
+  ["Aliado",15000,["Presencia en la gala","Reconocimiento digital de la edición","Reporte básico"]],
+  ["Plata",35000,["Todo lo de Aliado","1 encuentro privado","Kit de contenido","Reporte de impacto"]],
+  ["Oro",75000,["Todo lo de Plata","2 encuentros privados","Exclusividad de giro","Look patrocinado"]],
+  ["Círculo 365",150000,["Todo lo de Oro","Los 3 encuentros privados","Sello anual Empresa Conscious","Subasta de su look","Descuento de miembro al contratar a Carlo para sus eventos"]]
 ];
 $("#member").innerHTML=MEM.map(([n,p,l],i)=>`<div class="mcard${i===3?" hl":""}">${i===3?'<span class="badge">Recomendado</span>':""}<div class="nm">${n}</div><div class="pr">${fmt(p)}<small> / año</small></div><ul>${l.map(x=>`<li>${x}</li>`).join("")}</ul></div>`).join("");
 
